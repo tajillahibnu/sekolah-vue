@@ -1,4 +1,6 @@
 <script setup>
+import { Card, CardContent } from '@/components/ui/card';
+
 defineProps({
   actions: {
     type: Array,
@@ -8,20 +10,16 @@ defineProps({
 </script>
 
 <template>
-  <div class="card bg-base-100 shadow-sm border border-base-200">
-    <div class="card-body p-4">
-      <h3 class="font-semibold text-base mb-3">Aksi Cepat</h3>
-      <div class="grid grid-cols-2 gap-2">
-        <button 
-          v-for="(action, index) in actions" 
-          :key="index"
-          class="btn btn-sm justify-start gap-2"
-          :class="action.variant || 'btn-ghost'"
-        >
-          <span class="text-lg">{{ action.icon }}</span>
-          <span class="text-xs">{{ action.label }}</span>
+  <Card class="border-none shadow-sm bg-background/50 backdrop-blur-sm">
+    <CardContent class="p-6">
+      <h3 class="font-bold text-foreground text-sm uppercase tracking-wider mb-4 opacity-50 px-1">Aksi Cepat</h3>
+      <div class="grid grid-cols-2 gap-3">
+        <button v-for="(action, index) in actions" :key="index"
+          class="flex items-center gap-3 px-4 py-3 bg-primary/5 hover:bg-primary/10 hover:text-primary rounded-xl transition-all group border border-transparent hover:border-primary/20">
+          <span class="text-xl transition-transform group-hover:scale-110">{{ action.icon }}</span>
+          <span class="text-sm font-semibold truncate">{{ action.label }}</span>
         </button>
       </div>
-    </div>
-  </div>
+    </CardContent>
+  </Card>
 </template>
