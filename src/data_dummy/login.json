@@ -1,0 +1,41 @@
+{
+  "user": {
+    "id": 1,
+    "name": "Budi Santoso",
+    "email": "budi@sekolah.id",
+    "avatar": "https://ui-avatars.com/api/?name=Budi+Santoso&background=0D8ABC&color=fff",
+    "roles": [
+      {
+        "id": "admin",
+        "name": "Administrator",
+        "permissions": ["*"]
+      },
+      {
+        "id": "guru",
+        "name": "Guru",
+        "permissions": ["student.view", "student.grade", "class.view", "schedule.view", "attendance.manage"]
+      },
+      {
+        "id": "siswa",
+        "name": "Siswa",
+        "permissions": ["schedule.view", "grade.view", "assignment.view", "profile.edit"]
+      },
+      {
+        "id": "kesiswaan",
+        "name": "Kesiswaan",
+        "permissions": ["student.manage", "attendance.view", "discipline.manage", "extracurricular.manage"]
+      },
+      {
+        "id": "kurikulum",
+        "name": "Kurikulum",
+        "permissions": ["curriculum.manage", "subject.manage", "schedule.manage", "teacher.assign"]
+      },
+      {
+        "id": "walikelas",
+        "name": "Wali Kelas",
+        "permissions": ["class.manage", "student.view", "attendance.manage", "grade.view", "parent.communicate"]
+      }
+    ]
+  },
+  "token": "mock-token-12345"
+}

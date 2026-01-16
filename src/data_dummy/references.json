@@ -1,0 +1,10 @@
+{
+    "religions": [
+        { "id": 1, "value": "Islam", "label": "Islam" },
+        { "id": 2, "value": "Kristen", "label": "Kristen" },
+        { "id": 3, "value": "Katolik", "label": "Katolik" },
+        { "id": 4, "value": "Hindu", "label": "Hindu" },
+        { "id": 5, "value": "Buddha", "label": "Buddha" },
+        { "id": 6, "value": "Konghucu", "label": "Konghucu" }
+    ]
+}

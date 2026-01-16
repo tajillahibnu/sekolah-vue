@@ -1,0 +1,82 @@
+[
+  {
+    "id": "usr001",
+    "name": "Admin Utama",
+    "email": "admin@sekolah.id",
+    "role": "Admin",
+    "phone": "081234567890",
+    "status": "active",
+    "joinDate": "2020-01-15",
+    "avatar": "https://ui-avatars.com/api/?name=Admin+Utama&background=6366F1&color=fff"
+  },
+  {
+    "id": "usr002",
+    "name": "Budi Santoso",
+    "email": "budi.santoso@sekolah.id",
+    "role": "Guru",
+    "phone": "081234567891",
+    "status": "active",
+    "joinDate": "2021-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Budi+Santoso&background=10B981&color=fff"
+  },
+  {
+    "id": "usr003",
+    "name": "Siti Nurhaliza",
+    "email": "siti.nurhaliza@sekolah.id",
+    "role": "Guru",
+    "phone": "081234567892",
+    "status": "active",
+    "joinDate": "2021-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=F59E0B&color=fff"
+  },
+  {
+    "id": "usr004",
+    "name": "Ahmad Fauzi",
+    "email": "ahmad.fauzi@sekolah.id",
+    "role": "Kesiswaan",
+    "phone": "081234567893",
+    "status": "active",
+    "joinDate": "2022-01-10",
+    "avatar": "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=8B5CF6&color=fff"
+  },
+  {
+    "id": "usr005",
+    "name": "Dewi Lestari",
+    "email": "dewi.lestari@sekolah.id",
+    "role": "Kurikulum",
+    "phone": "081234567894",
+    "status": "active",
+    "joinDate": "2022-01-10",
+    "avatar": "https://ui-avatars.com/api/?name=Dewi+Lestari&background=EC4899&color=fff"
+  },
+  {
+    "id": "usr006",
+    "name": "Eko Prasetyo",
+    "email": "eko.prasetyo@sekolah.id",
+    "role": "Walikelas",
+    "phone": "081234567895",
+    "status": "active",
+    "joinDate": "2021-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Eko+Prasetyo&background=14B8A6&color=fff"
+  },
+  {
+    "id": "usr007",
+    "name": "Rina Wijaya",
+    "email": "rina.wijaya@sekolah.id",
+    "role": "Guru",
+    "phone": "081234567896",
+    "status": "active",
+    "joinDate": "2023-01-05",
+    "avatar": "https://ui-avatars.com/api/?name=Rina+Wijaya&background=3B82F6&color=fff"
+  },
+  {
+    "id": "usr008",
+    "name": "Hendra Gunawan",
+    "email": "hendra.gunawan@sekolah.id",
+    "role": "Guru",
+    "phone": "081234567897",
+    "status": "inactive",
+    "joinDate": "2020-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Hendra+Gunawan&background=EF4444&color=fff"
+  }
+]

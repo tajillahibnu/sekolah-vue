@@ -1,0 +1,1052 @@
+[
+  {
+    "id": 1,
+    "nis": "2024001",
+    "nisn": "0051234567",
+    "name": "Ahmad Rizki Pratama",
+    "email": "ahmad.rizki@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Jakarta",
+    "birthDate": "2008-03-15",
+    "religion": "Islam",
+    "address": "Jl. Merdeka No. 45, Jakarta Pusat",
+    "phone": "081234567801",
+    "class": "10A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Ahmad+Rizki+Pratama&background=0D8ABC&color=fff",
+    "parent": {
+      "father": {
+        "name": "Budi Pratama",
+        "phone": "081234567001",
+        "occupation": "Pegawai Negeri"
+      },
+      "mother": {
+        "name": "Siti Aminah",
+        "phone": "081234567002",
+        "occupation": "Ibu Rumah Tangga"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Jakarta",
+      "entryScore": 85.5,
+      "achievements": ["Juara 1 Olimpiade Matematika Tingkat Kota"]
+    }
+  },
+  {
+    "id": 2,
+    "nis": "2024002",
+    "nisn": "0051234568",
+    "name": "Siti Nurhaliza",
+    "email": "siti.nurhaliza@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Bandung",
+    "birthDate": "2008-05-20",
+    "religion": "Islam",
+    "address": "Jl. Sudirman No. 12, Jakarta Selatan",
+    "phone": "081234567802",
+    "class": "10A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=6366F1&color=fff",
+    "parent": {
+      "father": {
+        "name": "Ahmad Yani",
+        "phone": "081234567003",
+        "occupation": "Wiraswasta"
+      },
+      "mother": {
+        "name": "Fatimah Zahra",
+        "phone": "081234567004",
+        "occupation": "Guru"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 5 Bandung",
+      "entryScore": 88.0,
+      "achievements": ["Juara 2 Lomba Pidato Bahasa Indonesia"]
+    }
+  },
+  {
+    "id": 3,
+    "nis": "2024003",
+    "nisn": "0051234569",
+    "name": "Budi Santoso",
+    "email": "budi.santoso@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Surabaya",
+    "birthDate": "2008-07-10",
+    "religion": "Kristen",
+    "address": "Jl. Gatot Subroto No. 78, Jakarta Barat",
+    "phone": "081234567803",
+    "class": "10A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Budi+Santoso&background=10B981&color=fff",
+    "parent": {
+      "father": {
+        "name": "Santoso Wijaya",
+        "phone": "081234567005",
+        "occupation": "Dokter"
+      },
+      "mother": {
+        "name": "Maria Susanti",
+        "phone": "081234567006",
+        "occupation": "Perawat"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Petra Surabaya",
+      "entryScore": 82.5,
+      "achievements": ["Juara 3 Lomba Basket Antar SMP"]
+    }
+  },
+  {
+    "id": 4,
+    "nis": "2024004",
+    "nisn": "0051234570",
+    "name": "Dewi Lestari",
+    "email": "dewi.lestari@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Yogyakarta",
+    "birthDate": "2008-09-25",
+    "religion": "Islam",
+    "address": "Jl. Thamrin No. 34, Jakarta Pusat",
+    "phone": "081234567804",
+    "class": "10A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Dewi+Lestari&background=F59E0B&color=fff",
+    "parent": {
+      "father": {
+        "name": "Hadi Lestari",
+        "phone": "081234567007",
+        "occupation": "Pengusaha"
+      },
+      "mother": {
+        "name": "Ratna Sari",
+        "phone": "081234567008",
+        "occupation": "Akuntan"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 2 Yogyakarta",
+      "entryScore": 90.0,
+      "achievements": ["Juara 1 Olimpiade Sains Nasional Biologi", "Siswa Berprestasi Tingkat Provinsi"]
+    }
+  },
+  {
+    "id": 5,
+    "nis": "2024005",
+    "nisn": "0051234571",
+    "name": "Rizki Ramadhan",
+    "email": "rizki.ramadhan@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Medan",
+    "birthDate": "2008-11-08",
+    "religion": "Islam",
+    "address": "Jl. Rasuna Said No. 56, Jakarta Selatan",
+    "phone": "081234567805",
+    "class": "10A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Rizki+Ramadhan&background=8B5CF6&color=fff",
+    "parent": {
+      "father": {
+        "name": "Ramadhan Siregar",
+        "phone": "081234567009",
+        "occupation": "Insinyur"
+      },
+      "mother": {
+        "name": "Nurhayati",
+        "phone": "081234567010",
+        "occupation": "Dosen"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 3 Medan",
+      "entryScore": 86.5,
+      "achievements": ["Juara 2 Lomba Robotika Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 6,
+    "nis": "2024006",
+    "nisn": "0051234572",
+    "name": "Maya Sari Putri",
+    "email": "maya.sari@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Semarang",
+    "birthDate": "2008-02-14",
+    "religion": "Islam",
+    "address": "Jl. Kuningan No. 23, Jakarta Selatan",
+    "phone": "081234567806",
+    "class": "10B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Maya+Sari+Putri&background=EC4899&color=fff",
+    "parent": {
+      "father": {
+        "name": "Agus Sari",
+        "phone": "081234567011",
+        "occupation": "Pilot"
+      },
+      "mother": {
+        "name": "Dewi Anggraini",
+        "phone": "081234567012",
+        "occupation": "Pramugari"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Semarang",
+      "entryScore": 84.0,
+      "achievements": ["Juara 1 Lomba Menyanyi Tingkat Kota"]
+    }
+  },
+  {
+    "id": 7,
+    "nis": "2024007",
+    "nisn": "0051234573",
+    "name": "Andi Wijaya",
+    "email": "andi.wijaya@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Makassar",
+    "birthDate": "2008-04-18",
+    "religion": "Islam",
+    "address": "Jl. HR Rasuna Said No. 89, Jakarta Selatan",
+    "phone": "081234567807",
+    "class": "10B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Andi+Wijaya&background=EF4444&color=fff",
+    "parent": {
+      "father": {
+        "name": "Wijaya Kusuma",
+        "phone": "081234567013",
+        "occupation": "Arsitek"
+      },
+      "mother": {
+        "name": "Sari Indah",
+        "phone": "081234567014",
+        "occupation": "Desainer Interior"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 4 Makassar",
+      "entryScore": 81.5,
+      "achievements": ["Juara 3 Lomba Desain Grafis"]
+    }
+  },
+  {
+    "id": 8,
+    "nis": "2024008",
+    "nisn": "0051234574",
+    "name": "Putri Ayu Lestari",
+    "email": "putri.ayu@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Palembang",
+    "birthDate": "2008-06-22",
+    "religion": "Islam",
+    "address": "Jl. Senopati No. 45, Jakarta Selatan",
+    "phone": "081234567808",
+    "class": "10B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Putri+Ayu+Lestari&background=14B8A6&color=fff",
+    "parent": {
+      "father": {
+        "name": "Lestari Gunawan",
+        "phone": "081234567015",
+        "occupation": "Notaris"
+      },
+      "mother": {
+        "name": "Rina Marlina",
+        "phone": "081234567016",
+        "occupation": "Pengacara"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 2 Palembang",
+      "entryScore": 87.5,
+      "achievements": ["Juara 1 Debat Bahasa Inggris Tingkat Provinsi"]
+    }
+  },
+  {
+    "id": 9,
+    "nis": "2024009",
+    "nisn": "0051234575",
+    "name": "Dimas Pratama Putra",
+    "email": "dimas.pratama@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Bogor",
+    "birthDate": "2008-08-30",
+    "religion": "Islam",
+    "address": "Jl. Pejaten Raya No. 67, Jakarta Selatan",
+    "phone": "081234567809",
+    "class": "10B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Dimas+Pratama+Putra&background=3B82F6&color=fff",
+    "parent": {
+      "father": {
+        "name": "Pratama Jaya",
+        "phone": "081234567017",
+        "occupation": "Manager Bank"
+      },
+      "mother": {
+        "name": "Lina Susanti",
+        "phone": "081234567018",
+        "occupation": "Apoteker"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Bogor",
+      "entryScore": 83.0,
+      "achievements": ["Juara 2 Lomba Futsal Antar SMP"]
+    }
+  },
+  {
+    "id": 10,
+    "nis": "2024010",
+    "nisn": "0051234576",
+    "name": "Lina Marlina",
+    "email": "lina.marlina@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Tangerang",
+    "birthDate": "2008-10-12",
+    "religion": "Kristen",
+    "address": "Jl. Tebet Raya No. 34, Jakarta Selatan",
+    "phone": "081234567810",
+    "class": "10B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2024-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Lina+Marlina&background=A855F7&color=fff",
+    "parent": {
+      "father": {
+        "name": "Marlin Situmorang",
+        "phone": "081234567019",
+        "occupation": "Pendeta"
+      },
+      "mother": {
+        "name": "Ruth Simanjuntak",
+        "phone": "081234567020",
+        "occupation": "Guru Sekolah Minggu"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen BPK Penabur Tangerang",
+      "entryScore": 89.0,
+      "achievements": ["Juara 1 Lomba Paduan Suara Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 11,
+    "nis": "2023011",
+    "nisn": "0051234577",
+    "name": "Fajar Nugroho",
+    "email": "fajar.nugroho@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Solo",
+    "birthDate": "2007-01-15",
+    "religion": "Islam",
+    "address": "Jl. Cikini Raya No. 12, Jakarta Pusat",
+    "phone": "081234567811",
+    "class": "11A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Fajar+Nugroho&background=059669&color=fff",
+    "parent": {
+      "father": {
+        "name": "Nugroho Santoso",
+        "phone": "081234567021",
+        "occupation": "Direktur Perusahaan"
+      },
+      "mother": {
+        "name": "Endang Susilowati",
+        "phone": "081234567022",
+        "occupation": "Ibu Rumah Tangga"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Solo",
+      "entryScore": 88.5,
+      "achievements": ["Juara 1 Olimpiade Fisika Tingkat Provinsi", "Ketua OSIS"]
+    }
+  },
+  {
+    "id": 12,
+    "nis": "2023012",
+    "nisn": "0051234578",
+    "name": "Indah Permata Sari",
+    "email": "indah.permata@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Denpasar",
+    "birthDate": "2007-03-20",
+    "religion": "Hindu",
+    "address": "Jl. Menteng Raya No. 56, Jakarta Pusat",
+    "phone": "081234567812",
+    "class": "11A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Indah+Permata+Sari&background=DB2777&color=fff",
+    "parent": {
+      "father": {
+        "name": "I Made Permata",
+        "phone": "081234567023",
+        "occupation": "Pengusaha Hotel"
+      },
+      "mother": {
+        "name": "Ni Wayan Sari",
+        "phone": "081234567024",
+        "occupation": "Penari Tradisional"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Denpasar",
+      "entryScore": 91.0,
+      "achievements": ["Juara 1 Lomba Tari Tradisional Tingkat Nasional", "Siswa Teladan"]
+    }
+  },
+  {
+    "id": 13,
+    "nis": "2023013",
+    "nisn": "0051234579",
+    "name": "Hendra Gunawan",
+    "email": "hendra.gunawan@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Bekasi",
+    "birthDate": "2007-05-08",
+    "religion": "Islam",
+    "address": "Jl. Salemba Raya No. 78, Jakarta Pusat",
+    "phone": "081234567813",
+    "class": "11A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Hendra+Gunawan&background=7C3AED&color=fff",
+    "parent": {
+      "father": {
+        "name": "Gunawan Setiawan",
+        "phone": "081234567025",
+        "occupation": "Polisi"
+      },
+      "mother": {
+        "name": "Sri Wahyuni",
+        "phone": "081234567026",
+        "occupation": "Pegawai Negeri"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 2 Bekasi",
+      "entryScore": 85.0,
+      "achievements": ["Juara 2 Lomba Karate Tingkat Kota"]
+    }
+  },
+  {
+    "id": 14,
+    "nis": "2023014",
+    "nisn": "0051234580",
+    "name": "Kartika Dewi",
+    "email": "kartika.dewi@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Depok",
+    "birthDate": "2007-07-25",
+    "religion": "Islam",
+    "address": "Jl. Matraman Raya No. 90, Jakarta Timur",
+    "phone": "081234567814",
+    "class": "11A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Kartika+Dewi&background=DC2626&color=fff",
+    "parent": {
+      "father": {
+        "name": "Dewi Kusuma",
+        "phone": "081234567027",
+        "occupation": "Jurnalis"
+      },
+      "mother": {
+        "name": "Ani Kartika",
+        "phone": "081234567028",
+        "occupation": "Editor"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Depok",
+      "entryScore": 86.0,
+      "achievements": ["Juara 1 Lomba Menulis Cerpen Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 15,
+    "nis": "2023015",
+    "nisn": "0051234581",
+    "name": "Joko Widodo",
+    "email": "joko.widodo@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Cirebon",
+    "birthDate": "2007-09-17",
+    "religion": "Islam",
+    "address": "Jl. Jatinegara Raya No. 45, Jakarta Timur",
+    "phone": "081234567815",
+    "class": "11A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Joko+Widodo&background=0891B2&color=fff",
+    "parent": {
+      "father": {
+        "name": "Widodo Suparman",
+        "phone": "081234567029",
+        "occupation": "Petani"
+      },
+      "mother": {
+        "name": "Sumiati",
+        "phone": "081234567030",
+        "occupation": "Pedagang"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Cirebon",
+      "entryScore": 80.5,
+      "achievements": ["Juara 3 Lomba Catur Tingkat Provinsi"]
+    }
+  },
+  {
+    "id": 16,
+    "nis": "2023016",
+    "nisn": "0051234582",
+    "name": "Nina Agustina",
+    "email": "nina.agustina@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Lampung",
+    "birthDate": "2007-11-03",
+    "religion": "Islam",
+    "address": "Jl. Rawamangun No. 23, Jakarta Timur",
+    "phone": "081234567816",
+    "class": "11B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Nina+Agustina&background=EA580C&color=fff",
+    "parent": {
+      "father": {
+        "name": "Agus Salim",
+        "phone": "081234567031",
+        "occupation": "Kepala Sekolah"
+      },
+      "mother": {
+        "name": "Siti Nurjanah",
+        "phone": "081234567032",
+        "occupation": "Guru"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Lampung",
+      "entryScore": 87.0,
+      "achievements": ["Juara 2 Olimpiade Kimia Tingkat Provinsi"]
+    }
+  },
+  {
+    "id": 17,
+    "nis": "2023017",
+    "nisn": "0051234583",
+    "name": "Eko Prasetyo",
+    "email": "eko.prasetyo@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Malang",
+    "birthDate": "2007-12-28",
+    "religion": "Kristen",
+    "address": "Jl. Condet Raya No. 67, Jakarta Timur",
+    "phone": "081234567817",
+    "class": "11B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Eko+Prasetyo&background=16A34A&color=fff",
+    "parent": {
+      "father": {
+        "name": "Prasetyo Budi",
+        "phone": "081234567033",
+        "occupation": "Tentara"
+      },
+      "mother": {
+        "name": "Maria Magdalena",
+        "phone": "081234567034",
+        "occupation": "Bidan"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Malang",
+      "entryScore": 84.5,
+      "achievements": ["Juara 1 Lomba Voli Antar SMP"]
+    }
+  },
+  {
+    "id": 18,
+    "nis": "2023018",
+    "nisn": "0051234584",
+    "name": "Rina Wulandari",
+    "email": "rina.wulandari@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Pontianak",
+    "birthDate": "2007-02-14",
+    "religion": "Buddha",
+    "address": "Jl. Cipinang Raya No. 89, Jakarta Timur",
+    "phone": "081234567818",
+    "class": "11B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Rina+Wulandari&background=C026D3&color=fff",
+    "parent": {
+      "father": {
+        "name": "Wulan Tan",
+        "phone": "081234567035",
+        "occupation": "Pengusaha Restoran"
+      },
+      "mother": {
+        "name": "Susi Tan",
+        "phone": "081234567036",
+        "occupation": "Chef"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Pontianak",
+      "entryScore": 88.0,
+      "achievements": ["Juara 1 Lomba Memasak Tingkat Kota"]
+    }
+  },
+  {
+    "id": 19,
+    "nis": "2023019",
+    "nisn": "0051234585",
+    "name": "Arif Rahman",
+    "email": "arif.rahman@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Pekanbaru",
+    "birthDate": "2007-04-05",
+    "religion": "Islam",
+    "address": "Jl. Kalimalang No. 12, Jakarta Timur",
+    "phone": "081234567819",
+    "class": "11B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Arif+Rahman&background=0284C7&color=fff",
+    "parent": {
+      "father": {
+        "name": "Rahman Hakim",
+        "phone": "081234567037",
+        "occupation": "Hakim"
+      },
+      "mother": {
+        "name": "Laila Sari",
+        "phone": "081234567038",
+        "occupation": "Jaksa"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 2 Pekanbaru",
+      "entryScore": 86.5,
+      "achievements": ["Juara 2 Lomba Debat Hukum"]
+    }
+  },
+  {
+    "id": 20,
+    "nis": "2023020",
+    "nisn": "0051234586",
+    "name": "Mega Putri",
+    "email": "mega.putri@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Jambi",
+    "birthDate": "2007-06-19",
+    "religion": "Islam",
+    "address": "Jl. Pondok Gede No. 34, Jakarta Timur",
+    "phone": "081234567820",
+    "class": "11B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2023-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Mega+Putri&background=BE123C&color=fff",
+    "parent": {
+      "father": {
+        "name": "Putri Gunawan",
+        "phone": "081234567039",
+        "occupation": "Walikota"
+      },
+      "mother": {
+        "name": "Mega Sari",
+        "phone": "081234567040",
+        "occupation": "Aktivis Sosial"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Jambi",
+      "entryScore": 89.5,
+      "achievements": ["Juara 1 Olimpiade Ekonomi Tingkat Nasional", "Ketua Pramuka"]
+    }
+  },
+  {
+    "id": 21,
+    "nis": "2022021",
+    "nisn": "0051234587",
+    "name": "Bayu Aji Nugroho",
+    "email": "bayu.aji@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Batam",
+    "birthDate": "2006-01-10",
+    "religion": "Islam",
+    "address": "Jl. Kebayoran Lama No. 45, Jakarta Selatan",
+    "phone": "081234567821",
+    "class": "12A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Bayu+Aji+Nugroho&background=4338CA&color=fff",
+    "parent": {
+      "father": {
+        "name": "Nugroho Aji",
+        "phone": "081234567041",
+        "occupation": "Kapten Kapal"
+      },
+      "mother": {
+        "name": "Dewi Laksmi",
+        "phone": "081234567042",
+        "occupation": "Ibu Rumah Tangga"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Batam",
+      "entryScore": 90.5,
+      "achievements": ["Juara 1 Olimpiade Astronomi Tingkat Nasional", "Ketua MPK"]
+    }
+  },
+  {
+    "id": 22,
+    "nis": "2022022",
+    "nisn": "0051234588",
+    "name": "Citra Kirana",
+    "email": "citra.kirana@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Manado",
+    "birthDate": "2006-03-22",
+    "religion": "Kristen",
+    "address": "Jl. Fatmawati No. 78, Jakarta Selatan",
+    "phone": "081234567822",
+    "class": "12A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Citra+Kirana&background=BE185D&color=fff",
+    "parent": {
+      "father": {
+        "name": "Kirana Makahanap",
+        "phone": "081234567043",
+        "occupation": "Gubernur"
+      },
+      "mother": {
+        "name": "Grace Makahanap",
+        "phone": "081234567044",
+        "occupation": "Pengusaha"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Manado",
+      "entryScore": 92.0,
+      "achievements": ["Juara 1 Olimpiade Bahasa Inggris Tingkat Nasional", "Siswa Teladan Nasional"]
+    }
+  },
+  {
+    "id": 23,
+    "nis": "2022023",
+    "nisn": "0051234589",
+    "name": "Doni Saputra",
+    "email": "doni.saputra@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Padang",
+    "birthDate": "2006-05-16",
+    "religion": "Islam",
+    "address": "Jl. Cilandak Raya No. 23, Jakarta Selatan",
+    "phone": "081234567823",
+    "class": "12A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Doni+Saputra&background=15803D&color=fff",
+    "parent": {
+      "father": {
+        "name": "Saputra Hakim",
+        "phone": "081234567045",
+        "occupation": "Pengusaha Tambang"
+      },
+      "mother": {
+        "name": "Rina Marlina",
+        "phone": "081234567046",
+        "occupation": "Dokter Spesialis"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Padang",
+      "entryScore": 88.0,
+      "achievements": ["Juara 2 Lomba Pencak Silat Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 24,
+    "nis": "2022024",
+    "nisn": "0051234590",
+    "name": "Eka Rahmawati",
+    "email": "eka.rahmawati@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Banjarmasin",
+    "birthDate": "2006-07-28",
+    "religion": "Islam",
+    "address": "Jl. Ampera Raya No. 56, Jakarta Selatan",
+    "phone": "081234567824",
+    "class": "12A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Eka+Rahmawati&background=9333EA&color=fff",
+    "parent": {
+      "father": {
+        "name": "Rahman Hidayat",
+        "phone": "081234567047",
+        "occupation": "Rektor Universitas"
+      },
+      "mother": {
+        "name": "Siti Rahmah",
+        "phone": "081234567048",
+        "occupation": "Profesor"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Banjarmasin",
+      "entryScore": 93.5,
+      "achievements": ["Juara 1 Olimpiade Matematika Tingkat Internasional", "Penerima Beasiswa Prestasi"]
+    }
+  },
+  {
+    "id": 25,
+    "nis": "2022025",
+    "nisn": "0051234591",
+    "name": "Fauzi Hidayat",
+    "email": "fauzi.hidayat@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Samarinda",
+    "birthDate": "2006-09-11",
+    "religion": "Islam",
+    "address": "Jl. Pasar Minggu No. 90, Jakarta Selatan",
+    "phone": "081234567825",
+    "class": "12A",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Fauzi+Hidayat&background=0369A1&color=fff",
+    "parent": {
+      "father": {
+        "name": "Hidayat Nur",
+        "phone": "081234567049",
+        "occupation": "Menteri"
+      },
+      "mother": {
+        "name": "Nurul Hidayah",
+        "phone": "081234567050",
+        "occupation": "Diplomat"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Samarinda",
+      "entryScore": 91.5,
+      "achievements": ["Juara 1 Model United Nations Tingkat Asia", "Ketua Debat Club"]
+    }
+  },
+  {
+    "id": 26,
+    "nis": "2022026",
+    "nisn": "0051234592",
+    "name": "Gita Savitri",
+    "email": "gita.savitri@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Balikpapan",
+    "birthDate": "2006-11-25",
+    "religion": "Hindu",
+    "address": "Jl. Mampang Raya No. 12, Jakarta Selatan",
+    "phone": "081234567826",
+    "class": "12B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Gita+Savitri&background=BE123C&color=fff",
+    "parent": {
+      "father": {
+        "name": "I Wayan Savitri",
+        "phone": "081234567051",
+        "occupation": "Seniman"
+      },
+      "mother": {
+        "name": "Ni Made Gita",
+        "phone": "081234567052",
+        "occupation": "Koreografer"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Balikpapan",
+      "entryScore": 89.0,
+      "achievements": ["Juara 1 Lomba Tari Kontemporer Tingkat Internasional"]
+    }
+  },
+  {
+    "id": 27,
+    "nis": "2022027",
+    "nisn": "0051234593",
+    "name": "Hadi Pranoto",
+    "email": "hadi.pranoto@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Kupang",
+    "birthDate": "2006-12-30",
+    "religion": "Kristen",
+    "address": "Jl. Warung Buncit No. 45, Jakarta Selatan",
+    "phone": "081234567827",
+    "class": "12B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Hadi+Pranoto&background=65A30D&color=fff",
+    "parent": {
+      "father": {
+        "name": "Pranoto Budi",
+        "phone": "081234567053",
+        "occupation": "Pastor"
+      },
+      "mother": {
+        "name": "Yohana Pranoto",
+        "phone": "081234567054",
+        "occupation": "Pekerja Sosial"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Kupang",
+      "entryScore": 85.5,
+      "achievements": ["Juara 2 Lomba Fotografi Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 28,
+    "nis": "2022028",
+    "nisn": "0051234594",
+    "name": "Intan Permatasari",
+    "email": "intan.permata@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Ambon",
+    "birthDate": "2006-02-08",
+    "religion": "Kristen",
+    "address": "Jl. Kalibata Raya No. 67, Jakarta Selatan",
+    "phone": "081234567828",
+    "class": "12B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Intan+Permatasari&background=7E22CE&color=fff",
+    "parent": {
+      "father": {
+        "name": "Permata Latuconsina",
+        "phone": "081234567055",
+        "occupation": "Musisi"
+      },
+      "mother": {
+        "name": "Sarah Latuconsina",
+        "phone": "081234567056",
+        "occupation": "Penyanyi"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Ambon",
+      "entryScore": 90.0,
+      "achievements": ["Juara 1 Lomba Musik Klasik Tingkat Nasional", "Ketua Orkestra Sekolah"]
+    }
+  },
+  {
+    "id": 29,
+    "nis": "2022029",
+    "nisn": "0051234595",
+    "name": "Jaya Kusuma",
+    "email": "jaya.kusuma@student.sekolah.id",
+    "gender": "L",
+    "birthPlace": "Jayapura",
+    "birthDate": "2006-04-14",
+    "religion": "Kristen",
+    "address": "Jl. Pancoran Raya No. 89, Jakarta Selatan",
+    "phone": "081234567829",
+    "class": "12B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Jaya+Kusuma&background=0F766E&color=fff",
+    "parent": {
+      "father": {
+        "name": "Kusuma Jaya",
+        "phone": "081234567057",
+        "occupation": "Pilot Helikopter"
+      },
+      "mother": {
+        "name": "Maria Kusuma",
+        "phone": "081234567058",
+        "occupation": "Dokter Hewan"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Kristen Jayapura",
+      "entryScore": 87.5,
+      "achievements": ["Juara 1 Lomba Lari Marathon Tingkat Nasional"]
+    }
+  },
+  {
+    "id": 30,
+    "nis": "2022030",
+    "nisn": "0051234596",
+    "name": "Karina Salsa",
+    "email": "karina.salsa@student.sekolah.id",
+    "gender": "P",
+    "birthPlace": "Ternate",
+    "birthDate": "2006-06-20",
+    "religion": "Islam",
+    "address": "Jl. Ragunan Raya No. 34, Jakarta Selatan",
+    "phone": "081234567830",
+    "class": "12B",
+    "academicYear": "2024/2025",
+    "status": "active",
+    "joinDate": "2022-07-15",
+    "avatar": "https://ui-avatars.com/api/?name=Karina+Salsa&background=BE123C&color=fff",
+    "parent": {
+      "father": {
+        "name": "Salsa Ibrahim",
+        "phone": "081234567059",
+        "occupation": "Bupati"
+      },
+      "mother": {
+        "name": "Aisyah Ibrahim",
+        "phone": "081234567060",
+        "occupation": "Pengusaha Fashion"
+      }
+    },
+    "academic": {
+      "previousSchool": "SMP Negeri 1 Ternate",
+      "entryScore": 91.0,
+      "achievements": ["Juara 1 Lomba Fashion Design Tingkat Nasional", "Ketua Ekskul Fashion"]
+    }
+  }
+]

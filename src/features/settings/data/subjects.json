@@ -1,0 +1,142 @@
+[
+  {
+    "id": "subj001",
+    "code": "MAT101",
+    "name": "Matematika",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 4,
+    "description": "Mata pelajaran Matematika untuk semua jurusan",
+    "teachers": ["Budi Santoso", "Rina Wijaya"]
+  },
+  {
+    "id": "subj002",
+    "code": "FIS101",
+    "name": "Fisika",
+    "gradeLevel": "All",
+    "major": "IPA",
+    "creditHours": 4,
+    "description": "Mata pelajaran Fisika untuk jurusan IPA",
+    "teachers": ["Budi Santoso"]
+  },
+  {
+    "id": "subj003",
+    "code": "KIM101",
+    "name": "Kimia",
+    "gradeLevel": "All",
+    "major": "IPA",
+    "creditHours": 4,
+    "description": "Mata pelajaran Kimia untuk jurusan IPA",
+    "teachers": ["Rina Wijaya"]
+  },
+  {
+    "id": "subj004",
+    "code": "BIO101",
+    "name": "Biologi",
+    "gradeLevel": "All",
+    "major": "IPA",
+    "creditHours": 4,
+    "description": "Mata pelajaran Biologi untuk jurusan IPA",
+    "teachers": ["Siti Nurhaliza"]
+  },
+  {
+    "id": "subj005",
+    "code": "BIN101",
+    "name": "Bahasa Indonesia",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 4,
+    "description": "Mata pelajaran Bahasa Indonesia untuk semua jurusan",
+    "teachers": ["Siti Nurhaliza", "Eko Prasetyo"]
+  },
+  {
+    "id": "subj006",
+    "code": "ENG101",
+    "name": "Bahasa Inggris",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 3,
+    "description": "Mata pelajaran Bahasa Inggris untuk semua jurusan",
+    "teachers": ["Eko Prasetyo"]
+  },
+  {
+    "id": "subj007",
+    "code": "SEJ101",
+    "name": "Sejarah",
+    "gradeLevel": "All",
+    "major": "IPS",
+    "creditHours": 3,
+    "description": "Mata pelajaran Sejarah untuk jurusan IPS",
+    "teachers": ["Rina Wijaya"]
+  },
+  {
+    "id": "subj008",
+    "code": "GEO101",
+    "name": "Geografi",
+    "gradeLevel": "All",
+    "major": "IPS",
+    "creditHours": 3,
+    "description": "Mata pelajaran Geografi untuk jurusan IPS",
+    "teachers": ["Budi Santoso"]
+  },
+  {
+    "id": "subj009",
+    "code": "EKO101",
+    "name": "Ekonomi",
+    "gradeLevel": "All",
+    "major": "IPS",
+    "creditHours": 4,
+    "description": "Mata pelajaran Ekonomi untuk jurusan IPS",
+    "teachers": ["Siti Nurhaliza"]
+  },
+  {
+    "id": "subj010",
+    "code": "SOS101",
+    "name": "Sosiologi",
+    "gradeLevel": "All",
+    "major": "IPS",
+    "creditHours": 3,
+    "description": "Mata pelajaran Sosiologi untuk jurusan IPS",
+    "teachers": ["Eko Prasetyo"]
+  },
+  {
+    "id": "subj011",
+    "code": "PAI101",
+    "name": "Pendidikan Agama Islam",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 2,
+    "description": "Mata pelajaran Pendidikan Agama Islam",
+    "teachers": ["Siti Nurhaliza"]
+  },
+  {
+    "id": "subj012",
+    "code": "PKN101",
+    "name": "Pendidikan Kewarganegaraan",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 2,
+    "description": "Mata pelajaran PKN untuk semua jurusan",
+    "teachers": ["Eko Prasetyo"]
+  },
+  {
+    "id": "subj013",
+    "code": "PJK101",
+    "name": "Pendidikan Jasmani",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 2,
+    "description": "Mata pelajaran Pendidikan Jasmani untuk semua jurusan",
+    "teachers": ["Budi Santoso"]
+  },
+  {
+    "id": "subj014",
+    "code": "SEN101",
+    "name": "Seni Budaya",
+    "gradeLevel": "All",
+    "major": "All",
+    "creditHours": 2,
+    "description": "Mata pelajaran Seni Budaya untuk semua jurusan",
+    "teachers": ["Rina Wijaya"]
+  }
+]

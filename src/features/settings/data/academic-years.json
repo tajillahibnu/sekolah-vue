@@ -1,0 +1,38 @@
+[
+  {
+    "id": "ay001",
+    "year": "2022/2023",
+    "startDate": "2022-07-18",
+    "endDate": "2023-06-30",
+    "status": "inactive",
+    "description": "Tahun ajaran 2022/2023",
+    "studentCount": 450
+  },
+  {
+    "id": "ay002",
+    "year": "2023/2024",
+    "startDate": "2023-07-17",
+    "endDate": "2024-06-28",
+    "status": "inactive",
+    "description": "Tahun ajaran 2023/2024",
+    "studentCount": 480
+  },
+  {
+    "id": "ay003",
+    "year": "2024/2025",
+    "startDate": "2024-07-15",
+    "endDate": "2025-06-27",
+    "status": "active",
+    "description": "Tahun ajaran 2024/2025 (Aktif)",
+    "studentCount": 510
+  },
+  {
+    "id": "ay004",
+    "year": "2025/2026",
+    "startDate": "2025-07-14",
+    "endDate": "2026-06-26",
+    "status": "inactive",
+    "description": "Tahun ajaran 2025/2026 (Rencana)",
+    "studentCount": 0
+  }
+]

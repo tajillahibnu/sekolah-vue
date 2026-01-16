@@ -1,0 +1,288 @@
+[
+  {
+    "role": "admin",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Data Siswa",
+        "to": "/admin/students",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Data Pegawai",
+        "to": "/admin/employees",
+        "icon": "UsersIcon"
+      },
+      {
+        "label": "Akademik",
+        "to": "/admin/academic",
+        "icon": "AcademicCapIcon",
+        "children": [
+            { "label": "Tahun Ajaran", "to": "/admin/academic/school-year" },
+            { "label": "Mata Pelajaran", "to": "/admin/academic/subjects" },
+            { "label": "Kelas", "to": "/admin/academic/classes" },
+            { "label": "Jadwal", "to": "/admin/academic/schedule" }
+        ]
+      },
+      {
+        "label": "Keuangan",
+        "to": "/admin/finance",
+        "icon": "CurrencyDollarIcon",
+        "children": [
+            { "label": "Pembayaran SPP", "to": "/admin/finance/tuition" },
+            { "label": "Tabungan Siswa", "to": "/admin/finance/savings" },
+            { "label": "Laporan Keuangan", "to": "/admin/finance/reports" }
+        ]
+      },
+      {
+        "label": "Fasilitas",
+        "to": "/admin/facilities",
+        "icon": "BuildingOffice2Icon"
+      },
+      {
+        "label": "Laporan",
+        "to": "/admin/reports",
+        "icon": "DocumentChartBarIcon",
+        "children": [
+            { "label": "Laporan Akademik", "to": "/admin/reports/academic" },
+            { "label": "Laporan Keuangan", "to": "/admin/reports/finance" },
+            { "label": "Laporan Kesiswaan", "to": "/admin/reports/student-affairs" }
+        ]
+      },
+      {
+        "label": "Pengaturan",
+        "to": "/admin/settings",
+        "icon": "Cog6ToothIcon"
+      }
+    ]
+  },
+  {
+    "role": "guru",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Jadwal Mengajar",
+        "to": "/admin/schedule",
+        "icon": "CalendarIcon"
+      },
+      {
+        "label": "Daftar Siswa",
+        "to": "/admin/students",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Input Nilai",
+        "to": "/admin/grades",
+        "icon": "PencilSquareIcon"
+      },
+      {
+        "label": "Absensi",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon"
+      },
+      {
+        "label": "Tugas & Materi",
+        "to": "/admin/assignments",
+        "icon": "DocumentTextIcon"
+      },
+      {
+        "label": "Rapor",
+        "to": "/admin/reports",
+        "icon": "DocumentChartBarIcon"
+      }
+    ]
+  },
+  {
+    "role": "siswa",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Jadwal Pelajaran",
+        "to": "/admin/schedule",
+        "icon": "CalendarIcon"
+      },
+      {
+        "label": "Nilai Saya",
+        "to": "/admin/grades",
+        "icon": "AcademicCapIcon"
+      },
+      {
+        "label": "Tugas",
+        "to": "/admin/assignments",
+        "icon": "ClipboardDocumentListIcon"
+      },
+      {
+        "label": "E-Learning",
+        "to": "/admin/elearning",
+        "icon": "BookOpenIcon"
+      },
+      {
+        "label": "Absensi Saya",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon"
+      },
+      {
+        "label": "Rapor",
+        "to": "/admin/report-card",
+        "icon": "DocumentTextIcon"
+      }
+    ]
+  },
+  {
+    "role": "kesiswaan",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Data Siswa",
+        "to": "/admin/students",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Absensi",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon"
+      },
+      {
+        "label": "Pelanggaran",
+        "to": "/admin/violations",
+        "icon": "ExclamationTriangleIcon"
+      },
+      {
+        "label": "Prestasi",
+        "to": "/admin/achievements",
+        "icon": "TrophyIcon"
+      },
+      {
+        "label": "Ekstrakurikuler",
+        "to": "/admin/extracurricular",
+        "icon": "SparklesIcon"
+      },
+      {
+        "label": "Konseling",
+        "to": "/admin/counseling",
+        "icon": "ChatBubbleLeftRightIcon"
+      },
+      {
+        "label": "Laporan",
+        "to": "/admin/reports",
+        "icon": "DocumentChartBarIcon"
+      }
+    ]
+  },
+  {
+    "role": "kurikulum",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Mata Pelajaran",
+        "to": "/admin/subjects",
+        "icon": "BookOpenIcon"
+      },
+      {
+        "label": "Jadwal Pelajaran",
+        "to": "/admin/schedule",
+        "icon": "CalendarIcon"
+      },
+      {
+        "label": "Data Guru",
+        "to": "/admin/teachers",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Kelas",
+        "to": "/admin/classes",
+        "icon": "BuildingOffice2Icon"
+      },
+      {
+        "label": "Kurikulum",
+        "to": "/admin/curriculum",
+        "icon": "AcademicCapIcon",
+        "children": [
+            { "label": "Silabus", "to": "/admin/curriculum/syllabus" },
+            { "label": "RPP", "to": "/admin/curriculum/lesson-plan" },
+            { "label": "Kompetensi", "to": "/admin/curriculum/competencies" }
+        ]
+      },
+      {
+        "label": "Penilaian",
+        "to": "/admin/assessment",
+        "icon": "ClipboardDocumentListIcon"
+      },
+      {
+        "label": "Laporan",
+        "to": "/admin/reports",
+        "icon": "DocumentChartBarIcon"
+      }
+    ]
+  },
+  {
+    "role": "walikelas",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Data Kelas",
+        "to": "/admin/my-class",
+        "icon": "BuildingOffice2Icon"
+      },
+      {
+        "label": "Daftar Siswa",
+        "to": "/admin/students",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Absensi Kelas",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon"
+      },
+      {
+        "label": "Nilai Kelas",
+        "to": "/admin/grades",
+        "icon": "AcademicCapIcon"
+      },
+      {
+        "label": "Jadwal Pelajaran",
+        "to": "/admin/schedule",
+        "icon": "CalendarIcon"
+      },
+      {
+        "label": "Komunikasi Ortu",
+        "to": "/admin/parent-communication",
+        "icon": "ChatBubbleLeftRightIcon"
+      },
+      {
+        "label": "Konseling Siswa",
+        "to": "/admin/counseling",
+        "icon": "UserIcon"
+      },
+      {
+        "label": "Laporan Kelas",
+        "to": "/admin/class-reports",
+        "icon": "DocumentChartBarIcon"
+      }
+    ]
+  }
+]

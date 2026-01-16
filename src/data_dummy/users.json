@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Ahmad Fauzi",
+    "email": "ahmad.fauzi@sekolah.id",
+    "role": "Guru",
+    "subject": "Matematika",
+    "phone": "081234567890",
+    "status": "active",
+    "joinDate": "2023-01-15",
+    "avatar": "https://ui-avatars.com/api/?name=Ahmad+Fauzi&background=0D8ABC&color=fff"
+  },
+  {
+    "id": 2,
+    "name": "Siti Nurhaliza",
+    "email": "siti.nurhaliza@sekolah.id",
+    "role": "Guru",
+    "subject": "Bahasa Indonesia",
+    "phone": "081234567891",
+    "status": "active",
+    "joinDate": "2023-02-20",
+    "avatar": "https://ui-avatars.com/api/?name=Siti+Nurhaliza&background=6366F1&color=fff"
+  },
+  {
+    "id": 3,
+    "name": "Budi Santoso",
+    "email": "budi.santoso@sekolah.id",
+    "role": "Siswa",
+    "class": "10A",
+    "phone": "081234567892",
+    "status": "active",
+    "joinDate": "2024-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Budi+Santoso&background=10B981&color=fff"
+  },
+  {
+    "id": 4,
+    "name": "Dewi Lestari",
+    "email": "dewi.lestari@sekolah.id",
+    "role": "Staff",
+    "position": "Tata Usaha",
+    "phone": "081234567893",
+    "status": "active",
+    "joinDate": "2022-08-10",
+    "avatar": "https://ui-avatars.com/api/?name=Dewi+Lestari&background=F59E0B&color=fff"
+  },
+  {
+    "id": 5,
+    "name": "Rizki Ramadhan",
+    "email": "rizki.ramadhan@sekolah.id",
+    "role": "Guru",
+    "subject": "Fisika",
+    "phone": "081234567894",
+    "status": "active",
+    "joinDate": "2023-03-12",
+    "avatar": "https://ui-avatars.com/api/?name=Rizki+Ramadhan&background=8B5CF6&color=fff"
+  },
+  {
+    "id": 6,
+    "name": "Maya Sari",
+    "email": "maya.sari@sekolah.id",
+    "role": "Siswa",
+    "class": "10B",
+    "phone": "081234567895",
+    "status": "active",
+    "joinDate": "2024-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Maya+Sari&background=EC4899&color=fff"
+  },
+  {
+    "id": 7,
+    "name": "Andi Wijaya",
+    "email": "andi.wijaya@sekolah.id",
+    "role": "Guru",
+    "subject": "Kimia",
+    "phone": "081234567896",
+    "status": "inactive",
+    "joinDate": "2022-09-05",
+    "avatar": "https://ui-avatars.com/api/?name=Andi+Wijaya&background=EF4444&color=fff"
+  },
+  {
+    "id": 8,
+    "name": "Putri Ayu",
+    "email": "putri.ayu@sekolah.id",
+    "role": "Staff",
+    "position": "Perpustakaan",
+    "phone": "081234567897",
+    "status": "active",
+    "joinDate": "2023-05-20",
+    "avatar": "https://ui-avatars.com/api/?name=Putri+Ayu&background=14B8A6&color=fff"
+  },
+  {
+    "id": 9,
+    "name": "Dimas Pratama",
+    "email": "dimas.pratama@sekolah.id",
+    "role": "Siswa",
+    "class": "11A",
+    "phone": "081234567898",
+    "status": "active",
+    "joinDate": "2023-07-01",
+    "avatar": "https://ui-avatars.com/api/?name=Dimas+Pratama&background=3B82F6&color=fff"
+  },
+  {
+    "id": 10,
+    "name": "Lina Marlina",
+    "email": "lina.marlina@sekolah.id",
+    "role": "Guru",
+    "subject": "Biologi",
+    "phone": "081234567899",
+    "status": "active",
+    "joinDate": "2023-01-08",
+    "avatar": "https://ui-avatars.com/api/?name=Lina+Marlina&background=A855F7&color=fff"
+  }
+]
