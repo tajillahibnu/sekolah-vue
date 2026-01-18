@@ -144,7 +144,7 @@ watch(searchTerm, (newTerm) => {
     <ComboboxRoot v-model="modelValueProxy" v-model:open="open" v-model:searchTerm="searchTerm" class="relative"
         :filter-function="filterFunction" @update:model-value="emit('update:modelValue', $event)">
         <ComboboxAnchor class="relative w-full">
-            <div class="flex h-10 w-full items-center justify-between rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-within:ring-2 focus-within:ring-ring focus-within:ring-offset-2 lg:w-full"
+            <div class="flex h-12 w-full items-center justify-between rounded-2xl border border-primary/5 bg-primary/[0.03] px-5 py-2 text-sm font-medium ring-offset-background placeholder:text-muted-foreground/50 focus-within:ring-4 focus-within:ring-primary/5 focus-within:border-primary/20 focus-within:bg-background transition-all shadow-sm shadow-primary/5 lg:w-full"
                 :class="[disabled ? 'opacity-50 cursor-not-allowed' : 'cursor-text']"
                 @click="!disabled && (open = true)">
                 <span v-if="!open" class="truncate opacity-50">{{ selectedLabel }}</span>
@@ -158,7 +158,7 @@ watch(searchTerm, (newTerm) => {
         </ComboboxAnchor>
 
         <ComboboxContent
-            class="absolute z-50 mt-1 max-h-60 w-full min-w-[var(--radix-combobox-trigger-width)] overflow-hidden rounded-md border bg-popover text-popover-foreground shadow-md">
+            class="absolute z-50 mt-1 max-h-60 w-full min-w-[var(--radix-combobox-trigger-width)] overflow-hidden rounded-2xl border border-primary/10 bg-background shadow-2xl shadow-primary/10">
             <ComboboxViewport class="p-1">
                 <div v-if="isLoading" class="py-2 text-center text-sm text-muted-foreground">
                     Loading...
@@ -169,7 +169,7 @@ watch(searchTerm, (newTerm) => {
                 </div>
 
                 <ComboboxItem v-for="option in filteredOptions" :key="option.value" :value="option.value"
-                    class="relative flex cursor-default select-none items-center rounded-sm py-1.5 pl-8 pr-2 text-sm outline-none data-[highlighted]:bg-accent data-[highlighted]:text-accent-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                    class="relative flex cursor-default select-none items-center rounded-xl py-2.5 pl-8 pr-2 text-sm font-medium outline-none data-[highlighted]:bg-primary/5 data-[highlighted]:text-foreground data-[disabled]:pointer-events-none data-[disabled]:opacity-50 transition-colors">
                     <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
                         <ComboboxItemIndicator>
                             <CheckIcon class="h-4 w-4" />

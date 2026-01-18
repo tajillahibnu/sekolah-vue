@@ -7,7 +7,21 @@ import {
     TrophyIcon,
     XMarkIcon,
     PlusIcon,
-    CheckCircleIcon
+    CheckCircleIcon,
+    IdentificationIcon,
+    MapPinIcon,
+    BriefcaseIcon,
+    PhoneIcon,
+    EnvelopeIcon,
+    GlobeAltIcon,
+    CalendarDaysIcon,
+    HeartIcon,
+    ArrowRightIcon,
+    ArrowLeftIcon,
+    HomeIcon,
+    SparklesIcon,
+    BookmarkIcon,
+    GlobeAsiaAustraliaIcon
 } from '@heroicons/vue/24/outline';
 import Button from '@/components/ui/button/Button.vue';
 import FormInput from '@/components/ui/form/FormInput.vue';
@@ -177,11 +191,25 @@ const getRandomColor = () => {
 
 // Tab configuration
 const tabs = [
-    { id: 'personal', label: 'Data Pribadi', icon: UserIcon, color: 'text-blue-500' },
-    { id: 'academic', label: 'Data Akademik', icon: AcademicCapIcon, color: 'text-green-500' },
-    { id: 'parent', label: 'Data Orang Tua', icon: UsersIcon, color: 'text-purple-500' },
-    { id: 'achievements', label: 'Prestasi', icon: TrophyIcon, color: 'text-yellow-500' }
+    { id: 'personal', label: 'Identitas', icon: UserIcon, color: 'text-blue-500', step: 1, subtitle: 'Data Diri Siswa' },
+    { id: 'academic', label: 'Akademik', icon: AcademicCapIcon, color: 'text-emerald-500', step: 2, subtitle: 'Sekolah & Status' },
+    { id: 'parent', label: 'Keluarga', icon: UsersIcon, color: 'text-purple-500', step: 3, subtitle: 'Data Orang Tua' },
+    { id: 'achievements', label: 'Prestasi', icon: TrophyIcon, color: 'text-amber-500', step: 4, subtitle: 'Catatan Khusus' }
 ];
+
+const nextTab = () => {
+    const currentIndex = tabs.findIndex(t => t.id === activeTab.value);
+    if (currentIndex < tabs.length - 1) {
+        activeTab.value = tabs[currentIndex + 1].id;
+    }
+};
+
+const prevTab = () => {
+    const currentIndex = tabs.findIndex(t => t.id === activeTab.value);
+    if (currentIndex > 0) {
+        activeTab.value = tabs[currentIndex - 1].id;
+    }
+};
 
 // Options
 const genderOptions = [
@@ -211,234 +239,406 @@ const isTabCompleted = computed(() => {
 </script>
 
 <template>
-    <div class="space-y-6">
-        <!-- Enhanced Tabs -->
-        <div class="border-b border-border">
-            <div class="flex space-x-1 overflow-x-auto">
+    <div class="grid grid-cols-1 md:grid-cols-[220px_1fr] gap-12">
+        <!-- Vertical Stepper Sidebar -->
+        <div class="space-y-10 py-6 px-6 md:pr-8 bg-primary/[0.015] rounded-3xl border border-primary/5">
+            <div class="flex flex-col gap-6">
                 <button v-for="tab in tabs" :key="tab.id" @click="activeTab = tab.id"
-                    class="flex items-center gap-2 px-4 py-3 text-sm font-medium transition-all relative whitespace-nowrap"
-                    :class="[
-                        activeTab === tab.id
-                            ? 'text-primary border-b-2 border-primary'
-                            : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
-                    ]">
-                    <component :is="tab.icon" class="w-4 h-4" :class="tab.color" />
-                    <span class="hidden sm:inline">{{ tab.label }}</span>
-                    <CheckCircleIcon v-if="isTabCompleted[tab.id]" class="w-4 h-4 text-green-500" />
+                    class="flex items-center gap-4 transition-all duration-300 group text-left relative"
+                    :class="[activeTab === tab.id ? 'translate-x-2' : 'opacity-60 hover:opacity-100']">
+
+                    <!-- Vertical Line Connector (between steps) -->
+                    <div v-if="tab.step < tabs.length"
+                        class="absolute left-6 top-10 w-0.5 h-8 bg-primary/5 -translate-x-1/2"></div>
+
+                    <!-- Step Indicator -->
+                    <div class="flex items-center justify-center w-12 h-12 rounded-2xl border-2 transition-all shrink-0"
+                        :class="activeTab === tab.id
+                            ? 'bg-primary border-primary shadow-2xl shadow-primary/40'
+                            : isTabCompleted[tab.id]
+                                ? 'bg-emerald-50 border-emerald-500/30'
+                                : 'bg-background border-primary/10'">
+                        <CheckCircleIcon v-if="isTabCompleted[tab.id] && activeTab !== tab.id"
+                            class="w-6 h-6 text-emerald-500" />
+                        <span v-else class="text-sm font-black"
+                            :class="activeTab === tab.id ? 'text-white' : 'text-primary'">{{ tab.step }}</span>
+                    </div>
+
+                    <div class="flex flex-col">
+                        <span class="text-xs font-black tracking-tight"
+                            :class="activeTab === tab.id ? 'text-primary' : 'text-foreground/70'">{{ tab.label
+                            }}</span>
+                        <span class="text-[9px] font-bold uppercase tracking-widest"
+                            :class="activeTab === tab.id ? 'text-muted-foreground/40' : 'text-muted-foreground/30'">{{
+                                tab.subtitle }}</span>
+                    </div>
                 </button>
+            </div>
+
+            <!-- Form Actions (Mobile-like sticky or bottom sidebar) -->
+            <div class="pt-8 space-y-4 hidden md:block">
+                <p class="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest leading-relaxed">
+                    Pastikan seluruh data<br />wajib <span class="text-rose-500 font-black">*</span> telah terisi
+                </p>
             </div>
         </div>
 
-        <form @submit.prevent="handleSubmit" class="space-y-6">
-            <!-- Personal Data Tab -->
-            <div v-show="activeTab === 'personal'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
-                    <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
-                            <UserIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Informasi Pribadi</h3>
-                            <p class="text-sm text-muted-foreground">Data identitas siswa</p>
-                        </div>
+        <!-- Form Content Area -->
+        <form @submit.prevent="handleSubmit" class="space-y-12">
+            <!-- Personal Data Section -->
+            <div v-show="activeTab === 'personal'" class="space-y-12 animate-in slide-in-from-right-4 duration-500">
+                <!-- Section Header -->
+                <div class="flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-blue-600 rounded-2xl text-white flex items-center justify-center shadow-lg shadow-blue-200">
+                        <UserIcon class="w-7 h-7" />
                     </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <FormInput v-model="formData.nis" label="NIS" placeholder="Nomor Induk Siswa" :required="true"
-                            :error="errors.nis" />
-
-                        <FormInput v-model="formData.nisn" label="NISN" placeholder="Nomor Induk Siswa Nasional"
-                            :required="true" :error="errors.nisn" />
-
-                        <div class="md:col-span-2">
-                            <FormInput v-model="formData.name" label="Nama Lengkap" placeholder="Nama lengkap siswa"
-                                :required="true" :error="errors.name" />
-                        </div>
-
-                        <div class="md:col-span-2">
-                            <FormInput v-model="formData.email" label="Email" type="email"
-                                placeholder="email@student.sekolah.id" :required="true" :error="errors.email" />
-                        </div>
-
-                        <FormSelect v-model="formData.gender" label="Jenis Kelamin" :options="genderOptions"
-                            :required="true" />
-
-                        <FormCombobox v-model="formData.religion" label="Agama" api-url="/references/religions"
-                            :required="true" placeholder="Pilih Agama" search-placeholder="Cari agama..." />
-
-                        <FormInput v-model="formData.birthPlace" label="Tempat Lahir" placeholder="Kota kelahiran"
-                            :required="true" :error="errors.birthPlace" />
-
-                        <FormDatePicker v-model="formData.birthDate" label="Tanggal Lahir"
-                            placeholder="Pilih tanggal lahir" :required="true" :error="errors.birthDate" />
-
-                        <FormInput v-model="formData.phone" label="Telepon" type="tel" placeholder="081234567890"
-                            :required="true" :error="errors.phone" />
-
-                        <div class="md:col-span-2">
-                            <FormTextarea v-model="formData.address" label="Alamat" placeholder="Alamat lengkap"
-                                :required="true" :rows="3" :error="errors.address" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Academic Data Tab -->
-            <div v-show="activeTab === 'academic'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
-                    <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
-                            <AcademicCapIcon class="w-5 h-5 text-green-600 dark:text-green-400" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Informasi Akademik</h3>
-                            <p class="text-sm text-muted-foreground">Data pendidikan siswa</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <FormCombobox v-model="formData.class" label="Kelas"
-                            :options="classOptions.map(c => ({ value: c, label: `Kelas ${c}` }))" :required="true"
-                            placeholder="Pilih Kelas" search-placeholder="Cari kelas..." />
-
-                        <FormInput v-model="formData.academicYear" label="Tahun Ajaran" placeholder="2024/2025"
-                            :required="true" />
-
-                        <FormSelect v-model="formData.status" label="Status" :options="statusOptions"
-                            :required="true" />
-
-                        <FormDatePicker v-model="formData.joinDate" label="Tanggal Masuk"
-                            placeholder="Pilih tanggal masuk" :required="true" />
-
-                        <div class="md:col-span-2">
-                            <FormInput v-model="formData.academic.previousSchool" label="Sekolah Asal"
-                                placeholder="Nama sekolah asal" :required="true" :error="errors.previousSchool" />
-                        </div>
-
-                        <FormInput v-model.number="formData.academic.entryScore" label="Nilai Masuk" type="number"
-                            placeholder="0-100" :required="true" :error="errors.entryScore" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Parent Data Tab -->
-            <div v-show="activeTab === 'parent'" class="space-y-6 animate-in fade-in duration-300">
-                <!-- Father Data -->
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
-                    <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                            <UsersIcon class="w-5 h-5 text-purple-600 dark:text-purple-400" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Data Ayah</h3>
-                            <p class="text-sm text-muted-foreground">Informasi orang tua (Ayah)</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2">
-                            <FormInput v-model="formData.parent.father.name" label="Nama Ayah"
-                                placeholder="Nama lengkap ayah" :required="true" :error="errors.fatherName" />
-                        </div>
-
-                        <FormInput v-model="formData.parent.father.phone" label="Telepon Ayah" type="tel"
-                            placeholder="081234567890" />
-
-                        <FormInput v-model="formData.parent.father.occupation" label="Pekerjaan Ayah"
-                            placeholder="Pekerjaan" />
+                    <div>
+                        <h3 class="font-black text-2xl tracking-tight text-foreground">Informasi Pribadi</h3>
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/45">Data
+                            identitas utama siswa sesuai dokumen resmi</p>
                     </div>
                 </div>
 
-                <!-- Mother Data -->
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
-                    <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
-                            <UsersIcon class="w-5 h-5 text-purple-600 dark:text-purple-400" />
+                <div class="space-y-12">
+                    <!-- Identity Sub-section -->
+                    <div class="space-y-6">
+                        <div class="flex items-center gap-3">
+                            <IdentificationIcon class="w-4 h-4 text-blue-500" />
+                            <span class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Data
+                                Identitas</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-blue-100 to-transparent"></div>
                         </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Data Ibu</h3>
-                            <p class="text-sm text-muted-foreground">Informasi orang tua (Ibu)</p>
-                        </div>
-                    </div>
-
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div class="md:col-span-2">
-                            <FormInput v-model="formData.parent.mother.name" label="Nama Ibu"
-                                placeholder="Nama lengkap ibu" :required="true" :error="errors.motherName" />
-                        </div>
-
-                        <FormInput v-model="formData.parent.mother.phone" label="Telepon Ibu" type="tel"
-                            placeholder="081234567890" />
-
-                        <FormInput v-model="formData.parent.mother.occupation" label="Pekerjaan Ibu"
-                            placeholder="Pekerjaan" />
-                    </div>
-                </div>
-            </div>
-
-            <!-- Achievements Tab -->
-            <div v-show="activeTab === 'achievements'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
-                    <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg">
-                            <TrophyIcon class="w-5 h-5 text-yellow-600 dark:text-yellow-400" />
-                        </div>
-                        <div>
-                            <h3 class="font-semibold text-lg">Prestasi Siswa</h3>
-                            <p class="text-sm text-muted-foreground">Daftar prestasi dan penghargaan</p>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="grid grid-cols-2 gap-6 md:col-span-2">
+                                <FormInput v-model="formData.nis" label="Nomor Induk Siswa (NIS)" placeholder="2023001"
+                                    :required="true" :error="errors.nis" />
+                                <FormInput v-model="formData.nisn" label="NISN (Nasional)" placeholder="0012345678"
+                                    :required="true" :error="errors.nisn" />
+                            </div>
+                            <div class="md:col-span-2">
+                                <FormInput v-model="formData.name" label="Nama Lengkap"
+                                    placeholder="Nama sesuai ijazah terakhir" :required="true" :error="errors.name" />
+                            </div>
                         </div>
                     </div>
 
-                    <div class="space-y-4">
-                        <div class="flex gap-2">
-                            <input v-model="newAchievement" type="text"
-                                placeholder="Contoh: Juara 1 Olimpiade Matematika Tingkat Kota"
-                                class="flex h-10 w-full rounded-md border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
-                                @keyup.enter="addAchievement" />
-                            <Button type="button" @click="addAchievement" size="icon">
-                                <PlusIcon class="w-5 h-5" />
-                            </Button>
-                        </div>
-
-                        <!-- Achievements List -->
-                        <div v-if="formData.academic.achievements.length > 0" class="space-y-3">
-                            <div v-for="(achievement, index) in formData.academic.achievements" :key="index"
-                                class="group flex items-start gap-3 p-4 bg-muted/50 hover:bg-muted rounded-lg transition-colors border border-border">
-                                <div class="p-2 bg-yellow-100 dark:bg-yellow-900/20 rounded-lg flex-shrink-0">
-                                    <TrophyIcon class="w-4 h-4 text-yellow-600 dark:text-yellow-400" />
-                                </div>
-                                <p class="flex-1 text-sm pt-2">{{ achievement }}</p>
-                                <Button type="button" variant="ghost" size="icon" @click="removeAchievement(index)"
-                                    class="opacity-0 group-hover:opacity-100 transition-opacity">
-                                    <XMarkIcon class="w-4 h-4" />
-                                </Button>
+                    <!-- Contact & Birth Sub-section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-12 pt-4 border-t border-primary/5">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <EnvelopeIcon class="w-4 h-4 text-indigo-500" />
+                                <span
+                                    class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Kontak
+                                    & Gender</span>
+                                <div class="flex-1 h-px bg-gradient-to-r from-indigo-100 to-transparent"></div>
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.email" label="Alamat Email" type="email"
+                                    placeholder="student@school.id" :required="true" :error="errors.email" />
+                                <FormInput v-model="formData.phone" label="Nomor WhatsApp" type="tel"
+                                    placeholder="08xxxxxxxxxx" :required="true" :error="errors.phone" />
+                                <FormSelect v-model="formData.gender" label="Jenis Kelamin" :options="genderOptions"
+                                    :required="true" />
                             </div>
                         </div>
 
-                        <div v-else class="text-center py-12">
-                            <div class="inline-flex p-4 bg-muted rounded-full mb-4">
-                                <TrophyIcon class="w-12 h-12 text-muted-foreground/50" />
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <CalendarDaysIcon class="w-4 h-4 text-emerald-500" />
+                                <span
+                                    class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Lahir
+                                    & Agama</span>
+                                <div class="flex-1 h-px bg-gradient-to-r from-emerald-100 to-transparent"></div>
                             </div>
-                            <p class="text-muted-foreground">Belum ada prestasi ditambahkan</p>
-                            <p class="text-sm text-muted-foreground mt-1">Tambahkan prestasi siswa menggunakan form di
-                                atas</p>
+                            <div class="space-y-6">
+                                <FormCombobox v-model="formData.religion" label="Agama" api-url="/references/religions"
+                                    :required="true" placeholder="Pilih Agama" />
+                                <FormInput v-model="formData.birthPlace" label="Tempat Lahir"
+                                    placeholder="Contoh: Jakarta" :required="true" :error="errors.birthPlace" />
+                                <FormDatePicker v-model="formData.birthDate" label="Tanggal Lahir" :required="true"
+                                    :error="errors.birthDate" />
+                            </div>
                         </div>
                     </div>
+
+                    <!-- Address Sub-section -->
+                    <div class="space-y-6 pt-4 border-t border-primary/5">
+                        <div class="flex items-center gap-3">
+                            <MapPinIcon class="w-4 h-4 text-rose-500" />
+                            <span
+                                class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Alamat
+                                Tempat Tinggal</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-rose-100 to-transparent"></div>
+                        </div>
+                        <FormTextarea v-model="formData.address" label="Alamat Sesuai KTP/KK"
+                            placeholder="Tuliskan alamat lengkap secara detail..." :required="true" :rows="3"
+                            :error="errors.address" />
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-end pt-10">
+                    <button type="button" @click="nextTab"
+                        class="px-10 py-5 bg-blue-600 text-white font-black text-xs rounded-2xl shadow-xl shadow-blue-200 hover:bg-blue-700 active:scale-95 transition-all flex items-center gap-3">
+                        Lanjut ke Akademik
+                        <div class="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
+                            <ArrowRightIcon class="w-3 h-3" />
+                        </div>
+                    </button>
                 </div>
             </div>
 
-            <!-- Form Actions -->
-            <div class="flex justify-between items-center pt-6 border-t border-border">
-                <p class="text-sm text-muted-foreground">
-                    <span class="text-destructive">*</span> Field wajib diisi
-                </p>
-                <div class="flex gap-3">
-                    <Button type="button" variant="outline" @click="handleCancel">
-                        Batal
-                    </Button>
-                    <Button type="submit">
-                        {{ mode === 'create' ? 'Tambah Siswa' : 'Simpan Perubahan' }}
-                    </Button>
+            <!-- Academic Data Section -->
+            <div v-show="activeTab === 'academic'" class="space-y-12 animate-in slide-in-from-right-4 duration-500">
+                <!-- Section Header -->
+                <div class="flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-emerald-600 rounded-2xl text-white flex items-center justify-center shadow-lg shadow-emerald-200">
+                        <AcademicCapIcon class="w-7 h-7" />
+                    </div>
+                    <div>
+                        <h3 class="font-black text-2xl tracking-tight text-foreground">Informasi Akademik</h3>
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/45">Status
+                            pendaftaran dan riwayat pendidikan sebelumnya</p>
+                    </div>
+                </div>
+
+                <div class="space-y-12">
+                    <!-- School Status Sub-section -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-y-12 gap-x-12">
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <HomeIcon class="w-4 h-4 text-emerald-500" />
+                                <span
+                                    class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Status
+                                    Sekolah</span>
+                                <div class="flex-1 h-px bg-gradient-to-r from-emerald-100 to-transparent"></div>
+                            </div>
+                            <div class="space-y-6">
+                                <FormCombobox v-model="formData.class" label="Pilih Kelas"
+                                    :options="classOptions.map(c => ({ value: c, label: `Kelas ${c}` }))"
+                                    :required="true" />
+                                <FormSelect v-model="formData.status" label="Status Siswa" :options="statusOptions"
+                                    :required="true" />
+                            </div>
+                        </div>
+
+                        <div class="space-y-6">
+                            <div class="flex items-center gap-3">
+                                <GlobeAsiaAustraliaIcon class="w-4 h-4 text-sky-500" />
+                                <span
+                                    class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Periode
+                                    Akademik</span>
+                                <div class="flex-1 h-px bg-gradient-to-r from-sky-100 to-transparent"></div>
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.academicYear" label="Tahun Ajaran" placeholder="2024/2025"
+                                    :required="true" />
+                                <FormDatePicker v-model="formData.joinDate" label="Tanggal Bergabung"
+                                    :required="true" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Previous School Sub-section -->
+                    <div class="space-y-6 pt-4 border-t border-primary/5">
+                        <div class="flex items-center gap-3">
+                            <BookmarkIcon class="w-4 h-4 text-amber-500" />
+                            <span class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Asal
+                                Sekolah & Seleksi</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-amber-100 to-transparent"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8">
+                            <FormInput v-model="formData.academic.previousSchool" label="Sekolah Asal (SMP/MTS/Lainnya)"
+                                placeholder="Tuliskan nama sekolah sebelumnya" :required="true"
+                                :error="errors.previousSchool" />
+                            <FormInput v-model.number="formData.academic.entryScore" label="Skor Seleksi" type="number"
+                                placeholder="0-100" :required="true" :error="errors.entryScore" />
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center pt-10">
+                    <button type="button" @click="prevTab"
+                        class="px-8 py-4 text-xs font-black text-muted-foreground hover:bg-primary/5 hover:text-primary rounded-2xl transition-all flex items-center gap-2">
+                        <ArrowLeftIcon class="w-4 h-4" />
+                        Kembali
+                    </button>
+                    <button type="button" @click="nextTab"
+                        class="px-10 py-5 bg-emerald-600 text-white font-black text-xs rounded-2xl shadow-xl shadow-emerald-200 hover:bg-emerald-700 active:scale-95 transition-all flex items-center gap-3">
+                        Lanjut ke Keluarga
+                        <div class="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
+                            <ArrowRightIcon class="w-3 h-3" />
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Parent Data Section -->
+            <div v-show="activeTab === 'parent'" class="space-y-12 animate-in slide-in-from-right-4 duration-500">
+                <!-- Section Header -->
+                <div class="flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-purple-600 rounded-2xl text-white flex items-center justify-center shadow-lg shadow-purple-200">
+                        <UsersIcon class="w-7 h-7" />
+                    </div>
+                    <div>
+                        <h3 class="font-black text-2xl tracking-tight text-foreground">Data Keluarga</h3>
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/45">Informasi
+                            orang tua atau wali murid</p>
+                    </div>
+                </div>
+
+                <div class="space-y-16">
+                    <!-- Father -->
+                    <div class="space-y-8">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center font-black text-xs">
+                                A</div>
+                            <span class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Data
+                                Ayah Kandung</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-blue-100 to-transparent"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12">
+                            <div class="md:col-span-2">
+                                <FormInput v-model="formData.parent.father.name" label="Nama Lengkap Ayah"
+                                    placeholder="Masukkan nama sesuai KTP" :required="true"
+                                    :error="errors.fatherName" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.parent.father.phone" label="Nomor Telepon/WA" type="tel"
+                                    placeholder="08xxxxxxxxxx" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.parent.father.occupation" label="Pekerjaan"
+                                    placeholder="Contoh: Karyawan Swasta, PNS" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mother -->
+                    <div class="space-y-8 pt-4 border-t border-primary/5">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 bg-pink-50 text-pink-600 rounded-xl flex items-center justify-center font-black text-xs">
+                                M</div>
+                            <span class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Data
+                                Ibu Kandung</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-pink-100 to-transparent"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12">
+                            <div class="md:col-span-2">
+                                <FormInput v-model="formData.parent.mother.name" label="Nama Lengkap Ibu"
+                                    placeholder="Masukkan nama sesuai KTP" :required="true"
+                                    :error="errors.motherName" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.parent.mother.phone" label="Nomor Telepon/WA" type="tel"
+                                    placeholder="08xxxxxxxxxx" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.parent.mother.occupation" label="Pekerjaan"
+                                    placeholder="Contoh: Ibu Rumah Tangga, Guru" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation -->
+                <div class="flex justify-between items-center pt-10">
+                    <button type="button" @click="prevTab"
+                        class="px-8 py-4 text-xs font-black text-muted-foreground hover:bg-primary/5 hover:text-primary rounded-2xl transition-all flex items-center gap-2">
+                        <ArrowLeftIcon class="w-4 h-4" />
+                        Kembali
+                    </button>
+                    <button type="button" @click="nextTab"
+                        class="px-10 py-5 bg-purple-600 text-white font-black text-xs rounded-2xl shadow-xl shadow-purple-200 hover:bg-purple-700 active:scale-95 transition-all flex items-center gap-3">
+                        Lanjut ke Prestasi
+                        <div class="w-6 h-6 bg-white/20 rounded-lg flex items-center justify-center">
+                            <ArrowRightIcon class="w-3 h-3" />
+                        </div>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Achievements Section -->
+            <div v-show="activeTab === 'achievements'" class="space-y-12 animate-in slide-in-from-right-4 duration-500">
+                <!-- Section Header -->
+                <div class="flex items-center gap-5">
+                    <div
+                        class="w-14 h-14 bg-amber-500 rounded-2xl text-white flex items-center justify-center shadow-lg shadow-amber-200">
+                        <TrophyIcon class="w-7 h-7" />
+                    </div>
+                    <div>
+                        <h3 class="font-black text-2xl tracking-tight text-foreground">Prestasi Siswa</h3>
+                        <p class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/45">Penghargaan
+                            dan sertifikasi yang pernah diraih</p>
+                    </div>
+                </div>
+
+                <div class="space-y-10">
+                    <div class="p-8 bg-amber-50/50 rounded-[32px] border border-amber-200/30 space-y-6">
+                        <div class="flex items-center gap-3">
+                            <SparklesIcon class="w-5 h-5 text-amber-500" />
+                            <span class="text-[12px] font-black text-amber-900/70 tracking-tight">Tambah Pencapaian
+                                Baru</span>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="flex-1">
+                                <FormInput v-model="newAchievement"
+                                    placeholder="Contoh: Juara 1 Olimpiade Matematika Nasional"
+                                    @keyup.enter="addAchievement" class="!space-y-0" />
+                            </div>
+                            <button type="button" @click="addAchievement"
+                                class="h-12 px-6 bg-amber-600 text-white font-black text-xs rounded-2xl shadow-lg shadow-amber-200 hover:bg-amber-700 active:scale-95 transition-all">
+                                Tambah
+                            </button>
+                        </div>
+                    </div>
+
+                    <div v-if="formData.academic.achievements.length > 0" class="grid grid-cols-1 gap-4">
+                        <div v-for="(achievement, index) in formData.academic.achievements" :key="index"
+                            class="group flex items-center gap-4 p-5 bg-primary/[0.02] hover:bg-white rounded-3xl transition-all border border-transparent shadow-sm">
+                            <div class="p-2.5 bg-amber-100/50 rounded-xl">
+                                <TrophyIcon class="w-4 h-4 text-amber-600" />
+                            </div>
+                            <span class="flex-1 text-sm font-bold text-foreground/80">{{ achievement }}</span>
+                            <button type="button" @click="removeAchievement(index)"
+                                class="p-2 text-muted-foreground hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-all">
+                                <XMarkIcon class="w-5 h-5" />
+                            </button>
+                        </div>
+                    </div>
+
+                    <div v-else
+                        class="text-center py-20 bg-primary/[0.02] rounded-[40px] border-2 border-dashed border-primary/5">
+                        <div class="inline-flex p-6 bg-white rounded-3xl mb-4 shadow-xl shadow-primary/5">
+                            <TrophyIcon class="w-10 h-10 text-primary/20" />
+                        </div>
+                        <p class="text-xs font-black text-muted-foreground/40 uppercase tracking-widest">Belum ada
+                            prestasi tercatat</p>
+                    </div>
+                </div>
+
+                <!-- Final Actions -->
+                <div class="flex justify-between items-center pt-10">
+                    <button type="button" @click="prevTab"
+                        class="text-xs font-black text-muted-foreground hover:text-primary transition-all flex items-center gap-2">
+                        &larr; Kembali
+                    </button>
+                    <div class="flex gap-4">
+                        <button type="button" @click="handleCancel"
+                            class="px-8 py-4 text-xs font-black text-muted-foreground hover:text-foreground transition-all">
+                            Batal
+                        </button>
+                        <button type="submit"
+                            class="px-12 py-4 bg-primary hover:bg-primary/90 text-primary-foreground font-black text-sm rounded-3xl shadow-2xl shadow-primary/30 active:scale-95 transition-all">
+                            {{ mode === 'create' ? 'Daftarkan Siswa' : 'Simpan Perubahan' }}
+                        </button>
+                    </div>
                 </div>
             </div>
         </form>

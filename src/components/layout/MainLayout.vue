@@ -11,7 +11,7 @@ const layoutStore = useLayoutStore();
 <template>
   <div class="min-h-screen bg-base-50 flex flex-col">
     <!-- Top Fixed Header -->
-    <Header class="z-50" />
+    <Header class="z-[60]" />
 
     <div class="flex flex-1 pt-16">
       <!-- Sidebar (Fixed Left, below Header) -->

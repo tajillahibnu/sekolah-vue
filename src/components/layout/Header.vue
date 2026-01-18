@@ -86,7 +86,7 @@ const cancelRoleSwitch = () => {
 
 <template>
     <header
-        class="bg-background/80 backdrop-blur-md shadow-sm shadow-primary/5 fixed top-0 w-full h-16 z-50 px-6 flex items-center justify-between">
+        class="bg-background/80 backdrop-blur-md shadow-sm shadow-primary/5 fixed top-0 w-full h-16 z-[60] px-6 flex items-center justify-between">
         <!-- Left: Logo & Toggle -->
         <div class="flex items-center gap-2 sm:gap-4 shrink-0">
             <!-- Mobile Toggle -->
@@ -156,7 +156,7 @@ const cancelRoleSwitch = () => {
                     <ComputerDesktopIcon v-else class="h-5 w-5" />
                 </div>
                 <ul tabindex="0"
-                    class="dropdown-content z-[1] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-40 mt-2">
+                    class="dropdown-content z-[100] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-40 mt-2">
                     <li><a @click="setTheme('light')"
                             class="rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all"
                             :class="{ 'text-primary bg-primary/10': theme === 'light' }">
@@ -192,7 +192,7 @@ const cancelRoleSwitch = () => {
                     </div>
                 </div>
                 <ul tabindex="0"
-                    class="dropdown-content z-[1] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-60 mt-2">
+                    class="dropdown-content z-[100] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-60 mt-2">
                     <li class="px-4 py-4 border-b border-primary/5 mb-1">
                         <div class="flex flex-col gap-0.5 p-0">
                             <span class="font-bold text-sm text-foreground truncate w-full">{{ user?.name }}</span>

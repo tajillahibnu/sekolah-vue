@@ -1,6 +1,16 @@
 <script setup>
-import { ref, watch } from 'vue';
-import { ExclamationTriangleIcon } from '@heroicons/vue/24/outline';
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogDescription
+} from '@/components/ui/dialog'
+import {
+    ExclamationTriangleIcon,
+    InformationCircleIcon,
+    ShieldExclamationIcon
+} from '@heroicons/vue/24/outline';
+import { cn } from '@/lib/utils'
 
 const props = defineProps({
     show: {
@@ -13,11 +23,11 @@ const props = defineProps({
     },
     message: {
         type: String,
-        default: 'Apakah Anda yakin?'
+        default: 'Apakah Anda yakin ingin melakukan tindakan ini?'
     },
     confirmText: {
         type: String,
-        default: 'Ya'
+        default: 'Ya, Lanjutkan'
     },
     cancelText: {
         type: String,
@@ -32,69 +42,86 @@ const props = defineProps({
 
 const emit = defineEmits(['confirm', 'cancel', 'update:show']);
 
-const dialogRef = ref(null);
+const handleOpenChange = (value) => {
+    emit('update:show', value);
+    if (!value) emit('cancel');
+};
 
-// Watch show prop to control dialog
-watch(() => props.show, (newValue) => {
-    if (newValue && dialogRef.value) {
-        dialogRef.value.showModal();
-    } else if (!newValue && dialogRef.value) {
-        dialogRef.value.close();
-    }
-});
-
-// Handle confirm
 const handleConfirm = () => {
     emit('confirm');
     emit('update:show', false);
 };
 
-// Handle cancel
 const handleCancel = () => {
     emit('cancel');
     emit('update:show', false);
 };
 
-// Type colors
-const typeColors = {
-    warning: 'text-warning',
-    error: 'text-error',
-    info: 'text-info'
+// UI Config based on type
+const typeConfig = {
+    warning: {
+        icon: ExclamationTriangleIcon,
+        bgColor: 'bg-amber-50',
+        iconColor: 'text-amber-600',
+        btnColor: 'bg-amber-600 hover:bg-amber-700 shadow-amber-200'
+    },
+    error: {
+        icon: ShieldExclamationIcon,
+        bgColor: 'bg-rose-50',
+        iconColor: 'text-rose-600',
+        btnColor: 'bg-rose-600 hover:bg-rose-700 shadow-rose-200'
+    },
+    info: {
+        icon: InformationCircleIcon,
+        bgColor: 'bg-blue-50',
+        iconColor: 'text-blue-600',
+        btnColor: 'bg-blue-600 hover:bg-blue-700 shadow-blue-200'
+    }
 };
 </script>
 
 <template>
-    <dialog ref="dialogRef" class="modal">
-        <div class="modal-box">
-            <!-- Icon -->
-            <div class="flex justify-center mb-4">
-                <div class="rounded-full p-3 bg-base-200">
-                    <ExclamationTriangleIcon class="w-12 h-12" :class="typeColors[type]" />
+    <Dialog :open="show" @update:open="handleOpenChange">
+        <DialogContent
+            class="sm:max-w-[420px] p-0 overflow-hidden border border-primary/10 shadow-2xl shadow-primary/20 bg-background/95 backdrop-blur-xl rounded-[32px]">
+            <div class="p-10 text-center space-y-6">
+                <!-- Visual Cue (Icon) -->
+                <div class="flex justify-center">
+                    <div
+                        :class="cn('p-5 rounded-[24px] transition-all duration-500 scale-110 shadow-sm', typeConfig[type].bgColor)">
+                        <component :is="typeConfig[type].icon" :class="cn('w-10 h-10', typeConfig[type].iconColor)" />
+                    </div>
+                </div>
+
+                <!-- Text Content -->
+                <div class="space-y-2">
+                    <DialogTitle class="text-2xl font-black tracking-tight text-foreground leading-tight">
+                        {{ title }}
+                    </DialogTitle>
+                    <DialogDescription class="text-[13px] font-bold text-muted-foreground/60 leading-relaxed px-4">
+                        {{ message }}
+                    </DialogDescription>
+                </div>
+
+                <!-- Actions -->
+                <div class="flex flex-col gap-3 pt-4">
+                    <button @click="handleConfirm" :class="cn(
+                        'w-full py-4 px-6 text-white font-black text-sm rounded-2xl shadow-xl transition-all active:scale-95 duration-200',
+                        typeConfig[type].btnColor
+                    )">
+                        {{ confirmText }}
+                    </button>
+                    <button @click="handleCancel"
+                        class="w-full py-3 px-6 text-muted-foreground font-black text-[11px] uppercase tracking-widest hover:text-foreground transition-all duration-200">
+                        {{ cancelText }}
+                    </button>
                 </div>
             </div>
 
-            <!-- Title -->
-            <h3 class="font-bold text-lg text-center mb-2">{{ title }}</h3>
-
-            <!-- Message -->
-            <p class="text-center text-base-content/70 mb-6">{{ message }}</p>
-
-            <!-- Actions -->
-            <div class="flex gap-2 justify-center">
-                <button @click="handleCancel" class="btn btn-ghost">
-                    {{ cancelText }}
-                </button>
-                <button @click="handleConfirm" class="btn" :class="{
-                    'btn-warning': type === 'warning',
-                    'btn-error': type === 'error',
-                    'btn-info': type === 'info'
-                }">
-                    {{ confirmText }}
-                </button>
+            <!-- Bottom decorative bar (Subtle) -->
+            <div
+                :class="cn('h-1.5 w-full bg-gradient-to-r from-transparent via-current to-transparent opacity-10', typeConfig[type].iconColor)">
             </div>
-        </div>
-        <form method="dialog" class="modal-backdrop" @click="handleCancel">
-            <button>close</button>
-        </form>
-    </dialog>
+        </DialogContent>
+    </Dialog>
 </template>

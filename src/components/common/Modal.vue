@@ -48,13 +48,17 @@ const sizeClasses = {
 
 <template>
     <Dialog :open="show" @update:open="handleOpenChange">
-        <DialogContent :class="cn('w-full max-h-[90vh] overflow-y-auto', sizeClasses[size])">
-            <DialogHeader>
-                <DialogTitle>{{ title }}</DialogTitle>
-                <DialogDescription v-if="desc">{{ desc }}</DialogDescription>
-            </DialogHeader>
+        <DialogContent
+            :class="cn('w-full max-h-[95vh] overflow-y-auto border border-primary/10 shadow-2xl shadow-primary/20 bg-background/95 backdrop-blur-xl p-0', sizeClasses[size])">
+            <div v-if="title || desc" class="px-10 pt-10 pb-6 border-b border-primary/5">
+                <DialogTitle v-if="title" class="text-2xl font-black tracking-tight text-foreground">{{ title }}
+                </DialogTitle>
+                <DialogDescription v-if="desc"
+                    class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/50 mt-2">{{ desc }}
+                </DialogDescription>
+            </div>
 
-            <div class="py-4">
+            <div class="p-10 pt-8">
                 <slot></slot>
             </div>
         </DialogContent>
