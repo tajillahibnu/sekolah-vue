@@ -263,18 +263,15 @@ onMounted(() => {
         </div>
 
         <!-- Controls (Separate Row) -->
-        <div class="flex justify-end gap-3 px-1 mb-4">
-            <!-- Limit Selector -->
-            <div
-                class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
-                <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
-                    class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
-                    :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
-                    {{ l }}
-                </button>
+        <div class="flex justify-between items-center gap-3 px-1 mb-4">
+            <!-- Page Info (Left) -->
+            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                Halaman <span class="text-primary font-black">{{ page }}/{{ totalPages }}</span>
+                (<span class="text-primary font-black">{{ Math.min(page * selectedLimit, total) }}</span>/<span
+                    class="text-primary font-black">{{ total }}</span>)
             </div>
 
-            <!-- View Toggle -->
+            <!-- View Toggle (Right) -->
             <div
                 class="flex bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl gap-1 shadow-sm">
                 <button @click="viewMode = 'table'"
@@ -527,11 +524,14 @@ onMounted(() => {
         <!-- Pagination Controls -->
         <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5">
 
-            <!-- Page Info (Left) -->
-            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground order-2 sm:order-1">
-                Halaman <span class="text-primary font-black">{{ page }}</span> dari <span
-                    class="text-primary font-black">{{
-                        totalPages }}</span>
+            <!-- Limit Selector (Left) -->
+            <div
+                class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm order-2 sm:order-1">
+                <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
+                    class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
+                    :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+                    {{ l }}
+                </button>
             </div>
 
             <!-- Page Navigation (Right) -->
