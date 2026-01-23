@@ -13,7 +13,8 @@ import {
   ChevronDownIcon,
   CheckIcon,
   FunnelIcon,
-  ListBulletIcon
+  ListBulletIcon,
+  UserIcon
 } from '@heroicons/vue/24/outline';
 import api from '@/services/api';
 import Modal from '@/components/common/Modal.vue'
@@ -317,7 +318,7 @@ fetchUsers();
               <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                 <span class="text-[11px] font-black uppercase tracking-widest text-muted-foreground">{{ new
                   Date(student.joinDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
-                }}</span>
+                  }}</span>
                 <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-primary/20"></div>
                 <span class="text-[11px] font-black uppercase tracking-widest text-primary">{{ student.nis }}</span>
               </div>

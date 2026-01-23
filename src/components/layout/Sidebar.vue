@@ -5,7 +5,8 @@ import { useAuthStore } from '../../stores/auth';
 import { useLayoutStore } from '../../stores/layout';
 import api from '../../services/api';
 import ConfirmModal from '../ui/ConfirmModal.vue';
-import * as HeroIcons from '@heroicons/vue/24/outline';
+import * as HeroIcons from '@heroicons/vue/24/outline'; // Import all to dynamic lookup or specific ones
+import { CommandLineIcon, UsersIcon, KeyIcon } from '@heroicons/vue/24/outline'; // Fallback import approach for specific use
 
 const IconComponent = (name) => {
     return HeroIcons[name] || HeroIcons['QuestionMarkCircleIcon'];
@@ -59,7 +60,37 @@ const fetchMenu = async () => {
     try {
         const response = await api.get('/menus');
         const roleMenu = response.data.find(m => m.role === authStore.activeRole?.id);
-        menuItems.value = roleMenu ? roleMenu.items : [];
+        const fetchedItems = roleMenu ? roleMenu.items : [];
+
+        // Manual Injection of Application Management
+        // Only if user has permissions to see it
+        const appManagementDetails = {
+            label: 'App Management',
+            icon: 'CommandLineIcon',
+            children: []
+        };
+
+        if (authStore.hasPermission('roles.manage')) {
+            appManagementDetails.children.push({
+                label: 'Roles & Permissions',
+                icon: 'UsersIcon',
+                to: '/admin/app/roles'
+            });
+            appManagementDetails.children.push({
+                label: 'Master Permissions',
+                icon: 'KeyIcon',
+                to: '/admin/app/permissions'
+            });
+        }
+
+        // Add more dynamic apps here if needed
+
+        if (appManagementDetails.children.length > 0) {
+            menuItems.value = [...fetchedItems, appManagementDetails];
+        } else {
+            menuItems.value = fetchedItems;
+        }
+
     } catch (error) {
         console.error('Failed to fetch menus', error);
         menuItems.value = [];

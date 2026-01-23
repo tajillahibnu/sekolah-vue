@@ -96,32 +96,62 @@ const router = createRouter({
                         {
                             path: 'users',
                             name: 'settings-users',
-                            component: () => import('../features/settings/components/users/UsersList.vue')
+                            component: () => import('../features/settings/components/users/UsersList.vue'),
+                            meta: { permission: 'users.view' }
                         },
                         {
                             path: 'academic-years',
                             name: 'settings-academic-years',
-                            component: () => import('../features/settings/components/academic-years/AcademicYearsList.vue')
+                            component: () => import('../features/settings/components/academic-years/AcademicYearsList.vue'),
+                            meta: { permission: 'settings.manage' }
                         },
                         {
                             path: 'classes',
                             name: 'settings-classes',
-                            component: () => import('../features/settings/components/classes/ClassesList.vue')
+                            component: () => import('../features/settings/components/classes/ClassesList.vue'),
+                            meta: { permission: 'classes.view' }
                         },
                         {
                             path: 'subjects',
                             name: 'settings-subjects',
-                            component: () => import('../features/settings/components/subjects/SubjectsList.vue')
+                            component: () => import('../features/settings/components/subjects/SubjectsList.vue'),
+                            meta: { permission: 'subjects.view' }
                         },
                         {
                             path: 'school',
                             name: 'settings-school',
-                            component: () => import('../features/settings/components/school/SchoolSettingsForm.vue')
+                            component: () => import('../features/settings/components/school/SchoolSettingsForm.vue'),
+                            meta: { permission: 'settings.manage' }
                         },
                         {
                             path: 'backup',
                             name: 'settings-backup',
-                            component: () => import('../features/settings/components/backup/BackupList.vue')
+                            component: () => import('../features/settings/components/backup/BackupList.vue'),
+                            meta: { permission: 'settings.manage' }
+                        }
+                    ]
+                },
+                {
+                    path: 'app',
+                    redirect: '/admin/app/roles',
+                    children: [
+                        {
+                            path: 'roles',
+                            name: 'roles-list',
+                            component: () => import('../features/settings/components/roles/RolesList.vue'),
+                            meta: { permission: 'roles.manage' }
+                        },
+                        {
+                            path: 'roles/:id',
+                            name: 'role-edit', // Reusing RoleForm component if desired, but reusing List for now as per previous implementation structure
+                            component: () => import('../features/settings/components/roles/RolesList.vue'), // Technically RoleForm is modal-based in RolesList, so maybe just routing to List is enough
+                            meta: { permission: 'roles.manage' }
+                        },
+                        {
+                            path: 'permissions',
+                            name: 'permissions-list',
+                            component: () => import('../features/settings/components/permissions/PermissionList.vue'),
+                            meta: { permission: 'roles.manage' } // Reusing roles.manage for now
                         }
                     ]
                 },
@@ -148,6 +178,9 @@ router.beforeEach((to, from, next) => {
         next('/login');
     } else if (to.meta.guest && isAuthenticated) {
         next('/admin');
+    } else if (to.meta.permission && !authStore.hasPermission(to.meta.permission)) {
+        // Redirect to dashboard or show unauthorized
+        next('/admin/dashboard');
     } else {
         next();
     }

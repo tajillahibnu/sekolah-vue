@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue'
 import { useRoute } from 'vue-router'
+import { useAuthStore } from '@/stores/auth'
 import {
     UsersIcon,
     CalendarDaysIcon,
@@ -12,50 +13,62 @@ import {
 
 const route = useRoute()
 
+const authStore = useAuthStore()
+
 const menuItems = [
     {
         id: 'users',
         label: 'Users Management',
         description: 'Kelola pengguna sistem',
         icon: UsersIcon,
-        path: '/settings/users'
+        path: '/settings/users',
+        permission: 'users.view'
     },
     {
         id: 'academic-years',
         label: 'Tahun Ajaran',
         description: 'Kelola tahun ajaran',
         icon: CalendarDaysIcon,
-        path: '/settings/academic-years'
+        path: '/settings/academic-years',
+        permission: 'settings.manage'
     },
     {
         id: 'classes',
         label: 'Kelas',
         description: 'Kelola kelas dan wali kelas',
         icon: AcademicCapIcon,
-        path: '/settings/classes'
+        path: '/settings/classes',
+        permission: 'classes.view'
     },
     {
         id: 'subjects',
         label: 'Mata Pelajaran',
         description: 'Kelola mata pelajaran',
         icon: BookOpenIcon,
-        path: '/settings/subjects'
+        path: '/settings/subjects',
+        permission: 'subjects.view'
     },
     {
         id: 'school',
         label: 'Informasi Sekolah',
         description: 'Pengaturan sekolah',
         icon: BuildingOffice2Icon,
-        path: '/settings/school'
+        path: '/settings/school',
+        permission: 'settings.manage'
     },
     {
         id: 'backup',
         label: 'Backup & Restore',
         description: 'Cadangkan & pulihkan data',
         icon: ArrowPathIcon,
-        path: '/settings/backup'
+        path: '/settings/backup',
+        permission: 'settings.manage'
     }
 ]
+
+const filteredMenuItems = computed(() => {
+    return menuItems.filter(item => !item.permission || authStore.hasPermission(item.permission))
+})
 
 const isActive = (path) => {
     return route.path === path
@@ -64,7 +77,7 @@ const isActive = (path) => {
 
 <template>
     <nav class="space-y-1">
-        <router-link v-for="item in menuItems" :key="item.id" :to="item.path"
+        <router-link v-for="item in filteredMenuItems" :key="item.id" :to="item.path"
             class="flex items-start gap-3 px-3 py-2.5 rounded-lg transition-colors group" :class="[
                 isActive(item.path)
                     ? 'bg-primary text-primary-foreground'
