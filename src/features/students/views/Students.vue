@@ -34,8 +34,8 @@ const viewMode = ref('table'); // 'table' or 'card'
 // Pagination state
 const page = ref(1);
 const total = ref(0);
-const hasMore = computed(() => users.value.length < total.value);
-const loadMoreSentinel = ref(null);
+const totalPages = computed(() => Math.ceil(total.value / selectedLimit.value));
+
 const classOptions = [
   { value: '', label: 'Semua Kelas' },
   { value: '10A', label: '10A' },
@@ -69,14 +69,9 @@ const studentToDelete = ref(null);
 const fetchUsers = async (reset = false) => {
   if (reset) {
     page.value = 1;
-    users.value = [];
   }
 
-  if (page.value === 1) {
-    loading.value = true;
-  } else {
-    loadingMore.value = true;
-  }
+  loading.value = true;
 
   try {
     const params = {
@@ -92,38 +87,22 @@ const fetchUsers = async (reset = false) => {
     const response = await api.get('/students', { params });
     const { data, meta } = response.data;
 
-    if (page.value === 1) {
-      users.value = data;
-    } else {
-      users.value = [...users.value, ...data];
-    }
-
+    users.value = data; // Replace data
     total.value = meta.total;
   } catch (error) {
     console.error('Failed to fetch students', error);
   } finally {
     loading.value = false;
-    loadingMore.value = false;
   }
 };
 
-const handleLoadMore = () => {
-  if (hasMore.value && !loadingMore.value) {
-    page.value++;
+const changePage = (newPage) => {
+  if (newPage > 0 && newPage <= totalPages.value) {
+    page.value = newPage;
     fetchUsers();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
   }
 };
-
-// Intersection Observer for Infinite Scroll
-useIntersectionObserver(
-  loadMoreSentinel,
-  ([{ isIntersecting }]) => {
-    if (isIntersecting && hasMore.value && !loading.value && !loadingMore.value) {
-      handleLoadMore();
-    }
-  },
-  { threshold: 0.5 }
-);
 
 // Filtered users - now mostly handled by server, but we keep the computed name for compatibility if needed
 const filteredUsers = computed(() => users.value);
@@ -272,22 +251,33 @@ fetchUsers();
             </div>
           </div>
         </div>
+      </div>
+    </div>
 
-        <!-- View Toggle -->
-        <div class="flex bg-primary/5 p-1 rounded-2xl gap-1">
-          <button @click="viewMode = 'table'"
-            class="flex-1 lg:flex-none px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-            :class="viewMode === 'table' ? 'bg-background shadow-sm text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-white/50'">
-            <Bars3Icon class="w-5 h-5" />
-            <span class="text-sm">Tabel</span>
-          </button>
-          <button @click="viewMode = 'card'"
-            class="flex-1 lg:flex-none px-6 py-3 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-            :class="viewMode === 'card' ? 'bg-background shadow-sm text-primary font-bold' : 'text-muted-foreground hover:text-foreground hover:bg-white/50'">
-            <Squares2X2Icon class="w-5 h-5" />
-            <span class="text-sm">Kartu</span>
-          </button>
-        </div>
+    <!-- Controls (Separate Row) -->
+    <div class="flex justify-end gap-3 px-1 mb-4">
+      <!-- Limit Selector -->
+      <div
+        class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
+        <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
+          class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
+          :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+          {{ l }}
+        </button>
+      </div>
+
+      <!-- View Toggle -->
+      <div class="flex bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl gap-1 shadow-sm">
+        <button @click="viewMode = 'table'"
+          class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+          :class="viewMode === 'table' ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'">
+          <Bars3Icon class="w-5 h-5" />
+        </button>
+        <button @click="viewMode = 'card'"
+          class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+          :class="viewMode === 'card' ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'">
+          <Squares2X2Icon class="w-5 h-5" />
+        </button>
       </div>
     </div>
 
@@ -507,47 +497,44 @@ fetchUsers();
       </template>
     </div>
 
-    <!-- Pagination / Load More (Smart Refined Footer) -->
-    <div v-if="hasMore"
-      class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5">
-      <!-- Limit Selector (Only shown if more data available) -->
-      <div
-        class="flex items-center gap-4 bg-background border border-primary/10 px-4 py-2 rounded-2xl shadow-sm animate-in fade-in slide-in-from-left-2 duration-500">
-        <span class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Tampilkan:</span>
-        <div class="flex gap-1">
-          <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
-            class="px-3 py-1.5 rounded-xl text-xs font-black transition-all"
-            :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
-            {{ l }}
+    <!-- Pagination Controls -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5">
+
+      <!-- Page Info (Left) -->
+      <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground order-2 sm:order-1">
+        Halaman <span class="text-primary font-black">{{ page }}</span> dari <span class="text-primary font-black">{{
+          totalPages }}</span>
+      </div>
+
+      <!-- Page Navigation (Right) -->
+      <div class="flex items-center gap-2 order-1 sm:order-2">
+        <button @click="changePage(page - 1)" :disabled="page <= 1"
+          class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+          <span class="sr-only">Previous</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+              clip-rule="evenodd" />
+          </svg>
+        </button>
+
+        <div class="flex items-center gap-1">
+          <button v-for="p in totalPages" :key="p" @click="changePage(p)"
+            class="w-8 h-8 flex items-center justify-center rounded-xl text-xs font-black transition-all"
+            :class="page === p ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+            {{ p }}
           </button>
         </div>
-      </div>
 
-      <!-- Load More Button & Sentinel -->
-      <div class="flex-1 flex flex-col items-center gap-4">
-        <div ref="loadMoreSentinel" class="h-1 w-full opacity-0 pointer-events-none"></div>
-        <button v-if="hasMore" @click="handleLoadMore"
-          class="group flex items-center gap-3 px-10 py-4 bg-primary text-primary-foreground font-black text-sm rounded-2xl shadow-xl shadow-primary/20 hover:opacity-90 active:scale-95 transition-all"
-          :disabled="loadingMore">
-          <span v-if="loadingMore" class="loading loading-spinner loading-xs text-white"></span>
-          <PlusIcon v-else class="w-5 h-5 group-hover:rotate-90 transition-transform" />
-          {{ loadingMore ? 'Memuat...' : 'Muat Lebih Banyak' }}
+        <button @click="changePage(page + 1)" :disabled="page >= totalPages"
+          class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+          <span class="sr-only">Next</span>
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+            <path fill-rule="evenodd"
+              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+              clip-rule="evenodd" />
+          </svg>
         </button>
-      </div>
-
-      <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-        Menampilkan <span class="text-primary font-black">{{ filteredUsers.length }}</span> dari <span
-          class="text-primary font-black">{{ total }}</span> Siswa
-      </div>
-    </div>
-
-    <!-- Final State Indicator (When no more data) -->
-    <div v-else-if="filteredUsers.length > 0" class="py-12 border-t border-primary/5 text-center">
-      <div class="inline-flex items-center gap-2 px-4 py-2 bg-primary/5 rounded-full">
-        <div class="w-1.5 h-1.5 rounded-full bg-primary/30"></div>
-        <span class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">Semua data telah
-          ditampilkan</span>
-        <div class="w-1.5 h-1.5 rounded-full bg-primary/30"></div>
       </div>
     </div>
 

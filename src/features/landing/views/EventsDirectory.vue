@@ -27,6 +27,7 @@ import {
 } from '@/components/ui/select'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue'
 import { events as allEvents } from '@/data_dummy/events'
+import ThemeToggle from '@/components/common/ThemeToggle.vue'
 
 const isLoading = ref(true)
 const router = useRouter()
@@ -130,9 +131,11 @@ const closeMediaViewer = () => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 font-sans selection:bg-primary selection:text-white">
+    <div
+        class="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-primary selection:text-white transition-colors duration-300">
         <!-- Header -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <header
+            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <div class="flex items-center gap-6">
                     <button @click="goBack" class="p-2 hover:bg-slate-100 rounded-xl transition-colors">
@@ -143,23 +146,29 @@ const closeMediaViewer = () => {
                             class="w-10 h-10 bg-indigo-600 rounded-xl flex items-center justify-center shadow-lg shadow-indigo-600/20">
                             <CalendarIcon class="w-6 h-6 text-white" />
                         </div>
-                        <h1 class="text-xl font-bold tracking-tight text-slate-900">Kegiatan Sekolah</h1>
+                        <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Kegiatan Sekolah
+                        </h1>
                     </div>
                 </div>
-                <Button variant="ghost" @click="goBack"
-                    class="hidden sm:flex items-center gap-2 text-slate-600 hover:text-primary hover:bg-primary/10 transition-all">
-                    <HomeIcon class="w-5 h-5" />
-                    Kembali ke Beranda
-                </Button>
+                <div class="flex items-center gap-4">
+                    <ThemeToggle />
+                    <Button variant="ghost" @click="goBack"
+                        class="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-primary/10 transition-all">
+                        <HomeIcon class="w-5 h-5" />
+                        Kembali ke Beranda
+                    </Button>
+                </div>
             </div>
         </header>
 
         <!-- Header Title Section -->
-        <div class="bg-white border-b border-slate-200 py-12 lg:py-16">
+        <div
+            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 py-12 lg:py-16 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6 text-center lg:text-left">
                 <div class="space-y-4 max-w-3xl">
-                    <h2 class="text-4xl lg:text-5xl font-black text-slate-900 leading-tight">Momen Berharga Kami</h2>
-                    <p class="text-slate-500 text-lg font-medium leading-relaxed">
+                    <h2 class="text-4xl lg:text-5xl font-black text-slate-900 dark:text-white leading-tight">Momen
+                        Berharga Kami</h2>
+                    <p class="text-slate-500 dark:text-slate-400 text-lg font-medium leading-relaxed">
                         Kumpulan kegiatan, workshop, dan perayaan yang mewarnai perjalanan akademik dan kreativitas
                         siswa di Global Academy.
                     </p>
@@ -172,7 +181,8 @@ const closeMediaViewer = () => {
                 <!-- Sidebar (Search & Categories) -->
                 <aside class="w-full lg:w-80 shrink-0 space-y-10">
                     <div class="space-y-4">
-                        <h4 class="text-sm font-black uppercase tracking-widest text-slate-900 flex items-center gap-2">
+                        <h4
+                            class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white flex items-center gap-2">
                             <span class="w-2 h-2 bg-primary rounded-full"></span>
                             Pencarian
                         </h4>
@@ -180,19 +190,20 @@ const closeMediaViewer = () => {
                             <MagnifyingGlassIcon
                                 class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" />
                             <input v-model="searchQuery" type="text" placeholder="Cari kegiatan..."
-                                class="pl-12 pr-6 py-4 bg-white border border-slate-200 rounded-2xl w-full focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm font-bold shadow-sm text-slate-900" />
+                                class="pl-12 pr-6 py-4 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl w-full focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm font-bold shadow-sm text-slate-900 dark:text-white dark:placeholder-slate-500" />
                         </div>
                     </div>
 
                     <div class="space-y-4">
-                        <h4 class="text-sm font-black uppercase tracking-widest text-slate-900 flex items-center gap-2">
+                        <h4
+                            class="text-sm font-black uppercase tracking-widest text-slate-900 dark:text-white flex items-center gap-2">
                             <span class="w-2 h-2 bg-indigo-500 rounded-full"></span>
                             Kategori
                         </h4>
-                        <div class="flex flex-col gap-2 p-1 bg-slate-100 rounded-2xl">
+                        <div class="flex flex-col gap-2 p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl">
                             <button v-for="cat in categories" :key="cat" @click="selectedCategory = cat"
                                 class="w-full px-6 py-4 rounded-xl text-sm font-bold transition-all text-left flex items-center justify-between group"
-                                :class="selectedCategory === cat ? 'bg-white text-primary shadow-md' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50'">
+                                :class="selectedCategory === cat ? 'bg-white dark:bg-slate-700 text-primary shadow-md' : 'text-slate-500 hover:text-slate-700 hover:bg-white/50 dark:hover:text-slate-300 dark:hover:bg-slate-700/50'">
                                 {{ cat }}
                                 <ArrowRightIcon v-if="selectedCategory === cat" class="w-4 h-4" />
                             </button>
@@ -201,19 +212,21 @@ const closeMediaViewer = () => {
 
                     <!-- Display Settings Component -->
                     <div class="space-y-4">
-                        <h4 class="text-sm font-black uppercase tracking-widest text-slate-800 flex items-center gap-2">
+                        <h4
+                            class="text-sm font-black uppercase tracking-widest text-slate-800 dark:text-white flex items-center gap-2">
                             <span class="w-2 h-2 bg-primary rounded-full"></span>
                             Tampilkan
                         </h4>
                         <Select :model-value="itemsPerPage.toString()"
                             @update:model-value="(val) => handleItemsPerPageChange(Number(val))">
                             <SelectTrigger
-                                class="w-full h-14 px-6 bg-white border-slate-200 rounded-2xl text-sm font-bold text-slate-900 shadow-sm hover:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all">
+                                class="w-full h-14 px-6 bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 rounded-2xl text-sm font-bold text-slate-900 dark:text-slate-200 shadow-sm hover:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all">
                                 <SelectValue :placeholder="`${itemsPerPage} per halaman`" />
                             </SelectTrigger>
-                            <SelectContent class="rounded-2xl border-slate-100 shadow-2xl p-1">
+                            <SelectContent
+                                class="rounded-2xl border-slate-100 dark:border-slate-800 shadow-2xl p-1 bg-white dark:bg-slate-900">
                                 <SelectItem v-for="opt in pageOptions" :key="opt" :value="opt.toString()"
-                                    class="rounded-xl py-3 pl-10 pr-4 text-sm font-bold focus:bg-primary/5 focus:text-primary transition-colors cursor-pointer capitalize">
+                                    class="rounded-xl py-3 pl-10 pr-4 text-sm font-bold focus:bg-primary/5 focus:text-primary transition-colors cursor-pointer capitalize text-slate-700 dark:text-slate-300">
                                     {{ opt }} per halaman
                                 </SelectItem>
                             </SelectContent>
@@ -225,7 +238,7 @@ const closeMediaViewer = () => {
                 <main class="flex-1">
                     <div v-if="isLoading" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div v-for="i in 6" :key="i"
-                            class="bg-white rounded-3xl border border-slate-200 overflow-hidden">
+                            class="bg-white dark:bg-slate-900 rounded-3xl border border-slate-200 dark:border-slate-800 overflow-hidden">
                             <Skeleton class="aspect-[16/10] w-full" />
                             <div class="p-8 space-y-4">
                                 <Skeleton class="h-4 w-20" />
@@ -239,7 +252,7 @@ const closeMediaViewer = () => {
                         enter-from-class="opacity-0 translate-y-8" enter-to-class="opacity-100 translate-y-0"
                         move-class="transition duration-500" class="grid grid-cols-1 md:grid-cols-2 gap-8">
                         <div v-for="item in displayedEvents" :key="item.id"
-                            class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
+                            class="group bg-white dark:bg-slate-900 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-800 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
                             @click="openEventDetail(item)">
                             <div class="aspect-[16/10] overflow-hidden relative">
                                 <img :src="item.thumbnail" :alt="item.title"
@@ -257,9 +270,10 @@ const closeMediaViewer = () => {
                                 <div class="text-xs font-semibold text-primary uppercase tracking-wider">{{ item.date }}
                                 </div>
                                 <h3
-                                    class="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                                    class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                                     {{ item.title }}</h3>
-                                <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">{{ item.description }}
+                                <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 leading-relaxed">{{
+                                    item.description }}
                                 </p>
                                 <div class="pt-4 flex items-center gap-2 text-primary font-bold text-sm">
                                     Lihat Galeri
@@ -292,7 +306,7 @@ const closeMediaViewer = () => {
                         </div>
                         <div v-else-if="filteredEvents.length > itemsPerPage" class="text-center">
                             <div
-                                class="inline-flex items-center gap-3 px-6 py-3 bg-slate-100 rounded-full text-slate-400 text-sm font-bold">
+                                class="inline-flex items-center gap-3 px-6 py-3 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-400 dark:text-slate-500 text-sm font-bold">
                                 <CheckBadgeIcon class="w-5 h-5 text-emerald-500" />
                                 Semua kegiatan telah ditampilkan
                             </div>
@@ -302,16 +316,18 @@ const closeMediaViewer = () => {
                     <!-- Empty State -->
                     <div v-if="filteredEvents.length === 0" class="py-24 text-center space-y-8">
                         <div
-                            class="w-24 h-24 bg-white rounded-[2.5rem] shadow-xl flex items-center justify-center mx-auto border border-slate-100">
-                            <MagnifyingGlassIcon class="w-10 h-10 text-slate-200" />
+                            class="w-24 h-24 bg-white dark:bg-slate-900 rounded-[2.5rem] shadow-xl flex items-center justify-center mx-auto border border-slate-100 dark:border-slate-800">
+                            <MagnifyingGlassIcon class="w-10 h-10 text-slate-200 dark:text-slate-700" />
                         </div>
                         <div class="space-y-3">
-                            <h3 class="text-2xl font-black text-slate-900">Tidak ada kegiatan ditemukan</h3>
-                            <p class="text-slate-500 max-w-sm mx-auto font-medium leading-relaxed">Coba sesuaikan kata
+                            <h3 class="text-2xl font-black text-slate-900 dark:text-white">Tidak ada kegiatan ditemukan
+                            </h3>
+                            <p class="text-slate-500 dark:text-slate-400 max-w-sm mx-auto font-medium leading-relaxed">
+                                Coba sesuaikan kata
                                 kunci pencarian atau filter kategori Anda.</p>
                         </div>
                         <Button @click="searchQuery = ''; selectedCategory = 'Semua'" variant="outline"
-                            class="px-8 rounded-xl font-bold border-2">
+                            class="px-8 rounded-xl font-bold border-2 dark:border-slate-700 dark:text-white hover:bg-slate-50 dark:hover:bg-slate-800">
                             Reset Pencarian
                         </Button>
                     </div>
@@ -369,14 +385,16 @@ const closeMediaViewer = () => {
                         </div>
 
                         <!-- Content Panel -->
-                        <div class="p-8 md:p-12 lg:p-16 space-y-8 flex-1 overflow-y-auto bg-white custom-scrollbar">
+                        <div
+                            class="p-8 md:p-12 lg:p-16 space-y-8 flex-1 overflow-y-auto bg-white dark:bg-slate-900 custom-scrollbar">
                             <div class="space-y-6">
                                 <div
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest">
                                     <CalendarIcon class="w-4 h-4" />
                                     {{ selectedEvent.date }}
                                 </div>
-                                <h2 class="text-3xl md:text-5xl font-black leading-tight tracking-tight text-slate-900">
+                                <h2
+                                    class="text-3xl md:text-5xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
                                     {{ selectedEvent.title }}
                                 </h2>
                                 <Badge variant="secondary"
@@ -388,43 +406,49 @@ const closeMediaViewer = () => {
                             <div class="space-y-8">
                                 <div class="space-y-4">
                                     <h4
-                                        class="font-black text-slate-900 uppercase tracking-widest text-xs flex items-center gap-2">
+                                        class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs flex items-center gap-2">
                                         <span class="w-8 h-px bg-primary"></span>
                                         Deskripsi Kegiatan
                                     </h4>
-                                    <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                                    <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                                         {{ selectedEvent.description }}
                                     </p>
                                 </div>
 
-                                <div class="pt-8 border-t border-slate-100">
-                                    <h4 class="font-black text-slate-900 uppercase tracking-widest text-xs mb-6">Info
+                                <div class="pt-8 border-t border-slate-100 dark:border-slate-800">
+                                    <h4
+                                        class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs mb-6">
+                                        Info
                                         Tambahan</h4>
                                     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                         <div
-                                            class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                            class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center gap-4">
                                             <div
-                                                class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                                class="w-10 h-10 bg-white dark:bg-slate-700/50 rounded-xl flex items-center justify-center shadow-sm">
                                                 <MapPinIcon class="w-5 h-5 text-primary" />
                                             </div>
                                             <div>
                                                 <p
-                                                    class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                                    class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
                                                     Lokasi</p>
-                                                <p class="text-sm font-bold text-slate-700">Area Kampus Utama</p>
+                                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">Area
+                                                    Kampus
+                                                    Utama</p>
                                             </div>
                                         </div>
                                         <div
-                                            class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                            class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center gap-4">
                                             <div
-                                                class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                                class="w-10 h-10 bg-white dark:bg-slate-700/50 rounded-xl flex items-center justify-center shadow-sm">
                                                 <SparklesIcon class="w-5 h-5 text-indigo-500" />
                                             </div>
                                             <div>
                                                 <p
-                                                    class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
+                                                    class="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">
                                                     Penyelenggara</p>
-                                                <p class="text-sm font-bold text-slate-700">Osis & Humas Sekolah</p>
+                                                <p class="text-sm font-bold text-slate-700 dark:text-slate-200">Osis &
+                                                    Humas
+                                                    Sekolah</p>
                                             </div>
                                         </div>
                                     </div>
@@ -433,7 +457,7 @@ const closeMediaViewer = () => {
 
                             <div class="pt-10">
                                 <Button @click="closeEventDetail" variant="outline" size="lg"
-                                    class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50 w-full">
+                                    class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white w-full">
                                     Tutup
                                 </Button>
                             </div>
@@ -485,7 +509,8 @@ const closeMediaViewer = () => {
         </transition>
 
         <!-- Footer -->
-        <footer class="bg-white border-t border-slate-200 py-12">
+        <footer
+            class="bg-white dark:bg-slate-900 border-t border-slate-200 dark:border-slate-800 py-12 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6 text-center">
                 <p class="text-slate-400 text-sm font-medium">&copy; 2026 Global Academy. Empowering Minds Since 1998.
                 </p>

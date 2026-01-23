@@ -30,6 +30,7 @@ import Badge from '@/components/ui/badge/Badge.vue'
 import Card from '@/components/ui/card/Card.vue'
 import CardContent from '@/components/ui/card/CardContent.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue'
+import ThemeToggle from '@/components/common/ThemeToggle.vue'
 
 const router = useRouter()
 const isMenuOpen = ref(false)
@@ -212,10 +213,11 @@ const filteredStaff = computed(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-white text-slate-900 font-sans selection:bg-primary selection:text-white">
+    <div
+        class="min-h-screen bg-white dark:bg-slate-950 text-slate-900 dark:text-white font-sans selection:bg-primary selection:text-white">
         <!-- Navigation -->
         <nav class="fixed top-0 left-0 right-0 z-[100] transition-all duration-300 px-6 py-4"
-            :class="scrolled ? 'bg-white/80 backdrop-blur-md shadow-sm border-b border-slate-200 py-3' : 'bg-transparent'">
+            :class="scrolled ? 'bg-white/80 dark:bg-slate-900/80 backdrop-blur-md shadow-sm border-b border-slate-200 dark:border-slate-800 py-3' : 'bg-transparent'">
             <div class="max-w-7xl mx-auto flex items-center justify-between">
                 <div class="flex items-center gap-2">
                     <div
@@ -243,7 +245,7 @@ const filteredStaff = computed(() => {
                     <a href="#prestasi" @click.prevent="scrollToSection('prestasi')"
                         class="text-sm font-medium hover:text-primary transition-colors">Prestasi</a>
                     <a href="#kontak" @click.prevent="scrollToSection('kontak')"
-                        class="text-sm font-medium hover:text-primary transition-colors">Kontak</a>
+                        class="text-sm font-medium hover:text-primary transition-colors dark:text-slate-200 dark:hover:text-primary">Kontak</a>
                     <Button variant="default" @click="navigateToLogin"
                         class="px-6 rounded-full shadow-lg shadow-primary/20">
                         Portal Login
@@ -251,9 +253,12 @@ const filteredStaff = computed(() => {
                 </div>
 
                 <!-- Mobile Menu Toggle -->
-                <button class="md:hidden p-2" @click="isMenuOpen = !isMenuOpen">
-                    <component :is="isMenuOpen ? XMarkIcon : Bars3Icon" class="w-6 h-6" />
-                </button>
+                <div class="flex items-center gap-4 md:hidden">
+                    <ThemeToggle />
+                    <button class="p-2" @click="isMenuOpen = !isMenuOpen">
+                        <component :is="isMenuOpen ? XMarkIcon : Bars3Icon" class="w-6 h-6 dark:text-white" />
+                    </button>
+                </div>
             </div>
         </nav>
 
@@ -271,7 +276,7 @@ const filteredStaff = computed(() => {
             leave-active-class="transition duration-400 cubic-bezier(0.4, 0, 0.2, 1)" leave-from-class="translate-x-0"
             leave-to-class="translate-x-full">
             <div v-if="isMenuOpen"
-                class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm z-[160] bg-white shadow-2xl md:hidden overflow-y-auto">
+                class="fixed top-0 right-0 bottom-0 w-[85%] max-w-sm z-[160] bg-white dark:bg-slate-900 shadow-2xl md:hidden overflow-y-auto">
                 <div class="flex flex-col p-10 space-y-10">
                     <!-- Menu Header -->
                     <div class="flex items-center justify-between">
@@ -282,7 +287,7 @@ const filteredStaff = computed(() => {
                             <span class="font-bold text-slate-900">GA</span>
                         </div>
                         <button @click="isMenuOpen = false"
-                            class="p-2 bg-slate-100 rounded-xl text-slate-500 hover:bg-primary hover:text-white transition-all">
+                            class="p-2 bg-slate-100 dark:bg-slate-800 rounded-xl text-slate-500 dark:text-slate-400 hover:bg-primary hover:text-white transition-all">
                             <XMarkIcon class="w-6 h-6" />
                         </button>
                     </div>
@@ -300,7 +305,8 @@ const filteredStaff = computed(() => {
                             { id: 'prestasi', label: 'Prestasi' },
                             { id: 'kontak', label: 'Kontak' }
                         ]" :key="link.id" :href="`#${link.id}`"
-                            class="group flex items-center justify-between py-2 text-xl font-bold text-slate-700 hover:text-primary transition-colors"
+                            class="group flex items-center justify-between py-2 text-xl font-bold text-slate-700 dark:text-slate-200 hover:text-primary transition-colors"
+                            @click="scrollToSection(link.id)">
                             @click="scrollToSection(link.id)">
                             {{ link.label }}
                             <ArrowRightIcon
@@ -309,7 +315,7 @@ const filteredStaff = computed(() => {
                     </div>
 
                     <!-- CTA -->
-                    <div class="pt-6 border-t border-slate-100 italic">
+                    <div class="pt-6 border-t border-slate-100 dark:border-slate-800 italic">
                         <Button variant="default" size="lg" @click="navigateToLogin"
                             class="w-full rounded-2xl py-8 text-lg font-black shadow-xl shadow-primary/20">
                             Portal Login
@@ -336,17 +342,20 @@ const filteredStaff = computed(() => {
 
         <!-- Hero Section -->
         <section id="beranda" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden scroll-mt-24">
-            <div class="absolute top-0 right-0 w-1/2 h-full bg-slate-50 -skew-x-12 translate-x-1/4 -z-10"></div>
+            <div
+                class="absolute top-0 right-0 w-1/2 h-full bg-slate-50 dark:bg-slate-800/20 -skew-x-12 translate-x-1/4 -z-10">
+            </div>
             <div class="max-w-7xl mx-auto px-6 grid md:grid-cols-2 gap-12 items-center">
                 <div class="space-y-8 max-w-xl">
                     <Badge variant="secondary"
                         class="px-4 py-1.5 rounded-full text-primary bg-primary/10 border-none font-semibold hover:bg-primary hover:text-white transition-colors">
                         Penerimaan Siswa Baru TA 2024/2025
                     </Badge>
-                    <h1 class="text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-slate-900">
+                    <h1
+                        class="text-5xl lg:text-7xl font-extrabold leading-[1.1] tracking-tight text-slate-900 dark:text-white">
                         Membangun Masa Depan <span class="text-primary italic">Cerdas</span> & Berakhlak
                     </h1>
-                    <p class="text-lg text-slate-600 leading-relaxed">
+                    <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                         Global Academy berkomitmen memberikan pendidikan berkualitas tinggi dengan pendekatan inovatif
                         untuk mencetak generasi pemimpin masa depan.
                     </p>
@@ -356,7 +365,7 @@ const filteredStaff = computed(() => {
                             <ArrowRightIcon class="w-5 h-5 ml-2 transition-transform group-hover:translate-x-1" />
                         </Button>
                         <Button variant="outline" size="lg"
-                            class="px-8 py-7 text-lg rounded-full border-2 hover:bg-slate-50">
+                            class="px-8 py-7 text-lg rounded-full border-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white">
                             Lihat Profil Sekolah
                         </Button>
                     </div>
@@ -369,13 +378,13 @@ const filteredStaff = computed(() => {
                     </div>
                     <!-- Floating Card -->
                     <div
-                        class="absolute -bottom-6 -left-6 bg-white p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
+                        class="absolute -bottom-6 -left-6 bg-white dark:bg-slate-800 dark:border dark:border-slate-700 p-6 rounded-2xl shadow-xl flex items-center gap-4 animate-bounce-slow">
                         <div class="w-12 h-12 bg-green-100 rounded-full flex items-center justify-center">
                             <StarIcon class="w-6 h-6 text-green-600" />
                         </div>
                         <div>
-                            <p class="text-sm font-bold">Sekolah Unggulan</p>
-                            <p class="text-xs text-slate-500 text-nowrap">Akreditasi A+ 2024</p>
+                            <p class="text-sm font-bold dark:text-white">Sekolah Unggulan</p>
+                            <p class="text-xs text-slate-500 dark:text-slate-400 text-nowrap">Akreditasi A+ 2024</p>
                         </div>
                     </div>
                 </div>
@@ -383,11 +392,11 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Vision & Mission Section -->
-        <section id="visi-misi" class="py-24 relative overflow-hidden bg-slate-50/50 scroll-mt-24">
+        <section id="visi-misi" class="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <!-- Vision -->
                 <div
-                    class="bg-white rounded-[3rem] p-12 lg:p-20 relative overflow-hidden mb-20 shadow-xl shadow-slate-200/50 border border-slate-100">
+                    class="bg-white dark:bg-slate-800 rounded-[3rem] p-12 lg:p-20 relative overflow-hidden mb-20 shadow-xl shadow-slate-200/50 dark:shadow-none border border-slate-100 dark:border-slate-700">
                     <div class="absolute -top-12 -right-12 w-64 h-64 bg-primary/10 blur-[100px] rounded-full"></div>
                     <div class="relative z-10 flex flex-col lg:flex-row gap-12 items-center">
                         <div
@@ -396,7 +405,7 @@ const filteredStaff = computed(() => {
                         </div>
                         <div class="space-y-6">
                             <Badge variant="outline" class="text-primary border-primary font-bold">Visi Kami</Badge>
-                            <h2 class="text-3xl md:text-5xl font-black text-slate-900 leading-tight">
+                            <h2 class="text-3xl md:text-5xl font-black text-slate-900 dark:text-white leading-tight">
                                 "Menjadi institusi pendidikan <span class="text-primary italic">terdepan</span> yang
                                 mencetak generasi inovatif berkarakter global dengan landasan etika yang kokoh."
                             </h2>
@@ -407,14 +416,16 @@ const filteredStaff = computed(() => {
                 <!-- Mission -->
                 <div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
                     <div v-for="(item, index) in missionItems" :key="index"
-                        class="group p-8 rounded-[2.5rem] bg-white border border-slate-100 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
+                        class="group p-8 rounded-[2.5rem] bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all duration-500">
                         <div
                             :class="[item.bg, item.color, 'w-14 h-14 rounded-2xl flex items-center justify-center mb-8 transition-transform group-hover:scale-110 group-hover:-rotate-6 shadow-sm']">
                             <component :is="item.icon" class="w-7 h-7" />
                         </div>
-                        <h4 class="text-xl font-bold mb-4 text-slate-900 group-hover:text-primary transition-colors">{{
-                            item.title }}</h4>
-                        <p class="text-slate-500 leading-relaxed text-sm">
+                        <h4
+                            class="text-xl font-bold mb-4 text-slate-900 dark:text-white group-hover:text-primary transition-colors">
+                            {{
+                                item.title }}</h4>
+                        <p class="text-slate-500 dark:text-slate-400 leading-relaxed text-sm">
                             {{ item.description }}
                         </p>
                     </div>
@@ -444,22 +455,23 @@ const filteredStaff = computed(() => {
         <section id="program" class="py-24 lg:py-32 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
-                    <h2 class="text-4xl font-bold lg:text-5xl tracking-tight">Kurikulum Berstandar Internasional</h2>
-                    <p class="text-lg text-slate-600">
+                    <h2 class="text-4xl font-bold lg:text-5xl tracking-tight dark:text-white">Kurikulum Berstandar
+                        Internasional</h2>
+                    <p class="text-lg text-slate-600 dark:text-slate-300">
                         Kami mengintegrasikan kurikulum nasional dengan metode pembelajaran global untuk memastikan
                         siswa memiliki daya saing tinggi.
                     </p>
                 </div>
                 <div class="grid md:grid-cols-3 gap-8">
                     <Card v-for="program in programs" :key="program.title"
-                        class="group hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 border-slate-200">
+                        class="group hover:border-primary/50 transition-all duration-300 hover:shadow-2xl hover:shadow-primary/10 border-slate-200 dark:border-slate-800 dark:bg-slate-900/50">
                         <CardContent class="pt-8 text-center space-y-6">
                             <div class="w-16 h-16 rounded-2xl flex items-center justify-center mx-auto transition-all duration-300 group-hover:scale-110"
                                 :class="program.color">
                                 <component :is="program.icon" class="w-8 h-8 text-white" />
                             </div>
-                            <h3 class="text-2xl font-bold">{{ program.title }}</h3>
-                            <p class="text-slate-600 leading-relaxed">
+                            <h3 class="text-2xl font-bold dark:text-white">{{ program.title }}</h3>
+                            <p class="text-slate-600 dark:text-slate-400 leading-relaxed">
                                 {{ program.description }}
                             </p>
                             <Button variant="ghost" class="text-primary hover:text-primary/80 group/btn">
@@ -479,9 +491,10 @@ const filteredStaff = computed(() => {
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                     <div class="space-y-4 max-w-2xl">
                         <Badge variant="outline" class="text-primary border-primary">Tenaga Pengajar & Staf</Badge>
-                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900">Mengenal Lebih Dekat
+                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900 dark:text-white">
+                            Mengenal Lebih Dekat
                             Pendidik Kami</h2>
-                        <p class="text-lg text-slate-600 leading-relaxed">
+                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                             Dipandu oleh tenaga profesional yang berdedikasi tinggi untuk memberikan bimbingan terbaik
                             bagi setiap siswa.
                         </p>
@@ -521,7 +534,7 @@ const filteredStaff = computed(() => {
 
                 <div v-else ref="sliderRef" class="flex gap-6 overflow-x-auto snap-x snap-mandatory no-scrollbar pb-10">
                     <div v-for="staff in staffData" :key="staff.id"
-                        class="min-w-[280px] snap-center group bg-white border border-slate-100 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 text-center overflow-hidden rounded-3xl">
+                        class="min-w-[280px] snap-center group bg-white dark:bg-slate-800 border border-slate-100 dark:border-slate-700 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 text-center overflow-hidden rounded-3xl">
                         <div
                             class="aspect-square overflow-hidden mb-8 relative bg-slate-50 group-hover:scale-105 transition-transform duration-700">
                             <img :src="staff.photo || (staff.gender === 'Laki-laki' ? '/src/assets/images/blank_avatar_male.png' : '/src/assets/images/blank_avatar_female.png')"
@@ -531,7 +544,7 @@ const filteredStaff = computed(() => {
                             <!-- Position Tag Overlay -->
                             <div class="absolute bottom-4 left-4 z-10">
                                 <div
-                                    class="px-4 py-2 bg-white/90 backdrop-blur-md border border-white/50 shadow-sm text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 group-hover:bg-primary group-hover:text-white group-hover:border-primary/20 transition-all duration-500 rounded-lg">
+                                    class="px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-white/50 dark:border-slate-700 shadow-sm text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary/20 transition-all duration-500 rounded-lg">
                                     {{ staff.position }}
                                 </div>
                             </div>
@@ -542,21 +555,22 @@ const filteredStaff = computed(() => {
                         </div>
                         <div class="space-y-4 px-6 pb-8">
                             <h4
-                                class="text-lg font-black text-slate-900 group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[3.5rem] flex items-center justify-center">
+                                class="text-lg font-black text-slate-900 dark:text-white group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[3.5rem] flex items-center justify-center">
                                 {{ staff.name }}</h4>
 
                             <!-- Social Links & Website -->
-                            <div class="pt-4 border-t border-slate-50 flex items-center justify-center gap-3">
+                            <div
+                                class="pt-4 border-t border-slate-50 dark:border-slate-700 flex items-center justify-center gap-3">
                                 <template
                                     v-if="staff.website || (staff.socials && Object.keys(staff.socials).length > 0)">
                                     <a v-if="staff.website" :href="staff.website" target="_blank"
-                                        class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
+                                        class="p-2 bg-slate-50 dark:bg-slate-700/50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
                                         title="Website/Blog">
                                         <GlobeAltIcon class="w-4 h-4" />
                                     </a>
                                     <template v-for="(handle, brand) in staff.socials" :key="brand">
                                         <a v-if="handle" href="#"
-                                            class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
+                                            class="p-2 bg-slate-50 dark:bg-slate-700/50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
                                             :title="brand.charAt(0).toUpperCase() + brand.slice(1)">
                                             <!-- SVG Icons for brands -->
                                             <svg v-if="brand === 'instagram'" class="w-4 h-4 fill-current"
@@ -580,7 +594,7 @@ const filteredStaff = computed(() => {
                                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                             </svg>
                                             <span v-else class="text-[10px] font-bold">{{ brand.charAt(0).toUpperCase()
-                                                }}</span>
+                                            }}</span>
                                         </a>
                                     </template>
                                 </template>
@@ -607,8 +621,9 @@ const filteredStaff = computed(() => {
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div class="space-y-4 max-w-2xl">
                         <Badge variant="outline" class="text-primary border-primary">Kegiatan Terbaru</Badge>
-                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900">Momen & Aktivitas</h2>
-                        <p class="text-lg text-slate-600 leading-relaxed">
+                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900 dark:text-white">Momen &
+                            Aktivitas</h2>
+                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                             Intip berbagai keseruan dan momen berharga dalam kegiatan akademik maupun non-akademik di
                             Global Academy.
                         </p>
@@ -634,7 +649,7 @@ const filteredStaff = computed(() => {
 
                 <div v-else class="grid md:grid-cols-3 gap-8">
                     <div v-for="item in events" :key="item.id"
-                        class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
+                        class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
                         @click="openEventDetail(item)">
                         <div class="aspect-[16/10] overflow-hidden relative">
                             <img :src="item.thumbnail" :alt="item.title"
@@ -652,9 +667,10 @@ const filteredStaff = computed(() => {
                             <div class="text-xs font-semibold text-primary uppercase tracking-wider">{{ item.date }}
                             </div>
                             <h3
-                                class="text-xl font-bold text-slate-900 group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                                class="text-xl font-bold text-slate-900 dark:text-white group-hover:text-primary transition-colors line-clamp-2 leading-tight">
                                 {{ item.title }}</h3>
-                            <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">{{ item.description }}</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 leading-relaxed">{{
+                                item.description }}</p>
                             <div class="pt-4 flex items-center gap-2 text-primary font-bold text-sm">
                                 Lihat Galeri
                                 <ArrowRightIcon class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -675,14 +691,16 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Achievements Section -->
-        <section id="prestasi" class="py-24 lg:py-32 bg-slate-50 scroll-mt-24">
+        <section id="prestasi" class="py-24 lg:py-32 bg-slate-50 dark:bg-slate-900/50 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div class="space-y-4 max-w-2xl">
                         <Badge variant="outline" class="text-primary border-primary">Prestasi & Penghargaan</Badge>
-                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900">Mencetak Generasi Juara
+                        <h2 class="text-4xl font-bold lg:text-5xl tracking-tight text-slate-900 dark:text-white">
+                            Mencetak
+                            Generasi Juara
                         </h2>
-                        <p class="text-lg text-slate-600 leading-relaxed">
+                        <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed">
                             Dedikasi dan kerja keras civitas akademika Global Academy membuahkan berbagai prestasi
                             gemilang di tingkat nasional maupun internasional.
                         </p>
@@ -708,7 +726,7 @@ const filteredStaff = computed(() => {
 
                 <div v-else class="grid md:grid-cols-3 gap-8">
                     <div v-for="item in achievements" :key="item.id"
-                        class="group bg-white rounded-3xl overflow-hidden border border-slate-200 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
+                        class="group bg-white dark:bg-slate-800 rounded-3xl overflow-hidden border border-slate-200 dark:border-slate-700 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all duration-500 cursor-pointer"
                         @click="openAchievementDetail(item)">
                         <div class="aspect-[16/10] overflow-hidden relative">
                             <img :src="item.thumbnail" :alt="item.title"
@@ -726,9 +744,10 @@ const filteredStaff = computed(() => {
                             <div class="text-xs font-semibold text-primary uppercase tracking-wider">{{ item.date }}
                             </div>
                             <h3
-                                class="text-xl font-bold group-hover:text-primary transition-colors line-clamp-2 leading-tight">
+                                class="text-xl font-bold group-hover:text-primary dark:text-white transition-colors line-clamp-2 leading-tight">
                                 {{ item.title }}</h3>
-                            <p class="text-slate-500 text-sm line-clamp-2 leading-relaxed">{{ item.description }}</p>
+                            <p class="text-slate-500 dark:text-slate-400 text-sm line-clamp-2 leading-relaxed">{{
+                                item.description }}</p>
                             <div class="pt-4 flex items-center gap-2 text-primary font-bold text-sm">
                                 Selengkapnya
                                 <ArrowRightIcon class="w-4 h-4 transition-transform group-hover:translate-x-1" />
@@ -783,7 +802,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Footer -->
-        <footer id="kontak" class="bg-slate-50 pt-24 pb-12 scroll-mt-24">
+        <footer id="kontak" class="bg-slate-50 dark:bg-slate-950 pt-24 pb-12 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                     <div class="space-y-6">
@@ -791,15 +810,15 @@ const filteredStaff = computed(() => {
                             <div class="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                                 <AcademicCapIcon class="w-5 h-5 text-white" />
                             </div>
-                            <span class="text-lg font-bold">Global Academy</span>
+                            <span class="text-lg font-bold dark:text-white">Global Academy</span>
                         </div>
-                        <p class="text-slate-500 text-sm leading-relaxed">
+                        <p class="text-slate-500 dark:text-slate-400 text-sm leading-relaxed">
                             Menciptakan ekosistem pendidikan terbaik untuk masa depan gemilang putra-putri Indonesia.
                         </p>
                     </div>
                     <div>
-                        <h4 class="font-bold mb-6">Tautan Cepat</h4>
-                        <ul class="space-y-4 text-sm text-slate-500">
+                        <h4 class="font-bold mb-6 dark:text-white">Tautan Cepat</h4>
+                        <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
                             <li><a href="#" class="hover:text-primary">Tentang Kami</a></li>
                             <li><a href="#" class="hover:text-primary">Kurikulum</a></li>
                             <li><a href="#" class="hover:text-primary">Kehidupan Siswa</a></li>
@@ -807,8 +826,8 @@ const filteredStaff = computed(() => {
                         </ul>
                     </div>
                     <div>
-                        <h4 class="font-bold mb-6">Program</h4>
-                        <ul class="space-y-4 text-sm text-slate-500">
+                        <h4 class="font-bold mb-6 dark:text-white">Program</h4>
+                        <ul class="space-y-4 text-sm text-slate-500 dark:text-slate-400">
                             <li><a href="#" class="hover:text-primary">SD (Elementary)</a></li>
                             <li><a href="#" class="hover:text-primary">SMP (Junior High)</a></li>
                             <li><a href="#" class="hover:text-primary">SMA (Senior High)</a></li>
@@ -816,8 +835,8 @@ const filteredStaff = computed(() => {
                         </ul>
                     </div>
                     <div class="space-y-6">
-                        <h4 class="font-bold mb-6">Kontak Kami</h4>
-                        <div class="flex flex-col gap-4 text-sm text-slate-500">
+                        <h4 class="font-bold mb-6 dark:text-white">Kontak Kami</h4>
+                        <div class="flex flex-col gap-4 text-sm text-slate-500 dark:text-slate-400">
                             <div class="flex items-center gap-3">
                                 <MapPinIcon class="w-5 h-5 text-primary shrink-0" />
                                 <span>Jl. Edukasi No. 123, Jakarta Selatan</span>
@@ -848,7 +867,7 @@ const filteredStaff = computed(() => {
                 class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8 backdrop-blur-xl bg-slate-900/40"
                 @click.self="closeEventDetail">
                 <div
-                    class="bg-white rounded-[3rem] overflow-hidden max-w-6xl w-full max-h-[90vh] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] relative flex flex-col transition-all duration-500 bg-white">
+                    class="bg-white dark:bg-slate-900 rounded-[3rem] overflow-hidden max-w-6xl w-full max-h-[90vh] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] relative flex flex-col transition-all duration-500">
                     <button
                         class="absolute top-8 right-8 z-50 p-3 bg-white/10 hover:bg-primary hover:text-white backdrop-blur-md rounded-2xl text-slate-900 transition-all duration-300 shadow-xl group"
                         @click="closeEventDetail">
@@ -886,14 +905,16 @@ const filteredStaff = computed(() => {
                             </div>
                         </div>
 
-                        <div class="p-8 md:p-12 lg:p-16 space-y-8 flex-1 overflow-y-auto bg-white custom-scrollbar">
+                        <div
+                            class="p-8 md:p-12 lg:p-16 space-y-8 flex-1 overflow-y-auto bg-white dark:bg-slate-900 custom-scrollbar">
                             <div class="space-y-6">
                                 <div
-                                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                    class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest">
                                     <CalendarIcon class="w-4 h-4" />
                                     {{ selectedEvent.date }}
                                 </div>
-                                <h2 class="text-3xl md:text-5xl font-black leading-tight tracking-tight text-slate-900">
+                                <h2
+                                    class="text-3xl md:text-5xl font-black leading-tight tracking-tight text-slate-900 dark:text-white">
                                     {{ selectedEvent.title }}
                                 </h2>
                                 <Badge variant="secondary"
@@ -904,41 +925,47 @@ const filteredStaff = computed(() => {
 
                             <div class="space-y-4">
                                 <h4
-                                    class="font-black text-slate-900 uppercase tracking-widest text-xs flex items-center gap-2">
+                                    class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs flex items-center gap-2">
                                     <span class="w-8 h-px bg-primary"></span>
                                     Deskripsi Kegiatan
                                 </h4>
-                                <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                                <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                                     {{ selectedEvent.description }}
                                 </p>
                             </div>
 
-                            <div class="pt-8 border-t border-slate-100">
-                                <h4 class="font-black text-slate-900 uppercase tracking-widest text-xs mb-6">Info
+                            <div class="pt-8 border-t border-slate-100 dark:border-slate-800">
+                                <h4
+                                    class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs mb-6">
+                                    Info
                                     Tambahan</h4>
                                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
                                     <div
-                                        class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                        class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center gap-4">
                                         <div
-                                            class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                            class="w-10 h-10 bg-white dark:bg-slate-700 rounded-xl flex items-center justify-center shadow-sm">
                                             <MapPinIcon class="w-5 h-5 text-primary" />
                                         </div>
                                         <div>
                                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                                                 Lokasi</p>
-                                            <p class="text-sm font-bold text-slate-700">Area Kampus Utama</p>
+                                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200">Area Kampus
+                                                Utama
+                                            </p>
                                         </div>
                                     </div>
                                     <div
-                                        class="p-4 bg-slate-50 rounded-2xl border border-slate-100 flex items-center gap-4">
+                                        class="p-4 bg-slate-50 dark:bg-slate-800 rounded-2xl border border-slate-100 dark:border-slate-700 flex items-center gap-4">
                                         <div
-                                            class="w-10 h-10 bg-white rounded-xl flex items-center justify-center shadow-sm">
+                                            class="w-10 h-10 bg-white dark:bg-slate-700 rounded-xl flex items-center justify-center shadow-sm">
                                             <SparklesIcon class="w-5 h-5 text-indigo-500" />
                                         </div>
                                         <div>
                                             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-wider">
                                                 Penyelenggara</p>
-                                            <p class="text-sm font-bold text-slate-700">Osis & Humas Sekolah</p>
+                                            <p class="text-sm font-bold text-slate-700 dark:text-slate-200">Osis & Humas
+                                                Sekolah
+                                            </p>
                                         </div>
                                     </div>
                                 </div>
@@ -946,7 +973,7 @@ const filteredStaff = computed(() => {
 
                             <div class="pt-10">
                                 <Button @click="closeEventDetail" variant="outline" size="lg"
-                                    class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50 w-full">
+                                    class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white w-full">
                                     Tutup
                                 </Button>
                             </div>
@@ -965,7 +992,7 @@ const filteredStaff = computed(() => {
                 class="fixed inset-0 z-[200] flex items-center justify-center p-4 sm:p-8 backdrop-blur-xl bg-slate-900/40"
                 @click.self="closeAchievementDetail">
                 <div
-                    class="bg-white rounded-[3rem] overflow-hidden max-w-6xl w-full max-h-[90vh] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] relative flex flex-col lg:flex-row transition-all duration-500">
+                    class="bg-white dark:bg-slate-900 rounded-[3rem] overflow-hidden max-w-6xl w-full max-h-[90vh] shadow-[0_32px_64px_-15px_rgba(0,0,0,0.3)] relative flex flex-col lg:flex-row transition-all duration-500">
                     <!-- Close Button -->
                     <button
                         class="absolute top-8 right-8 z-30 p-3 bg-white/10 hover:bg-primary hover:text-white backdrop-blur-md rounded-2xl text-slate-900 transition-all duration-300 shadow-xl group"
@@ -986,26 +1013,27 @@ const filteredStaff = computed(() => {
                                 {{ selectedAchievement.category }}
                             </Badge>
                             <h3 class="text-white text-2xl font-bold leading-tight">{{ selectedAchievement.achievement
-                            }}</h3>
+                                }}</h3>
                         </div>
                     </div>
 
                     <!-- Content Panel -->
-                    <div class="p-8 md:p-12 lg:p-16 space-y-12 flex-1 overflow-y-auto bg-white custom-scrollbar">
+                    <div
+                        class="p-8 md:p-12 lg:p-16 space-y-12 flex-1 overflow-y-auto bg-white dark:bg-slate-900 custom-scrollbar">
                         <div class="space-y-6">
                             <div
-                                class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 rounded-full text-slate-500 text-xs font-bold uppercase tracking-widest">
+                                class="inline-flex items-center gap-2 px-4 py-2 bg-slate-100 dark:bg-slate-800 rounded-full text-slate-500 dark:text-slate-400 text-xs font-bold uppercase tracking-widest">
                                 <TrophyIcon class="w-4 h-4" />
                                 {{ selectedAchievement.date }}
                             </div>
                             <h2
-                                class="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-slate-900 leading-tight">
+                                class="text-3xl md:text-5xl font-black leading-[1.1] tracking-tight text-slate-900 dark:text-white leading-tight">
                                 {{ selectedAchievement.title }}
                             </h2>
                             <div class="flex items-center gap-3 text-primary">
                                 <TrophyIcon class="w-6 h-6" />
                                 <span class="font-bold text-2xl tracking-tight">{{ selectedAchievement.achievement
-                                    }}</span>
+                                }}</span>
                             </div>
                         </div>
 
@@ -1013,34 +1041,39 @@ const filteredStaff = computed(() => {
                             <!-- Story -->
                             <div class="space-y-6">
                                 <h4
-                                    class="font-black text-slate-900 uppercase tracking-widest text-xs flex items-center gap-2">
+                                    class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs flex items-center gap-2">
                                     <span class="w-8 h-px bg-primary"></span>
                                     Cerita Dibalik Layar
                                 </h4>
-                                <p class="text-lg text-slate-600 leading-relaxed font-medium">
+                                <p class="text-lg text-slate-600 dark:text-slate-300 leading-relaxed font-medium">
                                     {{ selectedAchievement.description }}
                                 </p>
                             </div>
 
                             <!-- Participants & Mentors -->
-                            <div class="space-y-10 pt-8 border-t border-slate-50"
+                            <div class="space-y-10 pt-8 border-t border-slate-50 dark:border-slate-800"
                                 v-if="selectedAchievement.students || selectedAchievement.mentors">
                                 <div v-if="selectedAchievement.students" class="space-y-4">
-                                    <h4 class="font-black text-slate-900 uppercase tracking-widest text-xs">Peserta
+                                    <h4
+                                        class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs">
+                                        Peserta
                                         Terbaik</h4>
                                     <div class="flex flex-wrap gap-2">
                                         <span v-for="student in selectedAchievement.students" :key="student"
-                                            class="px-4 py-2 bg-slate-50 rounded-xl text-slate-700 text-sm font-bold border border-slate-100">
+                                            class="px-4 py-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-700 dark:text-slate-300 text-sm font-bold border border-slate-100 dark:border-slate-700">
                                             {{ student }}
                                         </span>
                                     </div>
                                 </div>
                                 <div v-if="selectedAchievement.mentors" class="space-y-4">
-                                    <h4 class="font-black text-slate-900 uppercase tracking-widest text-xs">Guru Pembina
+                                    <h4
+                                        class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs">
+                                        Guru
+                                        Pembina
                                     </h4>
                                     <div class="flex flex-wrap gap-2">
                                         <span v-for="mentor in selectedAchievement.mentors" :key="mentor"
-                                            class="px-4 py-2 bg-indigo-50 border border-indigo-100 rounded-xl text-indigo-700 text-sm font-bold">
+                                            class="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 border border-indigo-100 dark:border-indigo-800 rounded-xl text-indigo-700 dark:text-indigo-300 text-sm font-bold">
                                             {{ mentor }}
                                         </span>
                                     </div>
@@ -1048,24 +1081,24 @@ const filteredStaff = computed(() => {
                             </div>
 
                             <!-- Competition Tags -->
-                            <div class="flex flex-wrap gap-3 pt-8 border-t border-slate-50">
+                            <div class="flex flex-wrap gap-3 pt-8 border-t border-slate-50 dark:border-slate-800">
                                 <div
-                                    class="px-4 py-2 bg-blue-50 text-blue-700 rounded-xl text-xs font-bold flex items-center gap-2 border border-blue-100/50">
+                                    class="px-4 py-2 bg-blue-50 dark:bg-blue-900/30 text-blue-700 dark:text-blue-300 rounded-xl text-xs font-bold flex items-center gap-2 border border-blue-100/50 dark:border-blue-800">
                                     <AcademicCapIcon class="w-3.5 h-3.5" />
                                     <span>Penyelenggara: {{ selectedAchievement.organizer }}</span>
                                 </div>
                                 <div
-                                    class="px-4 py-2 bg-amber-50 text-amber-700 rounded-xl text-xs font-bold flex items-center gap-2 border border-amber-100/50">
+                                    class="px-4 py-2 bg-amber-50 dark:bg-amber-900/30 text-amber-700 dark:text-amber-300 rounded-xl text-xs font-bold flex items-center gap-2 border border-amber-100/50 dark:border-amber-800">
                                     <MapPinIcon class="w-3.5 h-3.5" />
                                     <span>Lokasi: {{ selectedAchievement.location }}</span>
                                 </div>
                                 <div
-                                    class="px-4 py-2 bg-emerald-50 text-emerald-700 rounded-xl text-xs font-bold flex items-center gap-2 border border-emerald-100/50">
+                                    class="px-4 py-2 bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300 rounded-xl text-xs font-bold flex items-center gap-2 border border-emerald-100/50 dark:border-emerald-800">
                                     <TrophyIcon class="w-3.5 h-3.5" />
                                     <span>Tingkat: {{ selectedAchievement.level }}</span>
                                 </div>
                                 <div v-if="selectedAchievement.branch"
-                                    class="px-4 py-2 bg-indigo-50 text-indigo-700 rounded-xl text-xs font-bold flex items-center gap-2 border border-indigo-100/50">
+                                    class="px-4 py-2 bg-indigo-50 dark:bg-indigo-900/30 text-indigo-700 dark:text-indigo-300 rounded-xl text-xs font-bold flex items-center gap-2 border border-indigo-100/50 dark:border-indigo-800">
                                     <StarIcon class="w-3.5 h-3.5" />
                                     <span>Bidang: {{ selectedAchievement.branch }}</span>
                                 </div>
@@ -1073,16 +1106,16 @@ const filteredStaff = computed(() => {
 
                             <!-- Related Links -->
                             <div v-if="selectedAchievement.links && selectedAchievement.links.length > 0"
-                                class="space-y-6 pt-8 border-t border-slate-50">
+                                class="space-y-6 pt-8 border-t border-slate-50 dark:border-slate-800">
                                 <h4
-                                    class="font-black text-slate-900 uppercase tracking-widest text-xs flex items-center gap-2">
+                                    class="font-black text-slate-900 dark:text-white uppercase tracking-widest text-xs flex items-center gap-2">
                                     <span class="w-8 h-px bg-primary"></span>
                                     Tautan & Berita Terkait
                                 </h4>
                                 <div class="flex flex-wrap gap-4">
                                     <a v-for="link in selectedAchievement.links" :key="link.label" :href="link.url"
                                         target="_blank"
-                                        class="inline-flex items-center gap-3 px-6 py-4 bg-white hover:bg-slate-50 border border-slate-200 rounded-2xl text-slate-700 text-sm font-bold transition-all hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/10 group/link">
+                                        class="inline-flex items-center gap-3 px-6 py-4 bg-white dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 rounded-2xl text-slate-700 dark:text-slate-200 text-sm font-bold transition-all hover:border-primary hover:text-primary hover:shadow-lg hover:shadow-primary/10 group/link">
                                         {{ link.label }}
                                         <ArrowTopRightOnSquareIcon
                                             class="w-4 h-4 text-slate-400 group-hover/link:text-primary transition-colors" />
@@ -1091,13 +1124,14 @@ const filteredStaff = computed(() => {
                             </div>
                         </div>
 
-                        <div class="pt-10 flex flex-col sm:flex-row gap-4 border-t border-slate-100">
+                        <div
+                            class="pt-10 flex flex-col sm:flex-row gap-4 border-t border-slate-100 dark:border-slate-800">
                             <Button @click="closeAchievementDetail" size="lg"
                                 class="px-12 rounded-2xl py-8 text-lg font-black shadow-2xl shadow-primary/30 transition-all hover:-translate-y-1 active:scale-95">
                                 Bagikan Prestasi
                             </Button>
                             <Button @click="closeAchievementDetail" variant="outline" size="lg"
-                                class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50">
+                                class="px-12 rounded-2xl py-8 text-lg font-black border-2 hover:bg-slate-50 dark:border-slate-700 dark:hover:bg-slate-800 dark:text-white">
                                 Tutup
                             </Button>
                         </div>
@@ -1146,6 +1180,10 @@ const filteredStaff = computed(() => {
                 </div>
             </div>
         </transition>
+        <!-- Floating Theme Toggle -->
+        <div class="fixed bottom-6 right-6 z-[90]">
+            <ThemeToggle class="shadow-2xl shadow-slate-900/20" />
+        </div>
     </div>
 </template>
 

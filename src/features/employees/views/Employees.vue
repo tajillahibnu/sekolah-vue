@@ -1,44 +1,66 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
+import { ref, computed, watch, onMounted } from 'vue';
+import { useRouter } from 'vue-router';
+import { refDebounced, useIntersectionObserver } from '@vueuse/core';
 import {
-    PlusIcon,
     MagnifyingGlassIcon,
-    PencilSquareIcon,
-    TrashIcon,
-    EllipsisVerticalIcon,
-    EyeIcon,
     Bars3Icon,
-    Squares2X2Icon
+    Squares2X2Icon,
+    PlusIcon,
+    PencilIcon,
+    TrashIcon,
+    EyeIcon,
+    ChevronDownIcon,
+    CheckIcon,
+    FunnelIcon,
+    UserIcon,
+    BriefcaseIcon
 } from '@heroicons/vue/24/outline';
 import api from '@/services/api';
-import { useRouter } from 'vue-router';
 import Modal from '@/components/common/Modal.vue';
 import ConfirmModal from '@/components/ui/ConfirmModal.vue';
 import EmployeeForm from '../components/EmployeeForm.vue';
-import { useToastStore } from '@/stores/toast';
-
-import { watch } from 'vue';
-import { refDebounced } from '@vueuse/core';
-import Skeleton from '@/components/ui/skeleton/Skeleton.vue';
+import { useToast } from '@/composables/useToast';
 
 const router = useRouter();
 
+// State
 const employees = ref([]);
 const loading = ref(false);
 const loadingMore = ref(false);
 const searchQuery = ref('');
 const debouncedSearchQuery = refDebounced(searchQuery, 500);
-const viewMode = ref('table'); // 'table' or 'card'
+const selectedPosition = ref('');
+const viewMode = ref('table'); // 'table' (horizontal cards) or 'card' (grid)
+
+// Pagination state
+const page = ref(1);
+const total = ref(0);
+const totalPages = computed(() => Math.ceil(total.value / selectedLimit.value));
+
+const positionOptions = [
+    { value: '', label: 'Semua Jabatan' },
+    { value: 'Kepala Sekolah', label: 'Kepala Sekolah' },
+    { value: 'Guru', label: 'Guru' },
+    { value: 'Staff', label: 'Staff' },
+    { value: 'Walikelas', label: 'Walikelas' }
+];
+
+const limitOptions = [10, 20, 50, 100];
+const selectedLimit = ref(10);
+const showPositionDropdown = ref(false);
+
+const selectedPositionLabel = computed(() => {
+    const option = positionOptions.find(opt => opt.value === selectedPosition.value);
+    return option ? option.label : 'Pilih Jabatan';
+});
+
+
+// Modal states
 const showModal = ref(false);
 const showDeleteModal = ref(false);
 const isEdit = ref(false);
 const selectedEmployee = ref(null);
-
-// Pagination state
-const page = ref(1);
-const limit = 10;
-const total = ref(0);
-const hasMore = computed(() => employees.value.length < total.value);
 
 // Initial form state
 const defaultForm = {
@@ -66,20 +88,16 @@ const formData = ref({ ...defaultForm });
 const fetchEmployees = async (reset = false) => {
     if (reset) {
         page.value = 1;
-        employees.value = [];
     }
 
-    if (page.value === 1) {
-        loading.value = true;
-    } else {
-        loadingMore.value = true;
-    }
+    loading.value = true;
 
     try {
         const params = {
             page: page.value,
-            limit: limit,
-            q: debouncedSearchQuery.value
+            limit: selectedLimit.value,
+            q: debouncedSearchQuery.value,
+            position: selectedPosition.value
         };
 
         // Artificial delay for skeleton demonstration
@@ -88,35 +106,31 @@ const fetchEmployees = async (reset = false) => {
         const response = await api.get('/employees', { params });
         const { data, meta } = response.data;
 
-        if (page.value === 1) {
-            employees.value = data;
-        } else {
-            employees.value = [...employees.value, ...data];
-        }
-
+        employees.value = data; // Replace data
         total.value = meta?.total || employees.value.length;
     } catch (error) {
         console.error('Failed to fetch employees', error);
     } finally {
         loading.value = false;
-        loadingMore.value = false;
     }
 };
 
-const handleLoadMore = () => {
-    if (hasMore.value && !loadingMore.value) {
-        page.value++;
+const changePage = (newPage) => {
+    if (newPage > 0 && newPage <= totalPages.value) {
+        page.value = newPage;
         fetchEmployees();
+        window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 };
 
 const filteredEmployees = computed(() => employees.value);
 
-// Watch for search changes
-watch(debouncedSearchQuery, () => {
+// Watch for filter changes
+watch([debouncedSearchQuery, selectedPosition, selectedLimit], () => {
     fetchEmployees(true);
 });
 
+// Modals
 const openAddModal = () => {
     isEdit.value = false;
     formData.value = { ...defaultForm };
@@ -137,9 +151,9 @@ const openDeleteModal = (employee) => {
 
 const handleSubmit = async () => {
     if (!formData.value.name || !formData.value.nip) {
-        const toast = useToastStore();
-        if (!formData.value.name) return toast.add('Nama wajib diisi', 'error');
-        // Let API handle other validations or toast
+        const toast = useToast();
+        if (!formData.value.name) return toast.error('Nama wajib diisi');
+        // Let API handle other validations
     }
 
     try {
@@ -149,7 +163,7 @@ const handleSubmit = async () => {
             await api.post('/employees', formData.value);
         }
         showModal.value = false;
-        fetchEmployees();
+        fetchEmployees(true);
     } catch (error) {
         // Handled globally
     }
@@ -159,10 +173,27 @@ const handleDelete = async () => {
     try {
         await api.delete(`/employees/${selectedEmployee.value.id}`);
         showDeleteModal.value = false;
-        fetchEmployees();
+        fetchEmployees(true);
     } catch (error) {
         // Handled globally
     }
+};
+
+// Status helpers
+const getStatusBadgeClass = (status) => {
+    const statusMap = {
+        'Aktif': 'bg-emerald-50 text-emerald-700 border-emerald-200/50',
+        'Nonaktif': 'bg-rose-50 text-rose-700 border-rose-200/50',
+        'Cuti': 'bg-amber-50 text-amber-700 border-amber-200/50'
+    };
+    return statusMap[status] || 'bg-gray-50 text-gray-600 border-gray-200/50';
+};
+
+const getPositionBadgeClass = (position) => {
+    if (position === 'Kepala Sekolah') return 'bg-purple-50 text-purple-700 ring-purple-200/50';
+    if (position === 'Guuu') return 'bg-blue-50 text-blue-700 ring-blue-200/50';
+    if (position === 'Staff') return 'bg-orange-50 text-orange-700 ring-orange-200/50';
+    return 'bg-slate-50 text-slate-700 ring-slate-200/50';
 };
 
 onMounted(() => {
@@ -171,177 +202,114 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="space-y-6">
+    <div class="space-y-8 pb-12">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
-            <div>
-                <h1 class="text-2xl font-bold text-base-content">Data Pegawai</h1>
-                <p class="text-sm text-base-content/60 mt-1">Kelola data guru dan staff sekolah</p>
+        <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
+            <div class="space-y-1">
+                <h1 class="text-3xl font-black text-foreground tracking-tight">Data Pegawai</h1>
+                <p class="text-muted-foreground font-medium">Manajemen data guru dan staff sekolah.</p>
             </div>
-            <button @click="openAddModal" class="btn btn-primary gap-2">
-                <PlusIcon class="w-5 h-5" />
+            <button @click="openAddModal"
+                class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-2xl font-bold shadow-lg shadow-primary/20 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
+                <div class="bg-white/20 p-1 rounded-lg">
+                    <PlusIcon class="w-5 h-5 text-white" />
+                </div>
                 Tambah Pegawai
             </button>
         </div>
 
-        <!-- Filters & View Toggle -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body p-4">
-                <div class="flex flex-col lg:flex-row gap-4">
-                    <!-- Search -->
-                    <div class="flex-1">
-                        <div class="relative">
-                            <MagnifyingGlassIcon
-                                class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40" />
-                            <input v-model="searchQuery" type="text" placeholder="Cari nama, NIP, atau jabatan..."
-                                class="input input-bordered w-full pl-10" />
-                        </div>
+        <!-- Filters & View Toggle (Premium Glassmorphism Style) -->
+        <div
+            class="relative z-40 bg-background/60 backdrop-blur-md border border-primary/10 rounded-3xl p-2 shadow-xl shadow-primary/5">
+            <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-2">
+                <!-- Search -->
+                <div class="relative flex-1 group">
+                    <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                        <MagnifyingGlassIcon
+                            class="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     </div>
+                    <input v-model="searchQuery" type="text" placeholder="Cari nama, NIP, atau jabatan..."
+                        class="block w-full pl-12 pr-4 py-4 bg-primary/5 border-transparent rounded-2xl text-sm font-medium focus:bg-background focus:ring-2 focus:ring-primary/20 focus:border-primary/20 transition-all" />
+                </div>
 
-                    <!-- View Toggle -->
-                    <div class="join">
-                        <button @click="viewMode = 'table'" class="btn join-item"
-                            :class="viewMode === 'table' ? 'btn-active' : ''">
-                            <Bars3Icon class="w-5 h-5" />
+                <div class="flex flex-col sm:flex-row gap-2">
+                    <!-- Custom Position Dropdown -->
+                    <div class="relative w-full sm:w-56">
+                        <button @click="showPositionDropdown = !showPositionDropdown"
+                            class="w-full h-full flex items-center justify-between px-5 py-4 bg-primary/5 border-transparent rounded-2xl text-sm font-bold text-foreground hover:bg-primary/10 transition-all text-left">
+                            <div class="flex items-center gap-2.5">
+                                <FunnelIcon class="w-4 h-4 text-primary" />
+                                <span>{{ selectedPositionLabel }}</span>
+                            </div>
+                            <ChevronDownIcon class="w-4 h-4 text-muted-foreground transition-transform duration-300"
+                                :class="{ 'rotate-180': showPositionDropdown }" />
                         </button>
-                        <button @click="viewMode = 'card'" class="btn join-item"
-                            :class="viewMode === 'card' ? 'btn-active' : ''">
-                            <Squares2X2Icon class="w-5 h-5" />
-                        </button>
+
+                        <div v-if="showPositionDropdown"
+                            class="absolute top-full left-0 right-0 mt-2 z-[60] bg-background border border-primary/10 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
+                            <div class="space-y-1">
+                                <button v-for="opt in positionOptions" :key="opt.value"
+                                    @click="selectedPosition = opt.value; showPositionDropdown = false"
+                                    class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all"
+                                    :class="selectedPosition === opt.value ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5 text-muted-foreground hover:text-foreground'">
+                                    <span>{{ opt.label }}</span>
+                                    <CheckIcon v-if="selectedPosition === opt.value" class="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <!-- Table View -->
-        <div v-if="viewMode === 'table'" class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="table table-zebra w-full">
-                    <thead>
-                        <tr>
-                            <th class="font-semibold">Nama Lengkap</th>
-                            <th class="font-semibold">NIP / NUPTK</th>
-                            <th class="font-semibold">Jabatan</th>
-                            <th class="font-semibold">Tipe</th>
-                            <th class="font-semibold">Kontak</th>
-                            <th class="font-semibold">Status</th>
-                            <th class="font-semibold text-center">Aksi</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Skeleton Rows -->
-                        <template v-if="loading">
-                            <tr v-for="i in 5" :key="i">
-                                <td>
-                                    <div class="space-y-2">
-                                        <Skeleton class="h-4 w-32" />
-                                        <Skeleton class="h-3 w-24" />
-                                    </div>
-                                </td>
-                                <td>
-                                    <Skeleton class="h-4 w-24" />
-                                </td>
-                                <td>
-                                    <Skeleton class="h-5 w-20 rounded-full" />
-                                </td>
-                                <td>
-                                    <Skeleton class="h-4 w-16" />
-                                </td>
-                                <td>
-                                    <Skeleton class="h-3 w-28" />
-                                </td>
-                                <td>
-                                    <Skeleton class="h-4 w-12 rounded-full" />
-                                </td>
-                                <td>
-                                    <div class="flex justify-center gap-2">
-                                        <Skeleton class="h-6 w-6" />
-                                        <Skeleton class="h-6 w-6" />
-                                        <Skeleton class="h-6 w-6" />
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
+        <!-- Controls (Separate Row) -->
+        <div class="flex justify-end gap-3 px-1 mb-4">
+            <!-- Limit Selector -->
+            <div
+                class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
+                <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
+                    class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
+                    :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+                    {{ l }}
+                </button>
+            </div>
 
-                        <!-- Actual Data -->
-                        <template v-else>
-                            <tr v-if="filteredEmployees.length === 0" class="border-none">
-                                <td colspan="7" class="text-center py-8 text-base-content/60">Tidak ada data pegawai.
-                                </td>
-                            </tr>
-                            <tr v-for="emp in filteredEmployees" :key="emp.id">
-                                <td>
-                                    <div class="font-medium text-base-content">{{ emp.name }}</div>
-                                    <div class="text-xs text-base-content/60">{{ emp.email }}</div>
-                                </td>
-                                <td class="font-mono text-sm">{{ emp.nip }}</td>
-                                <td>
-                                    <span class="badge badge-sm" :class="{
-                                        'badge-primary': emp.position === 'Kepala Sekolah',
-                                        'badge-secondary': emp.position.includes('Waka'),
-                                        'badge-accent': emp.position === 'Walikelas',
-                                        'badge-ghost': !['Kepala Sekolah', 'Walikelas'].includes(emp.position) && !emp.position.includes('Waka')
-                                    }">
-                                        {{ emp.position }}
-                                    </span>
-                                    <span v-if="emp.classAssigned" class="ml-1 badge badge-xs badge-outline">{{
-                                        emp.classAssigned }}</span>
-                                </td>
-                                <td>{{ emp.type }}</td>
-                                <td>
-                                    <div class="text-xs">{{ emp.phone }}</div>
-                                </td>
-                                <td>
-                                    <div class="badge badge-xs"
-                                        :class="emp.status === 'Aktif' ? 'badge-success' : 'badge-error'">
-                                        {{ emp.status }}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="flex justify-center gap-2">
-                                        <button @click="router.push(`/employees/${emp.id}`)"
-                                            class="btn btn-square btn-ghost btn-sm text-base-content/60" title="Detail">
-                                            <EyeIcon class="w-4 h-4" />
-                                        </button>
-                                        <button @click="openEditModal(emp)"
-                                            class="btn btn-square btn-ghost btn-sm text-blue-500">
-                                            <PencilSquareIcon class="w-4 h-4" />
-                                        </button>
-                                        <button @click="openDeleteModal(emp)"
-                                            class="btn btn-square btn-ghost btn-sm text-red-500">
-                                            <TrashIcon class="w-4 h-4" />
-                                        </button>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
+            <!-- View Toggle -->
+            <div
+                class="flex bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl gap-1 shadow-sm">
+                <button @click="viewMode = 'table'"
+                    class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                    :class="viewMode === 'table' ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'">
+                    <Bars3Icon class="w-5 h-5" />
+                </button>
+                <button @click="viewMode = 'card'"
+                    class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
+                    :class="viewMode === 'card' ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:text-foreground hover:bg-primary/5'">
+                    <Squares2X2Icon class="w-5 h-5" />
+                </button>
             </div>
         </div>
 
-        <!-- Card View -->
-        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-            <!-- Skeleton Cards -->
+        <!-- List View (Horizontal Card Style) -->
+        <div v-if="viewMode === 'table'" class="space-y-4">
+            <!-- Skeleton Rows -->
             <template v-if="loading">
-                <div v-for="i in 8" :key="i" class="card bg-base-100 shadow-sm border border-base-200">
-                    <div class="card-body p-4">
-                        <div class="flex items-start justify-between mb-3">
-                            <Skeleton class="h-12 w-12 rounded-full" />
-                            <Skeleton class="h-5 w-12 rounded-full" />
+                <div v-for="i in 5" :key="i"
+                    class="bg-background border border-primary/10 rounded-3xl p-6 animate-pulse space-y-6">
+                    <div class="flex items-center justify-between border-b border-primary/5 pb-4">
+                        <div class="flex items-center gap-3">
+                            <div class="h-8 w-8 bg-primary/10 rounded-xl"></div>
+                            <div class="h-4 w-32 bg-primary/10 rounded-lg"></div>
                         </div>
-                        <div class="space-y-3">
-                            <Skeleton class="h-5 w-3/4" />
-                            <Skeleton class="h-4 w-1/2" />
-                            <div class="flex gap-2">
-                                <Skeleton class="h-5 w-20 rounded-full" />
-                                <Skeleton class="h-5 w-16 rounded-full" />
-                            </div>
-                            <div class="space-y-2 pt-2">
-                                <Skeleton class="h-3 w-2/3" />
-                                <Skeleton class="h-3 w-1/2" />
-                            </div>
+                        <div class="h-6 w-20 bg-primary/10 rounded-xl"></div>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="h-16 w-16 bg-primary/10 rounded-2xl"></div>
+                        <div class="space-y-2 flex-1">
+                            <div class="h-5 w-1/3 bg-primary/10 rounded-lg"></div>
+                            <div class="h-4 w-1/4 bg-primary/5 rounded-lg"></div>
                         </div>
+                        <div class="h-8 w-24 bg-primary/5 rounded-xl"></div>
                     </div>
                 </div>
             </template>
@@ -349,56 +317,103 @@ onMounted(() => {
             <!-- Actual Data -->
             <template v-else>
                 <div v-for="emp in filteredEmployees" :key="emp.id"
-                    class="card bg-base-100 shadow-sm border border-base-200 hover:shadow-md transition-shadow">
-                    <div class="card-body p-4">
-                        <!-- Avatar & Status -->
-                        <div class="flex items-start justify-between mb-3">
-                            <div class="avatar placeholder">
-                                <div class="bg-neutral text-neutral-content rounded-full w-12">
-                                    <span class="text-xl">{{ emp.name.charAt(0) }}</span>
-                                </div>
+                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
+
+                    <!-- Card Header (Icon, Metadata, Status) -->
+                    <div
+                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-primary/5 pb-4 mb-5">
+                        <div class="flex items-center gap-3">
+                            <div class="p-2 bg-primary/5 rounded-xl group-hover:bg-primary/10 transition-colors">
+                                <BriefcaseIcon class="w-5 h-5 text-primary" />
                             </div>
-                            <span class="badge badge-sm"
-                                :class="emp.status === 'Aktif' ? 'badge-success' : 'badge-error'">
+                            <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
+                                <span class="text-[11px] font-black uppercase tracking-widest text-muted-foreground">
+                                    NIP: <span class="text-foreground">{{ emp.nip || '-' }}</span>
+                                </span>
+                                <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-primary/20"></div>
+                                <span class="text-[11px] font-black uppercase tracking-widest text-primary">
+                                    {{ emp.type }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <span
+                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border"
+                                :class="getStatusBadgeClass(emp.status)">
                                 {{ emp.status }}
                             </span>
                         </div>
+                    </div>
 
-                        <!-- User Info -->
-                        <div class="space-y-2">
-                            <h3 class="font-semibold text-base truncate" :title="emp.name">{{ emp.name }}</h3>
-                            <p class="text-sm text-base-content/60 truncate">{{ emp.nip }}</p>
-
-                            <!-- Position Badge -->
-                            <div class="flex flex-wrap gap-1">
-                                <span class="badge badge-sm" :class="{
-                                    'badge-primary': emp.position === 'Kepala Sekolah',
-                                    'badge-secondary': emp.position.includes('Waka'),
-                                    'badge-accent': emp.position === 'Walikelas',
-                                    'badge-ghost': !['Kepala Sekolah', 'Walikelas'].includes(emp.position) && !emp.position.includes('Waka')
-                                }">
-                                    {{ emp.position }}
-                                </span>
-                                <span v-if="emp.classAssigned" class="badge badge-sm badge-outline">{{ emp.classAssigned
-                                }}</span>
+                    <!-- Card Body -->
+                    <div class="flex flex-col md:flex-row md:items-center gap-6">
+                        <div class="flex items-center gap-5 flex-1">
+                            <div class="relative">
+                                <div class="avatar placeholder">
+                                    <div
+                                        class="bg-neutral text-neutral-content rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform">
+                                        <span class="text-2xl font-bold">{{ emp.name.charAt(0) }}</span>
+                                    </div>
+                                </div>
+                                <div v-if="emp.status === 'Aktif'"
+                                    class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-background">
+                                </div>
                             </div>
-
-                            <!-- Additional Info -->
-                            <div class="text-xs text-base-content/60 space-y-1">
-                                <div>📞 {{ emp.phone }}</div>
-                                <div class="truncate">✉️ {{ emp.email }}</div>
+                            <div class="space-y-1">
+                                <h3
+                                    class="font-black text-xl text-foreground tracking-tight group-hover:text-primary transition-colors">
+                                    {{ emp.name }}
+                                </h3>
+                                <p class="text-sm font-medium text-muted-foreground">{{ emp.email }}</p>
                             </div>
                         </div>
 
-                        <!-- Actions -->
-                        <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
-                            <button @click="router.push(`/employees/${emp.id}`)" class="btn btn-sm btn-ghost gap-1">
-                                <EyeIcon class="w-4 h-4" />
-                                Detail
+                        <div class="flex items-center justify-between md:justify-end gap-6 md:min-w-[200px]">
+                            <div class="flex flex-col items-start md:items-end">
+                                <span
+                                    class="text-[10px] font-black text-muted-foreground uppercase tracking-widest leading-none mb-1">
+                                    Jabatan
+                                </span>
+                                <span
+                                    class="inline-flex items-center px-4 py-2 rounded-2xl text-sm font-black ring-1 shadow-sm"
+                                    :class="getPositionBadgeClass(emp.position)">
+                                    {{ emp.position }}
+                                </span>
+                            </div>
+
+                            <!-- Action Buttons (Responsive) -->
+                            <div class="hidden min-[1100px]:flex items-center gap-2 pl-6 border-l border-primary/5">
+                                <button @click="router.push(`/admin/employees/${emp.id}`)"
+                                    class="px-4 py-2.5 bg-background border-2 border-primary/5 hover:border-primary/20 hover:bg-primary/5 text-primary font-bold text-sm rounded-xl transition-all active:scale-95">
+                                    Detail
+                                </button>
+                                <button @click="openEditModal(emp)"
+                                    class="px-4 py-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold text-sm rounded-xl transition-all active:scale-95">
+                                    Edit
+                                </button>
+                                <button @click="openDeleteModal(emp)"
+                                    class="p-2.5 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white rounded-xl transition-all active:scale-95">
+                                    <TrashIcon class="w-5 h-5" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Mobile/Compact Actions -->
+                    <div
+                        class="mt-6 pt-5 border-t border-primary/5 flex min-[1100px]:hidden items-center justify-end gap-3">
+                        <button @click="router.push(`/employees/${emp.id}`)"
+                            class="flex-1 sm:flex-none text-primary font-black text-sm hover:underline py-2">
+                            Lihat Detail
+                        </button>
+                        <div class="flex gap-2">
+                            <button @click="openEditModal(emp)"
+                                class="px-6 py-2.5 bg-primary text-primary-foreground font-black text-sm rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+                                Ubah Orkil
                             </button>
-                            <button @click="openEditModal(emp)" class="btn btn-sm btn-ghost gap-1 text-blue-600">
-                                <PencilSquareIcon class="w-4 h-4" />
-                                Edit
+                            <button @click="openDeleteModal(emp)"
+                                class="p-2.5 bg-background border border-primary/10 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                                <TrashIcon class="w-5 h-5" />
                             </button>
                         </div>
                     </div>
@@ -406,16 +421,153 @@ onMounted(() => {
             </template>
         </div>
 
-        <!-- Pagination / Load More -->
-        <div v-if="hasMore && !loading" class="flex justify-center py-4">
-            <button @click="handleLoadMore" class="btn btn-outline gap-2" :disabled="loadingMore">
-                <span v-if="loadingMore" class="loading loading-spinner loading-xs"></span>
-                {{ loadingMore ? 'Memuat...' : 'Muat Lebih Banyak' }}
-            </button>
+        <!-- Grid View (Premium Selection) -->
+        <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            <!-- Skeleton Cards -->
+            <template v-if="loading">
+                <div v-for="i in 8" :key="i"
+                    class="bg-background border border-primary/10 rounded-3xl p-6 h-64 animate-pulse">
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="h-16 w-16 bg-primary/10 rounded-2xl"></div>
+                        <div class="h-6 w-20 bg-primary/10 rounded-xl"></div>
+                    </div>
+                    <div class="space-y-3">
+                        <div class="h-5 w-3/4 bg-primary/10 rounded-lg"></div>
+                        <div class="h-4 w-1/2 bg-primary/5 rounded-lg"></div>
+                        <div class="h-6 w-1/3 bg-primary/10 rounded-xl"></div>
+                    </div>
+                </div>
+            </template>
+
+            <!-- Actual Data -->
+            <template v-else>
+                <div v-for="emp in filteredEmployees" :key="emp.id"
+                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
+                    <!-- Background Accent -->
+                    <div
+                        class="absolute -top-12 -right-12 w-24 h-24 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all">
+                    </div>
+
+                    <!-- Avatar & Status -->
+                    <div class="flex items-start justify-between mb-5 relative">
+                        <div class="relative">
+                            <div class="avatar placeholder">
+                                <div
+                                    class="bg-neutral text-neutral-content rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform">
+                                    <span class="text-2xl font-bold">{{ emp.name.charAt(0) }}</span>
+                                </div>
+                            </div>
+                            <div v-if="emp.status === 'Aktif'"
+                                class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-background">
+                            </div>
+                        </div>
+                        <span
+                            class="inline-flex items-center px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider border bg-background"
+                            :class="getStatusBadgeClass(emp.status)">
+                            {{ emp.status }}
+                        </span>
+                    </div>
+
+                    <!-- Employee Info -->
+                    <div class="space-y-4 relative">
+                        <div class="space-y-1">
+                            <h3
+                                class="font-black text-foreground text-lg tracking-tight truncate group-hover:text-primary transition-colors">
+                                {{ emp.name }}
+                            </h3>
+                            <p class="text-xs text-muted-foreground font-medium truncate">{{ emp.email }}</p>
+                        </div>
+
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span
+                                class="inline-flex items-center px-3 py-1 rounded-xl text-[10px] font-black uppercase tracking-widest ring-1 shadow-sm"
+                                :class="getPositionBadgeClass(emp.position)">
+                                {{ emp.position }}
+                            </span>
+                        </div>
+
+                        <!-- Contacts Info -->
+                        <div class="pt-2 border-t border-primary/5 flex items-center justify-between">
+                            <div class="flex flex-col">
+                                <span
+                                    class="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">NIP</span>
+                                <span class="text-xs font-bold text-foreground">{{ emp.nip }}</span>
+                            </div>
+                            <div class="flex flex-col items-end">
+                                <span
+                                    class="text-[9px] font-bold text-muted-foreground uppercase tracking-widest">Kontak</span>
+                                <span class="text-xs font-bold text-foreground">{{ emp.phone }}</span>
+                            </div>
+                        </div>
+
+                        <!-- Actions -->
+                        <div
+                            class="pt-4 flex items-center gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+                            <button @click="router.push(`/employees/${emp.id}`)"
+                                class="flex-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
+                                <EyeIcon class="w-4 h-4" />
+                                Detail
+                            </button>
+                            <div class="flex gap-2">
+                                <button @click="openEditModal(emp)"
+                                    class="p-2.5 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-xl transition-all">
+                                    <PencilIcon class="w-4 h-4" />
+                                </button>
+                                <button @click="openDeleteModal(emp)"
+                                    class="p-2.5 bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl transition-all">
+                                    <TrashIcon class="w-4 h-4" />
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </template>
+        </div>
+
+        <!-- Pagination Controls -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5">
+
+            <!-- Page Info (Left) -->
+            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground order-2 sm:order-1">
+                Halaman <span class="text-primary font-black">{{ page }}</span> dari <span
+                    class="text-primary font-black">{{
+                        totalPages }}</span>
+            </div>
+
+            <!-- Page Navigation (Right) -->
+            <div class="flex items-center gap-2 order-1 sm:order-2">
+                <button @click="changePage(page - 1)" :disabled="page <= 1"
+                    class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+                    <span class="sr-only">Previous</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <div class="flex items-center gap-1">
+                    <button v-for="p in totalPages" :key="p" @click="changePage(p)"
+                        class="w-8 h-8 flex items-center justify-center rounded-xl text-xs font-black transition-all"
+                        :class="page === p ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+                        {{ p }}
+                    </button>
+                </div>
+
+                <button @click="changePage(page + 1)" :disabled="page >= totalPages"
+                    class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+                    <span class="sr-only">Next</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd"
+                            d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+            </div>
         </div>
 
         <!-- Empty State -->
-        <div v-if="filteredEmployees.length === 0 && !loading"
+        <div v-if="!loading && filteredEmployees.length === 0"
             class="card bg-base-100 shadow-sm border border-base-200">
             <div class="card-body text-center py-12">
                 <p class="text-base-content/60">Tidak ada data pegawai ditemukan</p>

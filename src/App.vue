@@ -8,11 +8,11 @@ import { useLoadingStore } from './stores/loading';
 const loadingStore = useLoadingStore();
 
 onMounted(() => {
-    // Initial App Load
-    loadingStore.show('Memuat Aplikasi...');
-    setTimeout(() => {
-        loadingStore.hide();
-    }, 2000);
+  // Initial App Load
+  loadingStore.show('Memuat Aplikasi...');
+  setTimeout(() => {
+    loadingStore.hide();
+  }, 2000);
 });
 </script>
 

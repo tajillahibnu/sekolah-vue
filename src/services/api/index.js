@@ -12,7 +12,7 @@ const api = axios.create({
     adapter: useMock ? mockAdapter : undefined
 });
 
-import { useToastStore } from '@/stores/toast';
+import { useToast } from '@/composables/useToast';
 
 api.interceptors.request.use(
     (config) => {
@@ -41,9 +41,9 @@ api.interceptors.response.use(
 
         // Show toast for mutations (POST, PUT, DELETE)
         if (['post', 'put', 'delete', 'patch'].includes(method)) {
-            const toast = useToastStore();
+            const toast = useToast();
             const message = data?.message || 'Berhasil menyimpan data';
-            toast.add(message, 'success');
+            toast.success(message);
         }
 
         return response;
@@ -57,9 +57,9 @@ api.interceptors.response.use(
             return Promise.reject(error);
         }
 
-        const toast = useToastStore();
+        const toast = useToast();
         const message = response?.data?.message || error.message || 'Terjadi kesalahan pada server';
-        toast.add(message, 'error');
+        toast.error(message);
 
         return Promise.reject(error);
     }

@@ -13,11 +13,14 @@ const loading = ref(false);
 
 const handleLogin = async () => {
   loading.value = true;
+  const loadingToast = toast.loading('Memproses login...');
   try {
     await authStore.login({ email: email.value, password: password.value });
+    toast.dismiss(loadingToast); // Dismiss loading toast
     toast.success('Login Berhasil!');
     router.push('/admin');
   } catch (error) {
+    toast.dismiss(loadingToast);
     toast.error('Login Gagal. Cek kredensial anda.');
   } finally {
     loading.value = false;
@@ -98,7 +101,8 @@ const handleLogin = async () => {
             <button type="submit"
               class="btn btn-primary w-full shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
               :class="{ 'loading': loading }" :disabled="loading">
-              Masuk ke Dashboard
+              <span v-if="!loading">Masuk ke Dashboard</span>
+              <span v-else>Memproses...</span>
             </button>
           </div>
         </form>

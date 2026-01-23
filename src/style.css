@@ -1,6 +1,8 @@
 @import "tailwindcss";
 @plugin "daisyui";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @layer base {
     :root {
         --background: 210 40% 98%;

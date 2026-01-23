@@ -10,6 +10,8 @@ import {
 } from '@heroicons/vue/24/outline'
 import Badge from '@/components/ui/badge/Badge.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue'
+import ThemeToggle from '@/components/common/ThemeToggle.vue'
+import Button from '@/components/ui/button/Button.vue'
 
 const router = useRouter()
 const isLoading = ref(true)
@@ -61,9 +63,11 @@ onMounted(() => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50 font-sans selection:bg-primary selection:text-white">
+    <div
+        class="min-h-screen bg-slate-50 dark:bg-slate-950 font-sans selection:bg-primary selection:text-white transition-colors duration-300">
         <!-- Header -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <header
+            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 sticky top-0 z-50 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
                 <div class="flex items-center gap-6">
                     <button @click="goBack" class="p-2 hover:bg-slate-100 rounded-xl transition-colors">
@@ -74,24 +78,30 @@ onMounted(() => {
                             class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center shadow-lg shadow-primary/20">
                             <AcademicCapIcon class="w-6 h-6 text-white" />
                         </div>
-                        <h1 class="text-xl font-bold tracking-tight text-slate-900">Direktori Guru & Staf</h1>
+                        <h1 class="text-xl font-bold tracking-tight text-slate-900 dark:text-white">Direktori Guru &
+                            Staf</h1>
                     </div>
                 </div>
-                <Button variant="ghost" @click="goBack"
-                    class="hidden sm:flex items-center gap-2 text-slate-600 hover:text-primary hover:bg-primary/5 transition-all">
-                    <HomeIcon class="w-5 h-5" />
-                    Kembali ke Beranda
-                </Button>
+                <div class="flex items-center gap-4">
+                    <ThemeToggle />
+                    <Button variant="ghost" @click="goBack"
+                        class="hidden sm:flex items-center gap-2 text-slate-600 dark:text-slate-400 hover:text-primary dark:hover:text-primary hover:bg-primary/5 dark:hover:bg-primary/10 transition-all">
+                        <HomeIcon class="w-5 h-5" />
+                        Kembali ke Beranda
+                    </Button>
+                </div>
             </div>
         </header>
 
         <!-- Search & Filter Bar -->
-        <div class="bg-white border-b border-slate-200 py-8 lg:py-12">
+        <div
+            class="bg-white dark:bg-slate-900 border-b border-slate-200 dark:border-slate-800 py-8 lg:py-12 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex flex-col lg:flex-row gap-6 items-center justify-between">
                     <div class="space-y-2 text-center lg:text-left">
-                        <h2 class="text-3xl font-black text-slate-900">Cari Pengajar Kami</h2>
-                        <p class="text-slate-500 font-medium tracking-tight">Temukan profil tenaga pendidik dan staf
+                        <h2 class="text-3xl font-black text-slate-900 dark:text-white">Cari Pengajar Kami</h2>
+                        <p class="text-slate-500 dark:text-slate-400 font-medium tracking-tight">Temukan profil tenaga
+                            pendidik dan staf
                             profesional kami.
                         </p>
                     </div>
@@ -101,12 +111,12 @@ onMounted(() => {
                             <MagnifyingGlassIcon
                                 class="w-5 h-5 absolute left-4 top-1/2 -translate-y-1/2 text-slate-400 group-focus-within:text-primary transition-colors" />
                             <input v-model="searchQuery" type="text" placeholder="Cari nama atau jabatan..."
-                                class="pl-12 pr-6 py-4 bg-slate-50 border border-slate-200 rounded-2xl w-full focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm font-bold text-slate-900" />
+                                class="pl-12 pr-6 py-4 bg-slate-50 dark:bg-slate-800 border border-slate-200 dark:border-slate-700 rounded-2xl w-full focus:ring-4 focus:ring-primary/10 focus:border-primary transition-all outline-none text-sm font-bold text-slate-900 dark:text-white dark:placeholder-slate-500" />
                         </div>
-                        <div class="flex p-1 bg-slate-100 rounded-2xl shrink-0">
+                        <div class="flex p-1 bg-slate-100 dark:bg-slate-800 rounded-2xl shrink-0">
                             <button v-for="cat in staffCategories" :key="cat" @click="selectedStaffType = cat"
                                 class="px-6 py-3 rounded-xl text-xs font-black transition-all"
-                                :class="selectedStaffType === cat ? 'bg-white text-primary shadow-sm' : 'text-slate-400 hover:text-slate-600'">
+                                :class="selectedStaffType === cat ? 'bg-white dark:bg-slate-700 text-primary shadow-sm' : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-300'">
                                 {{ cat }}
                             </button>
                         </div>
@@ -118,7 +128,8 @@ onMounted(() => {
         <main class="max-w-7xl mx-auto px-6 py-12 lg:py-20">
             <!-- Unified Staff Grid -->
             <div v-if="isLoading" class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-                <div v-for="i in 8" :key="i" class="bg-white border border-slate-100 rounded-[2rem] overflow-hidden">
+                <div v-for="i in 8" :key="i"
+                    class="bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 rounded-[2rem] overflow-hidden">
                     <Skeleton class="aspect-square w-full" />
                     <div class="p-6 space-y-4">
                         <Skeleton class="h-6 w-3/4 mx-auto" />
@@ -132,9 +143,9 @@ onMounted(() => {
                 move-class="transition duration-500"
                 class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-3 xl:grid-cols-4 gap-8">
                 <div v-for="staff in filteredStaff" :key="staff.id"
-                    class="group bg-white border border-slate-100 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 text-center overflow-hidden rounded-[2rem]">
+                    class="group bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 hover:border-primary/20 hover:shadow-[0_40px_80px_-20px_rgba(0,0,0,0.1)] transition-all duration-700 text-center overflow-hidden rounded-[2rem]">
                     <div
-                        class="aspect-square overflow-hidden mb-8 relative bg-slate-50 group-hover:scale-105 transition-transform duration-700">
+                        class="aspect-square overflow-hidden mb-8 relative bg-slate-50 dark:bg-slate-800 group-hover:scale-105 transition-transform duration-700">
                         <img :src="staff.photo || (staff.gender === 'Laki-laki' ? '/src/assets/images/blank_avatar_male.png' : '/src/assets/images/blank_avatar_female.png')"
                             :alt="staff.name"
                             class="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-1000" />
@@ -142,7 +153,7 @@ onMounted(() => {
                         <!-- Position Tag Overlay -->
                         <div class="absolute bottom-4 left-4 z-10">
                             <div
-                                class="px-4 py-2 bg-white/90 backdrop-blur-md border border-white/50 shadow-sm text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 group-hover:bg-primary group-hover:text-white group-hover:border-primary/20 transition-all duration-500 rounded-lg">
+                                class="px-4 py-2 bg-white/90 dark:bg-slate-900/90 backdrop-blur-md border border-white/50 dark:border-slate-700 shadow-sm text-[10px] font-black uppercase tracking-[0.15em] text-slate-600 dark:text-slate-300 group-hover:bg-primary group-hover:text-white group-hover:border-primary/20 transition-all duration-500 rounded-lg">
                                 {{ staff.position }}
                             </div>
                         </div>
@@ -153,20 +164,21 @@ onMounted(() => {
                     </div>
                     <div class="space-y-4 px-6 pb-8">
                         <h4
-                            class="text-lg font-black text-slate-900 group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[3.5rem] flex items-center justify-center">
+                            class="text-lg font-black text-slate-900 dark:text-white group-hover:text-primary transition-colors leading-tight line-clamp-2 min-h-[3.5rem] flex items-center justify-center">
                             {{ staff.name }}</h4>
 
                         <!-- Social Links & Website -->
-                        <div class="pt-4 border-t border-slate-50 flex items-center justify-center gap-3">
+                        <div
+                            class="pt-4 border-t border-slate-50 dark:border-slate-800 flex items-center justify-center gap-3">
                             <template v-if="staff.website || (staff.socials && Object.keys(staff.socials).length > 0)">
                                 <a v-if="staff.website" :href="staff.website" target="_blank"
-                                    class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
+                                    class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
                                     title="Website/Blog">
                                     <GlobeAltIcon class="w-4 h-4" />
                                 </a>
                                 <template v-for="(handle, brand) in staff.socials" :key="brand">
                                     <a v-if="handle" href="#"
-                                        class="p-2 bg-slate-50 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
+                                        class="p-2 bg-slate-50 dark:bg-slate-800 rounded-xl text-slate-400 hover:bg-primary/10 hover:text-primary transition-all group/social"
                                         :title="brand.charAt(0).toUpperCase() + brand.slice(1)">
                                         <!-- SVG Icons for brands -->
                                         <svg v-if="brand === 'instagram'" class="w-4 h-4 fill-current"
@@ -204,12 +216,13 @@ onMounted(() => {
             <div v-if="filteredStaff.length === 0" class="py-32 text-center space-y-10">
                 <div class="relative inline-block">
                     <div
-                        class="w-32 h-32 bg-white shadow-xl flex items-center justify-center mx-auto border border-slate-50">
-                        <MagnifyingGlassIcon class="w-12 h-12 text-slate-200" />
+                        class="w-32 h-32 bg-white dark:bg-slate-900 shadow-xl flex items-center justify-center mx-auto border border-slate-50 dark:border-slate-800 rounded-3xl">
+                        <MagnifyingGlassIcon class="w-12 h-12 text-slate-200 dark:text-slate-700" />
                     </div>
                 </div>
                 <div class="space-y-3">
-                    <h3 class="text-3xl font-black text-slate-900 tracking-tight">Tidak ada yang kami temukan</h3>
+                    <h3 class="text-3xl font-black text-slate-900 dark:text-white tracking-tight">Tidak ada yang kami
+                        temukan</h3>
                     <p class="text-slate-400 max-w-sm mx-auto font-medium text-lg leading-relaxed">Coba kata kunci lain
                         atau gunakan filter kategori di atas.</p>
                 </div>
@@ -221,11 +234,12 @@ onMounted(() => {
         </main>
 
         <!-- Footer -->
-        <footer class="bg-slate-50 border-t border-slate-100 py-20 mt-20">
+        <footer
+            class="bg-slate-50 dark:bg-slate-950 border-t border-slate-100 dark:border-slate-800 py-20 mt-20 transition-colors duration-300">
             <div class="max-w-7xl mx-auto px-6 flex flex-col items-center gap-10">
-                <div class="flex items-center gap-4 opacity-30 grayscale saturate-0">
+                <div class="flex items-center gap-4 opacity-30 grayscale saturate-0 dark:invert">
                     <span class="text-2xl font-black tracking-tighter">GLOBAL ACADEMY</span>
-                    <div class="w-1.5 h-1.5 rounded-full bg-slate-900"></div>
+                    <div class="w-1.5 h-1.5 rounded-full bg-slate-900 dark:bg-white"></div>
                     <span class="text-xs font-bold tracking-widest uppercase">Excellentia</span>
                 </div>
                 <p class="text-slate-400 text-sm font-medium">&copy; 2026 Global Academy. Empowering Minds Since 1998.
