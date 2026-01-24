@@ -1,0 +1,24 @@
+[
+  {
+    "id": 1,
+    "studentId": 5,
+    "fromClassId": 3,
+    "toClassId": 1,
+    "transferDate": "2024-09-01",
+    "reason": "Pindah jurusan dari RPL ke TKJ",
+    "approvedBy": "Kepala Sekolah",
+    "approvedDate": "2024-08-28",
+    "notes": "Atas permintaan orang tua dan persetujuan siswa"
+  },
+  {
+    "id": 2,
+    "studentId": 8,
+    "fromClassId": 1,
+    "toClassId": 2,
+    "transferDate": "2024-08-20",
+    "reason": "Penyesuaian kapasitas kelas",
+    "approvedBy": "Wakil Kepala Kurikulum",
+    "approvedDate": "2024-08-18",
+    "notes": "Kelas X TKJ 1 melebihi kapasitas"
+  }
+]

@@ -25,6 +25,7 @@
             { "label": "Tahun Ajaran", "to": "/admin/academic/school-year" },
             { "label": "Mata Pelajaran", "to": "/admin/academic/subjects" },
             { "label": "Kelas", "to": "/admin/academic/classes" },
+            { "label": "Penugasan Siswa", "to": "/admin/academic/assignments" },
             { "label": "Jadwal", "to": "/admin/academic/schedule" }
         ]
       },

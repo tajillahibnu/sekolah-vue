@@ -1,0 +1,32 @@
+[
+  {
+    "id": 1,
+    "studentId": 1,
+    "classId": 1,
+    "academicYear": "2024/2025",
+    "assignmentType": "ppdb",
+    "assignedDate": "2024-07-15",
+    "status": "active",
+    "notes": "Siswa baru dari PPDB gelombang 1"
+  },
+  {
+    "id": 2,
+    "studentId": 2,
+    "classId": 1,
+    "academicYear": "2024/2025",
+    "assignmentType": "ppdb",
+    "assignedDate": "2024-07-15",
+    "status": "active",
+    "notes": ""
+  },
+  {
+    "id": 3,
+    "studentId": 3,
+    "classId": 2,
+    "academicYear": "2024/2025",
+    "assignmentType": "transfer_in",
+    "assignedDate": "2024-08-10",
+    "status": "active",
+    "notes": "Pindahan dari SMK Negeri 2"
+  }
+]

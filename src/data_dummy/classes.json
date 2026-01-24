@@ -1,0 +1,90 @@
+[
+  {
+    "id": 1,
+    "name": "X TKJ 1",
+    "grade": 10,
+    "jurusan": "Teknik Komputer dan Jaringan",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 32,
+    "homeRoomTeacher": "Budi Santoso, S.Kom",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "name": "X TKJ 2",
+    "grade": 10,
+    "jurusan": "Teknik Komputer dan Jaringan",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 34,
+    "homeRoomTeacher": "Siti Aminah, S.T",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "name": "X RPL 1",
+    "grade": 10,
+    "jurusan": "Rekayasa Perangkat Lunak",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 30,
+    "homeRoomTeacher": "Ahmad Fauzi, S.Kom",
+    "status": "active"
+  },
+  {
+    "id": 4,
+    "name": "X MM 1",
+    "grade": 10,
+    "jurusan": "Multimedia",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 28,
+    "homeRoomTeacher": "Dewi Lestari, S.Pd",
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "name": "XI TKJ 1",
+    "grade": 11,
+    "jurusan": "Teknik Komputer dan Jaringan",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 35,
+    "homeRoomTeacher": "Eko Prasetyo, S.Kom",
+    "status": "active"
+  },
+  {
+    "id": 6,
+    "name": "XI RPL 1",
+    "grade": 11,
+    "jurusan": "Rekayasa Perangkat Lunak",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 33,
+    "homeRoomTeacher": "Fitri Handayani, S.T",
+    "status": "active"
+  },
+  {
+    "id": 7,
+    "name": "XII TKJ 1",
+    "grade": 12,
+    "jurusan": "Teknik Komputer dan Jaringan",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 36,
+    "homeRoomTeacher": "Hendra Gunawan, S.Kom",
+    "status": "active"
+  },
+  {
+    "id": 8,
+    "name": "XII RPL 1",
+    "grade": 12,
+    "jurusan": "Rekayasa Perangkat Lunak",
+    "academicYear": "2024/2025",
+    "capacity": 36,
+    "currentStudents": 34,
+    "homeRoomTeacher": "Indah Permata, S.Kom",
+    "status": "active"
+  }
+]

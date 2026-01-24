@@ -87,35 +87,55 @@ const router = createRouter({
                     name: 'form-example',
                     component: () => import('../views/FormExample.vue')
                 },
+                // Academic Management Routes
+                {
+                    path: 'academic',
+                    redirect: '/admin/academic/classes',
+                    children: [
+                        {
+                            path: 'classes',
+                            name: 'academic-classes',
+                            component: () => import('@/features/classes/views/Classes.vue'),
+                            meta: { permission: 'classes.view' }
+                        },
+                        {
+                            path: 'classes/:id',
+                            name: 'academic-class-detail',
+                            component: () => import('@/features/classes/views/ClassDetail.vue'),
+                            meta: { permission: 'classes.view' }
+                        },
+                        {
+                            path: 'assignments',
+                            name: 'academic-assignments',
+                            component: () => import('@/features/classes/components/AssignStudentToClass.vue'),
+                            meta: { permission: 'classes.manage' }
+                        },
+                        {
+                            path: 'school-year',
+                            name: 'academic-school-year',
+                            component: () => import('../features/settings/components/academic-years/AcademicYearsList.vue'),
+                            meta: { permission: 'academic.manage' }
+                        },
+                        {
+                            path: 'subjects',
+                            name: 'academic-subjects',
+                            component: () => import('../features/settings/components/subjects/SubjectsList.vue'),
+                            meta: { permission: 'subjects.view' }
+                        }
+                    ]
+                },
+                // Settings Routes
                 {
                     path: 'settings',
                     name: 'settings',
                     component: () => import('../features/settings/views/Settings.vue'),
-                    redirect: '/settings/users',
+                    redirect: '/admin/settings/users',
                     children: [
                         {
                             path: 'users',
                             name: 'settings-users',
                             component: () => import('../features/settings/components/users/UsersList.vue'),
                             meta: { permission: 'users.view' }
-                        },
-                        {
-                            path: 'academic-years',
-                            name: 'settings-academic-years',
-                            component: () => import('../features/settings/components/academic-years/AcademicYearsList.vue'),
-                            meta: { permission: 'settings.manage' }
-                        },
-                        {
-                            path: 'classes',
-                            name: 'settings-classes',
-                            component: () => import('../features/settings/components/classes/ClassesList.vue'),
-                            meta: { permission: 'classes.view' }
-                        },
-                        {
-                            path: 'subjects',
-                            name: 'settings-subjects',
-                            component: () => import('../features/settings/components/subjects/SubjectsList.vue'),
-                            meta: { permission: 'subjects.view' }
                         },
                         {
                             path: 'school',
@@ -131,6 +151,7 @@ const router = createRouter({
                         }
                     ]
                 },
+                // App Management Routes
                 {
                     path: 'app',
                     redirect: '/admin/app/roles',
@@ -143,8 +164,8 @@ const router = createRouter({
                         },
                         {
                             path: 'roles/:id',
-                            name: 'role-edit', // Reusing RoleForm component if desired, but reusing List for now as per previous implementation structure
-                            component: () => import('../features/settings/components/roles/RolesList.vue'), // Technically RoleForm is modal-based in RolesList, so maybe just routing to List is enough
+                            name: 'role-edit',
+                            component: () => import('../features/settings/components/roles/RolesList.vue'),
                             meta: { permission: 'roles.manage' }
                         },
                         {

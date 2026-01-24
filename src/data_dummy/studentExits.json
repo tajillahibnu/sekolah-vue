@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "studentId": 12,
+    "exitDate": "2024-09-15",
+    "exitType": "pindah_sekolah",
+    "destination": "SMK Negeri 1 Jakarta",
+    "reason": "Pindah domisili mengikuti orang tua",
+    "approvedBy": "Kepala Sekolah",
+    "approvedDate": "2024-09-10",
+    "notes": "Surat pindah telah diterbitkan",
+    "lastClassId": 1
+  },
+  {
+    "id": 2,
+    "studentId": 15,
+    "exitDate": "2024-08-30",
+    "exitType": "mengundurkan_diri",
+    "destination": null,
+    "reason": "Alasan pribadi keluarga",
+    "approvedBy": "Kepala Sekolah",
+    "approvedDate": "2024-08-25",
+    "notes": "Orang tua telah menandatangani surat pernyataan",
+    "lastClassId": 3
+  },
+  {
+    "id": 3,
+    "studentId": 20,
+    "exitDate": "2024-06-15",
+    "exitType": "lulus",
+    "destination": "Universitas Indonesia",
+    "reason": "Lulus dan melanjutkan ke perguruan tinggi",
+    "approvedBy": "Kepala Sekolah",
+    "approvedDate": "2024-06-01",
+    "notes": "Lulus dengan nilai baik",
+    "lastClassId": 7
+  }
+]
