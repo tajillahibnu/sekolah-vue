@@ -202,6 +202,17 @@ const selectedStaffType = ref('Semua')
 
 const staffCategories = ['Semua', 'Guru', 'Pegawai']
 
+// Section visibility controls from environment variables
+const showHero = computed(() => import.meta.env.VITE_SHOW_HERO !== 'false')
+const showVisionMission = computed(() => import.meta.env.VITE_SHOW_VISION_MISSION !== 'false')
+const showStats = computed(() => import.meta.env.VITE_SHOW_STATS !== 'false')
+const showPrograms = computed(() => import.meta.env.VITE_SHOW_PROGRAMS !== 'false')
+const showStaff = computed(() => import.meta.env.VITE_SHOW_STAFF !== 'false')
+const showEvents = computed(() => import.meta.env.VITE_SHOW_EVENTS !== 'false')
+const showAchievements = computed(() => import.meta.env.VITE_SHOW_ACHIEVEMENTS !== 'false')
+const showCTA = computed(() => import.meta.env.VITE_SHOW_CTA !== 'false')
+const showFooter = computed(() => import.meta.env.VITE_SHOW_FOOTER !== 'false')
+
 const filteredStaff = computed(() => {
     return staffData.filter(staff => {
         const matchesSearch = staff.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
@@ -341,7 +352,8 @@ const filteredStaff = computed(() => {
         </transition>
 
         <!-- Hero Section -->
-        <section id="beranda" class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden scroll-mt-24">
+        <section v-if="showHero" id="beranda"
+            class="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden scroll-mt-24">
             <div
                 class="absolute top-0 right-0 w-1/2 h-full bg-slate-50 dark:bg-slate-800/20 -skew-x-12 translate-x-1/4 -z-10">
             </div>
@@ -392,7 +404,8 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Vision & Mission Section -->
-        <section id="visi-misi" class="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 scroll-mt-24">
+        <section v-if="showVisionMission" id="visi-misi"
+            class="py-24 relative overflow-hidden bg-slate-50/50 dark:bg-slate-900/50 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <!-- Vision -->
                 <div
@@ -434,7 +447,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Stats Section -->
-        <section class="bg-slate-900 py-20 text-white relative overflow-hidden">
+        <section v-if="showStats" class="bg-slate-900 py-20 text-white relative overflow-hidden">
             <div class="absolute -top-24 -left-24 w-64 h-64 bg-primary/20 blur-[100px] rounded-full"></div>
             <div class="absolute -bottom-24 -right-24 w-64 h-64 bg-indigo-500/20 blur-[100px] rounded-full"></div>
             <div class="max-w-7xl mx-auto px-6">
@@ -452,7 +465,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Programs Section -->
-        <section id="program" class="py-24 lg:py-32 scroll-mt-24">
+        <section v-if="showPrograms" id="program" class="py-24 lg:py-32 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="text-center max-w-3xl mx-auto mb-20 space-y-4">
                     <h2 class="text-4xl font-bold lg:text-5xl tracking-tight dark:text-white">Kurikulum Berstandar
@@ -486,7 +499,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Teachers & Staff Section -->
-        <section id="staff" class="py-24 lg:py-30 scroll-mt-2 overflow-hidden">
+        <section v-if="showStaff" id="staff" class="py-24 lg:py-30 scroll-mt-2 overflow-hidden">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                     <div class="space-y-4 max-w-2xl">
@@ -594,7 +607,7 @@ const filteredStaff = computed(() => {
                                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                             </svg>
                                             <span v-else class="text-[10px] font-bold">{{ brand.charAt(0).toUpperCase()
-                                            }}</span>
+                                                }}</span>
                                         </a>
                                     </template>
                                 </template>
@@ -616,7 +629,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Events Section -->
-        <section id="kegiatan" class="py-24 lg:py-32 scroll-mt-24">
+        <section v-if="showEvents" id="kegiatan" class="py-24 lg:py-32 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div class="space-y-4 max-w-2xl">
@@ -691,7 +704,8 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Achievements Section -->
-        <section id="prestasi" class="py-24 lg:py-32 bg-slate-50 dark:bg-slate-900/50 scroll-mt-24">
+        <section v-if="showAchievements" id="prestasi"
+            class="py-24 lg:py-32 bg-slate-50 dark:bg-slate-900/50 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-6">
                     <div class="space-y-4 max-w-2xl">
@@ -768,7 +782,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- CTA Section -->
-        <section class="max-w-7xl mx-auto px-6 mb-24">
+        <section v-if="showCTA" class="max-w-7xl mx-auto px-6 mb-24">
             <div
                 class="bg-gradient-to-r from-primary via-indigo-600 to-indigo-700 rounded-[3rem] p-12 lg:p-24 text-center text-white relative overflow-hidden">
                 <!-- Abstract blobs -->
@@ -802,7 +816,7 @@ const filteredStaff = computed(() => {
         </section>
 
         <!-- Footer -->
-        <footer id="kontak" class="bg-slate-50 dark:bg-slate-950 pt-24 pb-12 scroll-mt-24">
+        <footer v-if="showFooter" id="kontak" class="bg-slate-50 dark:bg-slate-950 pt-24 pb-12 scroll-mt-24">
             <div class="max-w-7xl mx-auto px-6">
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12 mb-20">
                     <div class="space-y-6">
@@ -1013,7 +1027,7 @@ const filteredStaff = computed(() => {
                                 {{ selectedAchievement.category }}
                             </Badge>
                             <h3 class="text-white text-2xl font-bold leading-tight">{{ selectedAchievement.achievement
-                                }}</h3>
+                            }}</h3>
                         </div>
                     </div>
 
@@ -1033,7 +1047,7 @@ const filteredStaff = computed(() => {
                             <div class="flex items-center gap-3 text-primary">
                                 <TrophyIcon class="w-6 h-6" />
                                 <span class="font-bold text-2xl tracking-tight">{{ selectedAchievement.achievement
-                                }}</span>
+                                    }}</span>
                             </div>
                         </div>
 
