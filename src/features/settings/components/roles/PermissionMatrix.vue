@@ -1,6 +1,7 @@
 <script setup>
-import { computed, ref } from 'vue';
-import { ChevronDownIcon, CheckIcon, MagnifyingGlassIcon } from '@heroicons/vue/24/outline'; // Using heroes for checks if needed, or pure CSS
+import { computed, ref, onMounted } from 'vue';
+import { ChevronDownIcon, CheckIcon, MagnifyingGlassIcon, InformationCircleIcon } from '@heroicons/vue/24/outline'; // Using heroes for checks if needed, or pure CSS
+import { useMenuStore } from '@/stores/menu';
 
 const props = defineProps({
     modelValue: {
@@ -15,6 +16,29 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 const searchQuery = ref('');
+const menuStore = useMenuStore();
+
+onMounted(() => {
+    if (menuStore.menus.length === 0) {
+        menuStore.fetchMenus();
+    }
+});
+
+
+const getMenuContext = (groupName) => {
+    // Try to find exact match first
+    let menu = menuStore.allMenus.find(m => m.label === groupName);
+    
+    // If not found, it might be a static permission group not in menus.json (e.g. 'Dashboard' might be there, but 'App Management' might not)
+    // But assuming menus are largely sync'd. 
+    if (!menu) return null;
+
+    if (menu.parentId) {
+        const parent = menuStore.allMenus.find(m => m.id === menu.parentId);
+        return parent ? { type: 'sub', label: parent.label } : null;
+    }
+    return { type: 'main', label: 'Main Module' };
+};
 
 // Computed filtered permissions for search within the matrix
 const filteredGroupedPermissions = computed(() => {
@@ -90,7 +114,7 @@ const togglePermission = (id) => {
             class="bg-background border border-primary/5 rounded-2xl overflow-hidden shadow-sm transition-all hover:shadow-md">
 
             <!-- Group Header -->
-            <div class="bg-muted/30 border-b border-primary/5 px-5 py-3 flex items-center justify-between cursor-pointer group"
+            <div class="bg-muted/30 border-b border-primary/5 px-5 py-3 flex items-center justify-between cursor-pointer group hover:bg-muted/50 transition-colors"
                 @click="toggleGroup(groupPermissions)">
                 <div class="flex items-center gap-3">
                     <div class="relative flex items-center justify-center w-5 h-5">
@@ -105,7 +129,19 @@ const togglePermission = (id) => {
                         <div v-if="isGroupIndeterminate(groupPermissions)"
                             class="absolute w-2.5 h-0.5 bg-primary pointer-events-none"></div>
                     </div>
-                    <h4 class="font-bold text-sm text-foreground tracking-tight">{{ groupName }}</h4>
+                    <div class="flex flex-col">
+                        <div class="flex items-center gap-2">
+                            <h4 class="font-bold text-sm text-foreground tracking-tight">{{ groupName }}</h4>
+                            <span v-if="getMenuContext(groupName)" 
+                                class="px-1.5 py-0.5 rounded text-[10px] font-bold uppercase tracking-wider border flex items-center gap-1"
+                                :class="getMenuContext(groupName).type === 'sub' 
+                                    ? 'bg-indigo-50 text-indigo-600 border-indigo-100 dark:bg-indigo-500/10 dark:text-indigo-400 dark:border-indigo-500/20' 
+                                    : 'bg-zinc-100 text-zinc-500 border-zinc-200 dark:bg-zinc-800 dark:text-zinc-400 dark:border-zinc-700'">
+                                <span v-if="getMenuContext(groupName).type === 'sub'" class="opacity-70 font-normal normal-case mr-0.5">Part of</span>
+                                {{ getMenuContext(groupName).label }}
+                            </span>
+                        </div>
+                    </div>
                 </div>
                 <div class="text-xs font-bold text-muted-foreground/50 group-hover:text-primary transition-colors">
                     {{groupPermissions.filter(p => modelValue.includes(p.id)).length}} / {{ groupPermissions.length }}
