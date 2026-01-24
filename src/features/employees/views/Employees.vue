@@ -196,6 +196,14 @@ const getPositionBadgeClass = (position) => {
     return 'bg-slate-50 text-slate-700 ring-slate-200/50';
 };
 
+// Helper to get initials (max 2 chars)
+const getInitials = (name) => {
+    if (!name) return '';
+    const parts = name.trim().split(' ');
+    if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+    return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
+};
+
 onMounted(() => {
     fetchEmployees();
 });
@@ -342,14 +350,16 @@ onMounted(() => {
                         </div>
                     </div>
 
+
                     <!-- Card Body -->
                     <div class="flex flex-col md:flex-row md:items-center gap-6">
                         <div class="flex items-center gap-5 flex-1">
                             <div class="relative">
-                                <div class="avatar placeholder">
-                                    <div
-                                        class="bg-neutral text-neutral-content rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform">
-                                        <span class="text-2xl font-bold">{{ emp.name.charAt(0) }}</span>
+                                <div class="avatar" :class="{'placeholder': !emp.photo}">
+                                    <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden" 
+                                         :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                                        <img v-if="emp.photo" :src="emp.photo" :alt="emp.name" />
+                                        <span v-else class="text-xl font-black">{{ getInitials(emp.name) }}</span>
                                     </div>
                                 </div>
                                 <div v-if="emp.status === 'Aktif'"
@@ -448,10 +458,11 @@ onMounted(() => {
                     <!-- Avatar & Status -->
                     <div class="flex items-start justify-between mb-5 relative">
                         <div class="relative">
-                            <div class="avatar placeholder">
-                                <div
-                                    class="bg-neutral text-neutral-content rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform">
-                                    <span class="text-2xl font-bold">{{ emp.name.charAt(0) }}</span>
+                            <div class="avatar" :class="{'placeholder': !emp.photo}">
+                                <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden" 
+                                     :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                                    <img v-if="emp.photo" :src="emp.photo" :alt="emp.name" />
+                                    <span v-else class="text-xl font-black">{{ getInitials(emp.name) }}</span>
                                 </div>
                             </div>
                             <div v-if="emp.status === 'Aktif'"
