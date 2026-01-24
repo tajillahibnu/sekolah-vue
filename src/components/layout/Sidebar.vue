@@ -32,7 +32,7 @@ const handleMouseEnter = (event, item) => {
     if (!layoutStore.isSidebarCollapsed || !item.children) return;
 
     if (hoverTimeout) clearTimeout(hoverTimeout);
-
+    m
     const rect = event.currentTarget.getBoundingClientRect();
     flyoutPosition.value = {
         top: rect.top,
@@ -70,16 +70,16 @@ const fetchMenu = async () => {
             children: []
         };
 
-        if (authStore.hasPermission('roles.manage')) {
+        if (authStore.hasPermission('roles.manage') || authStore.activeRole?.id === 'admin') {
             appManagementDetails.children.push({
                 label: 'Roles & Permissions',
                 icon: 'UsersIcon',
                 to: '/admin/app/roles'
             });
             appManagementDetails.children.push({
-                label: 'Master Permissions',
-                icon: 'KeyIcon',
-                to: '/admin/app/permissions'
+                label: 'Menu Management',
+                icon: 'Bars3Icon',
+                to: '/admin/app/menus'
             });
         }
 

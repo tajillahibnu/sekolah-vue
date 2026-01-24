@@ -5,61 +5,191 @@ const mockRoles = [
     {
         id: 1,
         name: 'Super Admin',
-        description: 'Full access to all features',
+        description: 'Akses penuh ke semua fitur sistem',
         permissions: ['*']
     },
     {
         id: 2,
-        name: 'Teacher',
-        description: 'Access to academic features',
+        name: 'Guru',
+        description: 'Akses untuk kegiatan akademik dan kesiswaan',
         permissions: [
+            'dashboard.view',
             'students.view',
             'students.grade',
-            'classes.view'
+            'classes.view',
+            'schedules.view',
+            'assignments.manage'
         ]
     },
     {
         id: 3,
-        name: 'Admin Staff',
-        description: 'Manage administrative tasks',
+        name: 'Tata Usaha',
+        description: 'Manajemen administrasi dan keuangan',
         permissions: [
+            'dashboard.view',
             'users.view',
-            'students.view',
-            'students.create',
-            'students.edit',
-            'employees.view'
+            'students.manage',
+            'employees.manage',
+            'finance.manage'
         ]
     }
 ];
 
+// Standardized Permissions matching menus.json structure
+// Base CRUD: view, create, edit, delete
+// Additional: specific actions
 const mockPermissions = {
-    'User Management': [
-        { id: 'users.view', label: 'View Users' },
-        { id: 'users.create', label: 'Create Users' },
-        { id: 'users.edit', label: 'Edit Users' },
-        { id: 'users.delete', label: 'Delete Users' }
+    // --- MAIN ---
+    'Dashboard': [
+        { id: 'dashboard.view', label: 'Lihat Dashboard' },
+        { id: 'dashboard.widgets', label: 'Atur Widget' }
     ],
-    'Student Management': [
-        { id: 'students.view', label: 'View Students' },
-        { id: 'students.create', label: 'Create Students' },
-        { id: 'students.edit', label: 'Edit Students' },
-        { id: 'students.delete', label: 'Delete Students' },
-        { id: 'students.grade', label: 'Grade Students' }
+
+    // --- DATA UTAMA ---
+    'Data Siswa': [
+        { id: 'students.view', label: 'Lihat Data Siswa' },
+        { id: 'students.create', label: 'Tambah Siswa' },
+        { id: 'students.edit', label: 'Edit Data Siswa' },
+        { id: 'students.delete', label: 'Hapus Data Siswa' },
+        { id: 'students.import', label: 'Import Excel' },
+        { id: 'students.export', label: 'Export Excel' }
     ],
-    'Academics': [
-        { id: 'classes.view', label: 'View Classes' },
-        { id: 'subjects.view', label: 'View Subjects' },
-        { id: 'schedules.manage', label: 'Manage Schedules' }
+    'Data Pegawai': [
+        { id: 'employees.view', label: 'Lihat Data Pegawai' },
+        { id: 'employees.create', label: 'Tambah Pegawai' },
+        { id: 'employees.edit', label: 'Edit Data Pegawai' },
+        { id: 'employees.delete', label: 'Hapus Data Pegawai' },
+        { id: 'employees.attendance', label: 'Kelola Absensi Pegawai' }
     ],
-    'Settings': [
-        { id: 'settings.manage', label: 'Manage Settings' },
-        { id: 'roles.manage', label: 'Manage Roles & Permissions' }
+
+    // --- AKADEMIK ---
+    'Akademik': [
+        { id: 'academic.view', label: 'Akses Menu Akademik' } // Parent permission
+    ],
+    'Tahun Ajaran': [
+        { id: 'academic-year.view', label: 'Lihat Tahun Ajaran' },
+        { id: 'academic-year.create', label: 'Buat Tahun Ajaran' },
+        { id: 'academic-year.edit', label: 'Edit Tahun Ajaran' },
+        { id: 'academic-year.delete', label: 'Hapus Tahun Ajaran' },
+        { id: 'academic-year.activate', label: 'Aktifkan Tahun Ajaran' }
+    ],
+    'Mata Pelajaran': [
+        { id: 'subjects.view', label: 'Lihat Mata Pelajaran' },
+        { id: 'subjects.create', label: 'Tambah Mapel' },
+        { id: 'subjects.edit', label: 'Edit Mapel' },
+        { id: 'subjects.delete', label: 'Hapus Mapel' },
+        { id: 'subjects.curriculum', label: 'Atur Kurikulum Mapel' }
+    ],
+    'Kelas': [
+        { id: 'classes.view', label: 'Lihat Daftar Kelas' },
+        { id: 'classes.create', label: 'Buat Kelas Baru' },
+        { id: 'classes.edit', label: 'Edit Info Kelas' },
+        { id: 'classes.delete', label: 'Hapus Kelas' },
+        { id: 'classes.homeroom', label: 'Atur Wali Kelas' },
+        { id: 'classes.promote', label: 'Kenaikan Kelas' }
+    ],
+    'Jadwal': [
+        { id: 'schedule.view', label: 'Lihat Jadwal' },
+        { id: 'schedule.create', label: 'Buat Jadwal' },
+        { id: 'schedule.edit', label: 'Edit Jadwal' },
+        { id: 'schedule.delete', label: 'Hapus Jadwal' },
+        { id: 'schedule.print', label: 'Cetak Jadwal' }
+    ],
+
+    // --- KEUANGAN ---
+    'Keuangan': [
+        { id: 'finance.view', label: 'Akses Menu Keuangan' }
+    ],
+    'Pembayaran SPP': [
+        { id: 'tuition.view', label: 'Lihat Data SPP' },
+        { id: 'tuition.create', label: 'Input Transaksi' },
+        { id: 'tuition.edit', label: 'Edit Transaksi' },
+        { id: 'tuition.delete', label: 'Batalkan Transaksi' },
+        { id: 'tuition.invoice', label: 'Cetak Invoice' },
+        { id: 'tuition.remind', label: 'Kirim Pengingat WA' }
+    ],
+    'Tabungan Siswa': [
+        { id: 'savings.view', label: 'Lihat Tabungan' },
+        { id: 'savings.deposit', label: 'Setor Tunai' },
+        { id: 'savings.withdraw', label: 'Tarik Tunai' },
+        { id: 'savings.history', label: 'Riwayat Mutasi' }
+    ],
+    'Laporan Keuangan': [
+        { id: 'finance-report.view', label: 'Lihat Laporan' },
+        { id: 'finance-report.daily', label: 'Laporan Harian' },
+        { id: 'finance-report.monthly', label: 'Laporan Bulanan' },
+        { id: 'finance-report.export', label: 'Export Laporan' }
+    ],
+
+    // --- FASILITAS ---
+    'Fasilitas': [
+        { id: 'facilities.view', label: 'Lihat Fasilitas' },
+        { id: 'facilities.create', label: 'Tambah Fasilitas' },
+        { id: 'facilities.edit', label: 'Edit Fasilitas' },
+        { id: 'facilities.delete', label: 'Hapus Fasilitas' },
+        { id: 'facilities.maintenance', label: 'Jadwal Maintenance' }
+    ],
+
+    // --- PERPUSTAKAAN ---
+    'Perpustakaan': [
+        { id: 'library.view', label: 'Akses Perpustakaan' }
+    ],
+    'Daftar Buku': [
+        { id: 'books.view', label: 'Lihat Katalog Buku' },
+        { id: 'books.create', label: 'Tambah Buku Baru' },
+        { id: 'books.edit', label: 'Edit Data Buku' },
+        { id: 'books.delete', label: 'Hapus Buku' },
+        { id: 'books.stock', label: 'Opname Stok' }
+    ],
+    'Peminjaman': [
+        { id: 'loans.view', label: 'Lihat Peminjaman' },
+        { id: 'loans.create', label: 'Catat Peminjaman' },
+        { id: 'loans.edit', label: 'Edit Peminjaman' }, // e.g. extend
+        { id: 'loans.return', label: 'Proses Pengembalian' },
+        { id: 'loans.fine', label: 'Kelola Denda' }
+    ],
+    'Anggota': [
+        { id: 'members.view', label: 'Lihat Anggota' },
+        { id: 'members.create', label: 'Daftar Anggota' },
+        { id: 'members.edit', label: 'Edit Anggota' },
+        { id: 'members.delete', label: 'Hapus Anggota' },
+        { id: 'members.card', label: 'Cetak Kartu' }
+    ],
+
+    // --- LAPORAN ---
+    'Laporan': [
+        { id: 'reports.view', label: 'Akses Menu Laporan' }
+    ],
+    'Laporan Akademik': [
+        { id: 'reports.academic.view', label: 'Lihat Laporam Akademik' },
+        { id: 'reports.academic.print', label: 'Cetak Rapor' },
+        { id: 'reports.academic.export', label: 'Export Ledger' }
+    ],
+    'Laporan Kesiswaan': [
+        { id: 'reports.student.view', label: 'Lihat Laporan Kesiswaan' },
+        { id: 'reports.student.export', label: 'Export Data' }
+    ],
+
+    // --- PENGATURAN ---
+    'Pengaturan': [
+        { id: 'settings.view', label: 'Lihat Pengaturan' },
+        { id: 'settings.general', label: 'Pengaturan Umum' }, // Edit
+        { id: 'settings.backup', label: 'Backup & Restore Database' },
+        { id: 'settings.logs', label: 'Lihat System Logs' }
+    ],
+    'App Management': [
+        { id: 'app.roles', label: 'Kelola Role & Permission' },
+        { id: 'app.menus', label: 'Kelola Menu Aplikasi' }
+    ],
+    // For specific sub-view in settings if needed, though usually covered by above
+    'Menu Management': [
+        { id: 'menus.view', label: 'Lihat Menu' },
+        { id: 'menus.manage', label: 'Kelola Struktur Menu' }
     ]
 };
 
 export default {
     async getRoles() {
-        // In real app: return api.get('/roles');
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve({ data: [...mockRoles] });
@@ -68,7 +198,6 @@ export default {
     },
 
     async getRole(id) {
-        // In real app: return api.get(`/roles/${id}`);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const role = mockRoles.find(r => r.id == id);
@@ -79,7 +208,6 @@ export default {
     },
 
     async createRole(roleData) {
-        // In real app: return api.post('/roles', roleData);
         return new Promise(resolve => {
             setTimeout(() => {
                 const newRole = {
@@ -94,7 +222,6 @@ export default {
     },
 
     async updateRole(id, roleData) {
-        // In real app: return api.put(`/roles/${id}`, roleData);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const index = mockRoles.findIndex(r => r.id == id);
@@ -109,7 +236,6 @@ export default {
     },
 
     async deleteRole(id) {
-        // In real app: return api.delete(`/roles/${id}`);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const index = mockRoles.findIndex(r => r.id == id);
@@ -124,7 +250,6 @@ export default {
     },
 
     async getPermissions() {
-        // In real app: return api.get('/permissions');
         return new Promise(resolve => {
             setTimeout(() => {
                 resolve({ data: mockPermissions });
@@ -133,7 +258,6 @@ export default {
     },
 
     async createPermission(permissionData) {
-        // In real app: return api.post('/permissions', permissionData);
         return new Promise(resolve => {
             setTimeout(() => {
                 const { category, id, label } = permissionData;
@@ -147,41 +271,14 @@ export default {
         });
     },
 
-    // Note: In a real relational DB, updating permission ID cascade might be complex.
-    // For this mock, we'll assume we verify ID uniqueness and just update properties.
     async updatePermission(oldId, permissionData) {
-        // In real app: return api.put(`/permissions/${oldId}`, permissionData);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 const { category, id, label, oldCategory } = permissionData;
-                let found = false;
 
-                // Handle category change if needed (remove from old, add to new)
-                if (oldCategory && oldCategory !== category && mockPermissions[oldCategory]) {
-                    const idx = mockPermissions[oldCategory].findIndex(p => p.id === oldId);
-                    if (idx !== -1) {
-                        mockPermissions[oldCategory].splice(idx, 1);
-                        // Clean up empty category if needed
-                        if (mockPermissions[oldCategory].length === 0) {
-                            delete mockPermissions[oldCategory];
-                        }
-                    }
-                }
-
-                // If staying in same category or moving to new one
-                if (!mockPermissions[category]) {
-                    mockPermissions[category] = [];
-                }
-
-                // If it was a move, we push new. If inplace update, we find and update.
-                // Simplified: Just find in target category if it exists, or push if it was a move.
-                // Ideally for mock: Remove from wherever it was, add to where it should be.
-
-                // Let's do a safe "Remove then Add" approach for the mock to handle all cases
-                // 1. Find and Remove
-                let targetCat = oldCategory || category; // Fallback
-                // If we didn't get oldCategory passed, search for it
-                if (!oldCategory) {
+                // 1. Remove from old category (or find where it is)
+                let targetCat = oldCategory;
+                if (!targetCat) {
                     for (const cat in mockPermissions) {
                         if (mockPermissions[cat].find(p => p.id === oldId)) {
                             targetCat = cat;
@@ -190,7 +287,7 @@ export default {
                     }
                 }
 
-                if (mockPermissions[targetCat]) {
+                if (targetCat && mockPermissions[targetCat]) {
                     const idx = mockPermissions[targetCat].findIndex(p => p.id === oldId);
                     if (idx !== -1) {
                         mockPermissions[targetCat].splice(idx, 1);
@@ -198,7 +295,7 @@ export default {
                     }
                 }
 
-                // 2. Add new
+                // 2. Add to new category
                 if (!mockPermissions[category]) mockPermissions[category] = [];
                 const updatedPermission = { id, label };
                 mockPermissions[category].push(updatedPermission);
@@ -209,7 +306,6 @@ export default {
     },
 
     async deletePermission(id) {
-        // In real app: return api.delete(`/permissions/${id}`);
         return new Promise((resolve, reject) => {
             setTimeout(() => {
                 let deleted = false;
@@ -217,14 +313,11 @@ export default {
                     const index = mockPermissions[cat].findIndex(p => p.id === id);
                     if (index !== -1) {
                         mockPermissions[cat].splice(index, 1);
-                        if (mockPermissions[cat].length === 0) {
-                            delete mockPermissions[cat];
-                        }
+                        if (mockPermissions[cat].length === 0) delete mockPermissions[cat];
                         deleted = true;
                         break;
                     }
                 }
-
                 if (deleted) resolve({ success: true });
                 else reject(new Error('Permission not found'));
             }, 500);

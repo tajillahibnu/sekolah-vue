@@ -148,10 +148,10 @@ const router = createRouter({
                             meta: { permission: 'roles.manage' }
                         },
                         {
-                            path: 'permissions',
-                            name: 'permissions-list',
-                            component: () => import('../features/settings/components/permissions/PermissionList.vue'),
-                            meta: { permission: 'roles.manage' } // Reusing roles.manage for now
+                            path: 'menus',
+                            name: 'menus-list',
+                            component: () => import('../features/settings/components/menus/MenuList.vue'),
+                            meta: { permission: 'roles.manage' }
                         }
                     ]
                 },

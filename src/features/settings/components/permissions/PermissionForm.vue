@@ -1,12 +1,15 @@
 <script setup>
 import { ref, watch, computed } from 'vue';
-import Button from '@/components/ui/button/Button.vue';
 import {
     TagIcon,
     IdentificationIcon,
     CursorArrowRaysIcon,
-    ExclamationTriangleIcon
+    ExclamationTriangleIcon,
+    FolderIcon,
+    ChevronDownIcon,
+    Bars3Icon
 } from '@heroicons/vue/24/outline';
+import { Listbox, ListboxButton, ListboxOptions, ListboxOption } from '@headlessui/vue';
 
 const props = defineProps({
     mode: {
@@ -17,8 +20,8 @@ const props = defineProps({
         type: Object,
         default: () => null
     },
-    categories: {
-        type: Array,
+    menus: {
+        type: Array, // Now receiving actual menu objects
         default: () => []
     }
 });
@@ -26,21 +29,45 @@ const props = defineProps({
 const emit = defineEmits(['submit', 'cancel']);
 
 const formData = ref({
-    category: '',
+    category: '', // Will store menu Label or ID. Storing Label for compat with existing data.
     id: '',
     label: '',
-    idModified: false
+    idModified: false,
+    selectedMenu: null // Store selected menu object
 });
 
 const errors = ref({});
 
+// Flatten menus for select (handling only 1 level deep for simplicity in dropdown display for now, or just flat list)
+// Ideally, we show hierarchy.
+// props.menus is expected to be a flat list of all menus from menuStore.
+const availableMenus = computed(() => {
+    return props.menus.sort((a, b) => (a.label || '').localeCompare(b.label || ''));
+});
+
 watch(() => props.initialData, (newVal) => {
     if (newVal) {
-        formData.value = { ...newVal, idModified: true };
+        // If editing, find the menu that matches the "category"
+        // category in permission data corresponds to menu label currently
+        const matchingMenu = availableMenus.value.find(m => m.label === newVal.category || m.label === newVal.menu);
+
+        formData.value = {
+            ...newVal,
+            idModified: true,
+            selectedMenu: matchingMenu || null,
+            category: newVal.category || (matchingMenu ? matchingMenu.label : '')
+        };
     } else {
-        formData.value = { category: '', id: '', label: '', idModified: false };
+        formData.value = { category: '', id: '', label: '', idModified: false, selectedMenu: null };
     }
 }, { immediate: true });
+
+// Sync selectedMenu to category field
+watch(() => formData.value.selectedMenu, (newMenu) => {
+    if (newMenu) {
+        formData.value.category = newMenu.label;
+    }
+});
 
 // Auto-generate ID logic (Enhanced)
 watch(() => formData.value.label, (newLabel) => {
@@ -51,6 +78,12 @@ watch(() => formData.value.label, (newLabel) => {
             .replace(/[^a-z0-9\s]/g, '') // remove special chars
             .trim()
             .replace(/\s+/g, '.'); // spaces to dots
+
+        // Prefix with menu name if available for standard naming
+        if (formData.value.selectedMenu) {
+            const prefix = formData.value.selectedMenu.label.toLowerCase().replace(/[^a-z0-9]/g, '');
+            // formData.value.id = `${prefix}.${formData.value.id}`; // Optional: Enforce naming convention
+        }
     }
 });
 
@@ -60,7 +93,7 @@ const onIdChange = () => {
 
 const validate = () => {
     errors.value = {};
-    if (!formData.value.category) errors.value.category = 'Required';
+    if (!formData.value.selectedMenu && !formData.value.category) errors.value.category = 'Required';
     if (!formData.value.id) errors.value.id = 'Required';
     if (!formData.value.label) errors.value.label = 'Required';
     if (formData.value.id && !/^[a-z0-9.]+$/.test(formData.value.id)) {
@@ -71,13 +104,14 @@ const validate = () => {
 
 const handleSubmit = () => {
     if (!validate()) return;
-    emit('submit', formData.value);
+    // Map selected menu back to category string for compatibility
+    // In future this would be { menuId: selectedMenu.id }
+    const submitData = {
+        ...formData.value,
+        category: formData.value.selectedMenu ? formData.value.selectedMenu.label : formData.value.category
+    };
+    emit('submit', submitData);
 };
-
-// Filter categories for autocomplete
-const filteredCategories = computed(() => {
-    return props.categories.filter(c => !formData.value.category || c.toLowerCase().includes(formData.value.category.toLowerCase()));
-});
 </script>
 
 <template>
@@ -88,35 +122,72 @@ const filteredCategories = computed(() => {
                 <IdentificationIcon class="w-5 h-5" />
             </div>
             <div>
-                <h4 class="text-sm font-bold text-foreground">Definition Guidelines</h4>
+                <h4 class="text-sm font-bold text-foreground">Permission Definition</h4>
                 <p class="text-xs text-muted-foreground mt-1 leading-relaxed">
-                    Permissions define what users can do. Group them by category (e.g., "Finance") and use a
-                    standardized ID format (e.g., "finance.view").
+                    Link this permission to a specific Application Menu. This ensures it appears correctly in the
+                    menu-based access control list.
                 </p>
             </div>
         </div>
 
         <div class="space-y-6">
-            <!-- Category Input -->
-            <div class="space-y-2 group">
+            <!-- Menu Selection (Replacing Category Text Input) -->
+            <div class="space-y-2 group z-50 relative">
                 <label
                     class="text-xs font-bold uppercase tracking-widest text-muted-foreground flex items-center gap-2 group-focus-within:text-primary transition-colors">
-                    <TagIcon class="w-4 h-4" /> Category
+                    <FolderIcon class="w-4 h-4" /> Linked Menu
                 </label>
-                <div class="relative">
-                    <input v-model="formData.category" list="categories-options" type="text"
-                        placeholder="Select or type new category..."
-                        class="w-full px-4 py-3.5 bg-background border-2 border-muted/20 rounded-xl text-sm font-bold focus:border-primary focus:ring-4 focus:ring-primary/10 outline-none transition-all placeholder:font-normal"
-                        :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/10': errors.category }" />
-                    <datalist id="categories-options">
-                        <option v-for="cat in categories" :key="cat" :value="cat" />
-                    </datalist>
 
-                    <span v-if="errors.category"
-                        class="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-rose-500 flex items-center gap-1">
-                        <ExclamationTriangleIcon class="w-4 h-4" /> {{ errors.category }}
-                    </span>
-                </div>
+                <Listbox v-model="formData.selectedMenu">
+                    <div class="relative mt-1">
+                        <ListboxButton
+                            class="relative w-full cursor-default rounded-xl bg-background py-3.5 pl-4 pr-10 text-left border-2 border-muted/20 focus:outline-none focus:border-primary focus:ring-4 focus:ring-primary/10 sm:text-sm shadow-sm transition-all"
+                            :class="{ 'border-rose-500/50 focus:border-rose-500 focus:ring-rose-500/10': errors.category }">
+                            <span class="block truncate font-bold text-foreground" v-if="formData.selectedMenu">{{
+                                formData.selectedMenu.label }}</span>
+                            <span class="block truncate text-muted-foreground font-normal" v-else>Select a
+                                menu...</span>
+                            <span class="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-2">
+                                <ChevronDownIcon class="h-5 w-5 text-gray-400" aria-hidden="true" />
+                            </span>
+                        </ListboxButton>
+
+                        <transition leave-active-class="transition duration-100 ease-in" leave-from-class="opacity-100"
+                            leave-to-class="opacity-0">
+                            <ListboxOptions
+                                class="absolute mt-1 max-h-60 w-full overflow-auto rounded-xl bg-white dark:bg-gray-800 py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm z-50">
+                                <ListboxOption v-for="menu in availableMenus" :key="menu.id" :value="menu" as="template"
+                                    v-slot="{ active, selected }">
+                                    <li :class="[
+                                        active ? 'bg-primary/10 text-primary' : 'text-foreground',
+                                        'relative cursor-default select-none py-2.5 pl-10 pr-4'
+                                    ]">
+                                        <span :class="[selected ? 'font-bold' : 'font-normal', 'block truncate']">
+                                            {{ menu.label }}
+                                        </span>
+                                        <span v-if="selected"
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-primary">
+                                            <Bars3Icon class="h-5 w-5" aria-hidden="true" />
+                                        </span>
+                                        <span v-else
+                                            class="absolute inset-y-0 left-0 flex items-center pl-3 text-muted-foreground/30">
+                                            <FolderIcon class="h-4 w-4" />
+                                        </span>
+                                        <!-- Show path if available for context -->
+                                        <span v-if="menu.to"
+                                            class="ml-2 truncate text-xs text-muted-foreground font-mono opacity-60">
+                                            {{ menu.to }}
+                                        </span>
+                                    </li>
+                                </ListboxOption>
+                            </ListboxOptions>
+                        </transition>
+                    </div>
+                </Listbox>
+
+                <span v-if="errors.category" class="text-xs font-bold text-rose-500 flex items-center gap-1 mt-1">
+                    <ExclamationTriangleIcon class="w-4 h-4" /> {{ errors.category }}
+                </span>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6">

@@ -57,6 +57,16 @@
         "label": "Pengaturan",
         "to": "/admin/settings",
         "icon": "Cog6ToothIcon"
+      },
+      {
+        "label": "Perpustakaan",
+        "to": "/admin/library",
+        "icon": "BookOpenIcon",
+        "children": [
+            { "label": "Daftar Buku", "to": "/admin/library/books" },
+            { "label": "Peminjaman", "to": "/admin/library/loans" },
+            { "label": "Anggota", "to": "/admin/library/members" }
+        ]
       }
     ]
   },
