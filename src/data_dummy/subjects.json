@@ -1,0 +1,66 @@
+[
+  {
+    "id": 1,
+    "code": "MTK",
+    "name": "Matematika",
+    "category": "Muatan Nasional",
+    "description": "Mata pelajaran wajib matematika",
+    "status": "active"
+  },
+  {
+    "id": 2,
+    "code": "BIN",
+    "name": "Bahasa Indonesia",
+    "category": "Muatan Nasional",
+    "description": "Mata pelajaran wajib bahasa indonesia",
+    "status": "active"
+  },
+  {
+    "id": 3,
+    "code": "ING",
+    "name": "Bahasa Inggris",
+    "category": "Muatan Nasional",
+    "description": "Mata pelajaran wajib bahasa inggris",
+    "status": "active"
+  },
+  {
+    "id": 4,
+    "code": "IPA",
+    "name": "Ilmu Pengetahuan Alam",
+    "category": "Muatan Kewilayahan",
+    "description": "Mata pelajaran IPA",
+    "status": "active"
+  },
+  {
+    "id": 5,
+    "code": "IPS",
+    "name": "Ilmu Pengetahuan Sosial",
+    "category": "Muatan Kewilayahan",
+    "description": "Mata pelajaran IPS",
+    "status": "active"
+  },
+  {
+    "id": 6,
+    "code": "SBD",
+    "name": "Seni Budaya",
+    "category": "Muatan Kewilayahan",
+    "description": "Mata pelajaran seni budaya",
+    "status": "active"
+  },
+  {
+    "id": 7,
+    "code": "PJK",
+    "name": "Pendidikan Jasmani",
+    "category": "Muatan Kewilayahan",
+    "description": "Mata pelajaran olahraga",
+    "status": "active"
+  },
+  {
+    "id": 8,
+    "code": "AGM",
+    "name": "Pendidikan Agama",
+    "category": "Muatan Nasional",
+    "description": "Mata pelajaran agama",
+    "status": "active"
+  }
+]

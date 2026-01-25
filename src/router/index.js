@@ -119,7 +119,7 @@ const router = createRouter({
                         {
                             path: 'subjects',
                             name: 'academic-subjects',
-                            component: () => import('../features/settings/components/subjects/SubjectsList.vue'),
+                            component: () => import('@/features/matapelajaran/views/Subjects.vue'),
                             meta: { permission: 'subjects.view' }
                         }
                     ]

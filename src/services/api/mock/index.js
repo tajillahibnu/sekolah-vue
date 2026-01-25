@@ -7,6 +7,7 @@ import { usersHandler } from './handlers/users';
 import { employeesHandler } from './handlers/employees';
 import { referencesHandler } from './handlers/references';
 import { dashboardHandler } from './handlers/dashboard';
+import { subjectsHandler } from './handlers/subjects';
 
 const handlers = [
     authHandler,
@@ -17,7 +18,8 @@ const handlers = [
 
     usersHandler,
     employeesHandler,
-    referencesHandler
+    referencesHandler,
+    subjectsHandler
 ];
 
 export const mockAdapter = async (config) => {
