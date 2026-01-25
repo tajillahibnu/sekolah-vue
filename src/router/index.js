@@ -151,6 +151,36 @@ const router = createRouter({
                         }
                     ]
                 },
+                // Bulletin Routes
+                {
+                    path: 'bulletins',
+                    children: [
+                        {
+                            path: '',
+                            name: 'bulletins-list',
+                            component: () => import('@/features/bulletin/views/BulletinList.vue'),
+                            meta: { permission: 'bulletin.view' }
+                        },
+                        {
+                            path: 'my-bulletins',
+                            name: 'bulletins-my',
+                            component: () => import('@/features/bulletin/views/MyBulletins.vue'),
+                            meta: { permission: 'bulletin.submit' }
+                        },
+                        {
+                            path: 'verify',
+                            name: 'bulletins-verify',
+                            component: () => import('@/features/bulletin/views/BulletinVerification.vue'),
+                            meta: { permission: 'bulletin.verify' }
+                        },
+                        {
+                            path: ':id',
+                            name: 'bulletin-detail',
+                            component: () => import('@/features/bulletin/views/BulletinDetail.vue'),
+                            meta: { permission: 'bulletin.view' }
+                        }
+                    ]
+                },
                 // App Management Routes
                 {
                     path: 'app',

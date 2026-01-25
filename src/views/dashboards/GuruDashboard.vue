@@ -3,7 +3,7 @@ import { ref, onMounted } from 'vue';
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue';
 import StatsCard from '../../components/widgets/StatsCard.vue';
 import ActivityList from '../../components/widgets/ActivityList.vue';
-import QuickActions from '../../components/widgets/QuickActions.vue';
+import SchoolBulletin from '../../components/widgets/SchoolBulletin.vue';
 import Calendar from '../../components/ui/Calendar.vue';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -20,13 +20,6 @@ const activities = [
   { title: 'Kelas 10A - Matematika dimulai', time: '30 menit lagi', color: 'primary' },
   { title: 'Tugas Fisika dikumpulkan', time: '2 jam yang lalu', color: 'success' },
   { title: 'Absensi Kelas 10B lengkap', time: '3 jam yang lalu', color: 'info' }
-];
-
-const quickActions = [
-  { label: 'Input Nilai', icon: '✏️', variant: 'btn-primary' },
-  { label: 'Absensi', icon: '✓', variant: 'btn-secondary' },
-  { label: 'Buat Tugas', icon: '📝', variant: 'btn-accent' },
-  { label: 'Lihat Jadwal', icon: '📅', variant: 'btn-ghost' }
 ];
 
 onMounted(() => {
@@ -99,7 +92,7 @@ onMounted(() => {
         </template>
         <template v-else>
           <ActivityList :activities="activities" />
-          <QuickActions :actions="quickActions" />
+          <SchoolBulletin />
         </template>
       </div>
 

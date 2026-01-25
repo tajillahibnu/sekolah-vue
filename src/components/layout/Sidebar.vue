@@ -83,12 +83,33 @@ const fetchMenu = async () => {
             });
         }
 
+        // Bulletin Menu Access (Available for almost all roles)
+        menuItems.value = [...fetchedItems];
+        
+        const bulletinMenu = {
+            label: 'Buletin Sekolah',
+            icon: 'BookOpenIcon',
+            children: [
+                { label: 'Jelajah Buletin', to: '/admin/bulletins' },
+                { label: 'Kontribusi Saya', to: '/admin/bulletins/my-bulletins' }
+            ]
+        };
+
+        if (authStore.activeRole?.id === 'admin' || authStore.hasPermission('bulletin.verify')) {
+            bulletinMenu.children.push({
+                label: 'Verifikasi Konten',
+                to: '/admin/bulletins/verify'
+            });
+        }
+
+        menuItems.value.push(bulletinMenu);
+
         // Add more dynamic apps here if needed
 
         if (appManagementDetails.children.length > 0) {
-            menuItems.value = [...fetchedItems, appManagementDetails];
+            menuItems.value = [...menuItems.value, appManagementDetails];
         } else {
-            menuItems.value = fetchedItems;
+            // menuItems.value is already set
         }
 
     } catch (error) {

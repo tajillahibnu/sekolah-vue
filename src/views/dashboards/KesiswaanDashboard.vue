@@ -1,7 +1,7 @@
 <script setup>
 import StatsCard from '../../components/widgets/StatsCard.vue';
 import ActivityList from '../../components/widgets/ActivityList.vue';
-import QuickActions from '../../components/widgets/QuickActions.vue';
+import SchoolBulletin from '../../components/widgets/SchoolBulletin.vue';
 import Calendar from '../../components/ui/Calendar.vue';
 
 const stats = [
@@ -15,13 +15,6 @@ const activities = [
   { title: 'Siswa baru terdaftar - Kelas 10A', time: '1 jam yang lalu', color: 'primary' },
   { title: 'Pelanggaran: Terlambat - Ahmad (10B)', time: '2 jam yang lalu', color: 'warning' },
   { title: 'Prestasi: Juara Olimpiade - Siti (11A)', time: '5 jam yang lalu', color: 'success' }
-];
-
-const quickActions = [
-  { label: 'Data Siswa', icon: '👥', variant: 'btn-primary' },
-  { label: 'Absensi', icon: '✓', variant: 'btn-secondary' },
-  { label: 'Pelanggaran', icon: '⚠️', variant: 'btn-warning' },
-  { label: 'Prestasi', icon: '🏆', variant: 'btn-info' }
 ];
 </script>
 
@@ -42,7 +35,7 @@ const quickActions = [
       <!-- Activity & Quick Actions -->
       <div class="lg:col-span-2 space-y-6">
         <ActivityList :activities="activities" />
-        <QuickActions :actions="quickActions" />
+        <SchoolBulletin />
       </div>
     </div>
   </div>

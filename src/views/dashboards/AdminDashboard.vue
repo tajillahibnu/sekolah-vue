@@ -4,7 +4,7 @@ import api from '@/services/api';
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue';
 import StatsCard from '../../components/widgets/StatsCard.vue';
 import ActivityList from '../../components/widgets/ActivityList.vue';
-import QuickActions from '../../components/widgets/QuickActions.vue';
+import SchoolBulletin from '../../components/widgets/SchoolBulletin.vue';
 import Calendar from '../../components/ui/Calendar.vue';
 import { Card, CardContent } from '@/components/ui/card';
 
@@ -31,13 +31,6 @@ const fetchDashboardData = async () => {
     loading.value = false;
   }
 };
-
-const quickActions = [
-  { label: 'Tambah Siswa', icon: '➕', variant: 'btn-primary' },
-  { label: 'Kelola Staff', icon: '👥', variant: 'btn-secondary' },
-  { label: 'Lihat Laporan', icon: '📊', variant: 'btn-accent' },
-  { label: 'Pengaturan', icon: '⚙️', variant: 'btn-ghost' }
-];
 
 onMounted(() => {
   fetchDashboardData();
@@ -96,7 +89,7 @@ onMounted(() => {
         </template>
         <template v-else>
           <ActivityList :activities="activities" />
-          <QuickActions :actions="quickActions" />
+          <SchoolBulletin />
         </template>
       </div>
 
