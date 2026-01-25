@@ -113,7 +113,7 @@ const router = createRouter({
                         {
                             path: 'school-year',
                             name: 'academic-school-year',
-                            component: () => import('../features/settings/components/academic-years/AcademicYearsList.vue'),
+                            component: () => import('@/features/tahun-ajaran/views/AcademicYears.vue'),
                             meta: { permission: 'academic.manage' }
                         },
                         {
