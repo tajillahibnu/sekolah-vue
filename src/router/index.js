@@ -181,6 +181,42 @@ const router = createRouter({
                         }
                     ]
                 },
+                // E-Learning Routes
+                {
+                    path: 'elearning',
+                    children: [
+                        {
+                            path: 'teach',
+                            name: 'elearning-teach',
+                            component: () => import('@/features/elearning/views/TeacherCourseList.vue'),
+                            meta: { permission: 'elearning.teach' }
+                        },
+                        {
+                            path: 'teach/:id',
+                            name: 'elearning-teach-detail',
+                            component: () => import('@/features/elearning/views/TeacherCourseDetail.vue'),
+                            meta: { permission: 'elearning.teach' }
+                        },
+                        {
+                            path: 'learn',
+                            name: 'elearning-learn',
+                            component: () => import('@/features/elearning/views/StudentCourseList.vue'),
+                            meta: { permission: 'elearning.learn' }
+                        },
+                        {
+                            path: 'learn/:id',
+                            name: 'elearning-learn-detail',
+                            component: () => import('@/features/elearning/views/StudentCourseDetail.vue'),
+                            meta: { permission: 'elearning.learn' }
+                        },
+                        {
+                            path: 'monitor',
+                            name: 'elearning-monitor',
+                            component: () => import('@/features/elearning/views/MonitoringDashboard.vue'),
+                            meta: { permission: 'elearning.monitor' }
+                        }
+                    ]
+                },
                 // App Management Routes
                 {
                     path: 'app',

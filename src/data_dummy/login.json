@@ -13,12 +13,12 @@
       {
         "id": "guru",
         "name": "Guru",
-        "permissions": ["student.view", "student.grade", "class.view", "schedule.view", "attendance.manage"]
+        "permissions": ["student.view", "student.grade", "class.view", "schedule.view", "attendance.manage", "elearning.teach"]
       },
       {
         "id": "siswa",
         "name": "Siswa",
-        "permissions": ["schedule.view", "grade.view", "assignment.view", "profile.edit"]
+        "permissions": ["schedule.view", "grade.view", "assignment.view", "profile.edit", "elearning.learn"]
       },
       {
         "id": "kesiswaan",
@@ -28,7 +28,7 @@
       {
         "id": "kurikulum",
         "name": "Kurikulum",
-        "permissions": ["curriculum.manage", "subject.manage", "schedule.manage", "teacher.assign"]
+        "permissions": ["curriculum.manage", "subject.manage", "schedule.manage", "teacher.assign", "elearning.monitor"]
       },
       {
         "id": "walikelas",

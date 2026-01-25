@@ -60,6 +60,14 @@
         "icon": "Cog6ToothIcon"
       },
       {
+        "label": "E-Learning",
+        "to": "/admin/elearning",
+        "icon": "ComputerDesktopIcon",
+        "children": [
+            { "label": "Monitoring", "to": "/admin/elearning/monitor" }
+        ]
+      },
+      {
         "label": "Perpustakaan",
         "to": "/admin/library",
         "icon": "BookOpenIcon",
@@ -105,6 +113,11 @@
         "icon": "DocumentTextIcon"
       },
       {
+        "label": "E-Learning",
+        "to": "/admin/elearning/teach",
+        "icon": "ComputerDesktopIcon"
+      },
+      {
         "label": "Rapor",
         "to": "/admin/reports",
         "icon": "DocumentChartBarIcon"
@@ -136,7 +149,7 @@
       },
       {
         "label": "E-Learning",
-        "to": "/admin/elearning",
+        "to": "/admin/elearning/learn",
         "icon": "BookOpenIcon"
       },
       {
@@ -238,6 +251,14 @@
         "label": "Penilaian",
         "to": "/admin/assessment",
         "icon": "ClipboardDocumentListIcon"
+      },
+      {
+        "label": "E-Learning",
+        "to": "/admin/elearning",
+        "icon": "ComputerDesktopIcon",
+        "children": [
+            { "label": "Monitoring", "to": "/admin/elearning/monitor" }
+        ]
       },
       {
         "label": "Laporan",
