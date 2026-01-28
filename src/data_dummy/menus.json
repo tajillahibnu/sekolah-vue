@@ -76,6 +76,19 @@
             { "label": "Peminjaman", "to": "/admin/library/loans" },
             { "label": "Anggota", "to": "/admin/library/members" }
         ]
+      },
+      {
+        "label": "Management TKA",
+        "to": "/admin/tka",
+        "icon": "PencilSquareIcon",
+        "children": [
+            { "label": "Bank Soal", "to": "/admin/tka/bank-soal" },
+            { "label": "Daftar TKA", "to": "/admin/tka/list" },
+            { "label": "Buat TKA", "to": "/admin/tka/create" },
+            { "label": "Penugasan TKA", "to": "/admin/tka/assign" },
+            { "label": "Monitoring TKA", "to": "/admin/tka/monitor" },
+            { "label": "Verifikasi TKA", "to": "/admin/tka/verify" }
+        ]
       }
     ]
   },
@@ -151,6 +164,11 @@
         "label": "E-Learning",
         "to": "/admin/elearning/learn",
         "icon": "BookOpenIcon"
+      },
+      {
+        "label": "Ujian Online",
+        "to": "/admin/tka/student/list",
+        "icon": "AcademicCapIcon"
       },
       {
         "label": "Absensi Saya",

@@ -85,7 +85,7 @@ const fetchMenu = async () => {
 
         // Bulletin Menu Access (Available for almost all roles)
         menuItems.value = [...fetchedItems];
-        
+
         const bulletinMenu = {
             label: 'Buletin Sekolah',
             icon: 'BookOpenIcon',
@@ -108,8 +108,6 @@ const fetchMenu = async () => {
 
         if (appManagementDetails.children.length > 0) {
             menuItems.value = [...menuItems.value, appManagementDetails];
-        } else {
-            // menuItems.value is already set
         }
 
     } catch (error) {
@@ -284,7 +282,7 @@ const confirmRoleSwitch = async () => {
                             <span
                                 class="text-[9px] font-bold uppercase tracking-wider text-muted-foreground leading-none">Aktif</span>
                             <span class="text-sm font-bold text-foreground truncate w-full">{{ activeRole?.name
-                            }}</span>
+                                }}</span>
                         </div>
                     </div>
                     <component :is="IconComponent('ChevronRightIcon')"
@@ -309,7 +307,7 @@ const confirmRoleSwitch = async () => {
                                     role.name }}</span>
                             <span class="text-[9px] text-muted-foreground truncate w-full">{{
                                 getRoleConfig(role.id).desc
-                            }}</span>
+                                }}</span>
                         </div>
                     </button>
                 </div>

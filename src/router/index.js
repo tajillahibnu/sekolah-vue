@@ -217,6 +217,86 @@ const router = createRouter({
                         }
                     ]
                 },
+                // TKA Routes
+                {
+                    path: 'tka',
+                    redirect: '/admin/tka/create',
+                    children: [
+                        {
+                            path: 'list',
+                            name: 'tka-list',
+                            component: () => import('@/features/tka/views/ListTka.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'bank-soal',
+                            name: 'tka-bank-soal',
+                            component: () => import('@/features/tka/views/BankSoal.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'create',
+                            name: 'tka-create',
+                            component: () => import('@/features/tka/views/CreateTka.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'edit/:id',
+                            name: 'tka-edit',
+                            component: () => import('@/features/tka/views/CreateTka.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'detail/:id',
+                            name: 'tka-detail',
+                            component: () => import('@/features/tka/views/TkaDetail.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'assign',
+                            name: 'tka-assign',
+                            component: () => import('@/features/tka/views/AssignTka.vue'),
+                            meta: { permission: 'tka.manage' }
+                        },
+                        {
+                            path: 'monitor',
+                            name: 'tka-monitor',
+                            component: () => import('@/features/tka/views/MonitorTka.vue'),
+                            meta: { permission: 'tka.monitor' }
+                        },
+                        {
+                            path: 'verify',
+                            name: 'tka-verify',
+                            component: () => import('@/features/tka/views/VerifyTka.vue'),
+                            meta: { permission: 'tka.verify' }
+                        },
+                        {
+                            path: 'student/list',
+                            name: 'tka-student-list',
+                            component: () => import('@/features/tka/views/StudentTkaList.vue'),
+                            // Relaxed permission for now, strictly role check handled in Sidebar/Menu or could add specific permission later
+                            meta: { guest: false }
+                        },
+                        {
+                            path: 'student/intro/:id',
+                            name: 'tka-student-intro',
+                            component: () => import('@/features/tka/views/TkaIntro.vue'),
+                            meta: { guest: false }
+                        },
+                        {
+                            path: 'student/do/:id',
+                            name: 'tka-student-do',
+                            component: () => import('@/features/tka/views/DoTka.vue'),
+                            meta: { guest: false }
+                        },
+                        {
+                            path: 'student/result/:id',
+                            name: 'tka-student-result',
+                            component: () => import('@/features/tka/views/TkaResult.vue'),
+                            meta: { guest: false }
+                        }
+                    ]
+                },
                 // App Management Routes
                 {
                     path: 'app',
