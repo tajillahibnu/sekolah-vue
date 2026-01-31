@@ -39,7 +39,7 @@ const toast = useToast();
 const id = route.params.id;
 
 // Tabs
-const activeTab = ref('results'); // 'overview', 'results', 'not_submitted'
+const activeTab = ref('results'); // 'overview', 'results', 'not_submitted', 'questions'
 
 // Mock Data TKA
 const tkaData = ref({
@@ -137,7 +137,6 @@ const filteredNotSubmitted = computed(() => {
     return notSubmittedStudents.value.filter(item => {
         const matchSearch = item.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
             item.nis.includes(searchQuery.value);
-        // Apply same filters if relevant, assuming not submitted students also have these props
         const matchLevel = !filterLevel.value || item.level === filterLevel.value;
         const matchClass = !filterClass.value || item.class.includes(filterClass.value);
         const matchMajor = !filterMajor.value || item.major === filterMajor.value;
@@ -180,7 +179,6 @@ const studentAnswers = ref([]);
 
 const openGrading = (student) => {
     selectedStudent.value = student;
-    // Mock Answers
     studentAnswers.value = [
         { qId: 1, question: 'Apa ibukota Indonesia?', type: 'Pilihan Ganda', answer: 'Jakarta', key: 'Jakarta', isCorrect: true, maxPoint: 10, point: 10 },
         { qId: 2, question: 'Jelaskan pengertian TKA!', type: 'Esai', answer: 'TKA adalah Tes Kemampuan Akademik.', key: '-', isCorrect: null, maxPoint: 20, point: 0, comment: '' },
@@ -190,14 +188,10 @@ const openGrading = (student) => {
 };
 
 const saveGrading = () => {
-    // Calculate total score
     const totalScore = studentAnswers.value.reduce((sum, a) => sum + (parseInt(a.point) || 0), 0);
     const maxScore = studentAnswers.value.reduce((sum, a) => sum + a.maxPoint, 0);
-
-    // Normalize to 100 if needed, or keep as raw points. Mock uses 100 scale.
     const finalScore = Math.round((totalScore / maxScore) * 100);
 
-    // Update local state
     const index = results.value.findIndex(s => s.id === selectedStudent.value.id);
     if (index !== -1) {
         results.value[index].score = finalScore;
@@ -212,11 +206,12 @@ const sendReminder = (student) => {
     toast.success(`Pengingat berhasil dikirim ke ${student.name}`);
 };
 
+// Token Modal
 const showTokenModal = ref(false);
 const selectedStudentForToken = ref(null);
 const tokenDetails = ref({
     type: 'Dynamic',
-    expiry: '2 Jam', // Default
+    expiry: '2 Jam',
     customExpiry: '',
     generatedAt: null
 });
@@ -226,7 +221,6 @@ const tokenExpiryOptions = ['30 Menit', '1 Jam', '2 Jam', '4 Jam', '1 Hari'];
 
 const openTokenModal = (student) => {
     selectedStudentForToken.value = student;
-    // Load existing settings if available, else default
     tokenDetails.value = {
         type: 'Dynamic',
         expiry: '2 Jam',
@@ -238,20 +232,17 @@ const openTokenModal = (student) => {
 const regenerateStudentToken = () => {
     if (!selectedStudentForToken.value) return;
 
-    // Generate new 6 char alphanumeric token
     const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
     let newToken = '';
     for (let i = 0; i < 6; i++) {
         newToken += chars.charAt(Math.floor(Math.random() * chars.length));
     }
 
-    // Update ref
     const target = results.value.find(s => s.id === selectedStudentForToken.value.id) ||
         notSubmittedStudents.value.find(s => s.id === selectedStudentForToken.value.id);
 
     if (target) {
         target.token = newToken;
-        // Update selection to reflect change immediately i modal if we bind to it
         selectedStudentForToken.value.token = newToken;
     }
 
@@ -261,13 +252,8 @@ const regenerateStudentToken = () => {
 
 const resetStudentExam = (student) => {
     if (confirm(`Apakah Anda yakin ingin mereset ujian untuk ${student.name}? Semua jawaban akan dihapus.`)) {
-        // In real app, API call here.
-        // For mock, we move from results to notSubmitted
-
-        // Remove from results
         results.value = results.value.filter(s => s.id !== student.id);
 
-        // Add to notSubmitted (create copy without score details)
         const resetData = {
             id: student.id,
             name: student.name,
@@ -275,10 +261,9 @@ const resetStudentExam = (student) => {
             class: student.class,
             level: student.level,
             major: student.major,
-            token: student.token // Keep token or regenerate
+            token: student.token
         };
 
-        // Check if already in notSubmitted (shouldn't be, but safe check)
         if (!notSubmittedStudents.value.find(s => s.id === student.id)) {
             notSubmittedStudents.value.push(resetData);
         }
@@ -589,12 +574,7 @@ const getStatusClass = (status) => {
                             :disabled="resultsPagination.page.value <= 1"
                             class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Prev</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                            <ChevronDownIcon class="h-4 w-4 rotate-90" />
                         </button>
                         <div class="flex items-center gap-1">
                             <button v-for="p in resultsPagination.totalPages.value" :key="p"
@@ -608,12 +588,7 @@ const getStatusClass = (status) => {
                             :disabled="resultsPagination.page.value >= resultsPagination.totalPages.value"
                             class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Next</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                            <ChevronDownIcon class="h-4 w-4 -rotate-90" />
                         </button>
                     </div>
                 </div>
@@ -724,12 +699,7 @@ const getStatusClass = (status) => {
                             :disabled="notSubmittedPagination.page.value <= 1"
                             class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Prev</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                            <ChevronDownIcon class="h-4 w-4 rotate-90" />
                         </button>
                         <div class="flex items-center gap-1">
                             <button v-for="p in notSubmittedPagination.totalPages.value" :key="p"
@@ -743,12 +713,7 @@ const getStatusClass = (status) => {
                             :disabled="notSubmittedPagination.page.value >= notSubmittedPagination.totalPages.value"
                             class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Next</span>
-                            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20"
-                                fill="currentColor">
-                                <path fill-rule="evenodd"
-                                    d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-                                    clip-rule="evenodd" />
-                            </svg>
+                            <ChevronDownIcon class="h-4 w-4 -rotate-90" />
                         </button>
                     </div>
                 </div>
