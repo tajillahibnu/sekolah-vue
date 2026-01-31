@@ -18,6 +18,15 @@
         "icon": "UsersIcon"
       },
       {
+        "label": "Absensi",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon",
+        "children": [
+            { "label": "Absensi Harian", "to": "/admin/attendance/daily" },
+            { "label": "Absensi KBM", "to": "/admin/attendance/kbm" }
+        ]
+      },
+      {
         "label": "Akademik",
         "to": "/admin/academic",
         "icon": "AcademicCapIcon",

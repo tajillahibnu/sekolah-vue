@@ -87,6 +87,34 @@ const router = createRouter({
                     name: 'form-example',
                     component: () => import('../views/FormExample.vue')
                 },
+                {
+                    path: 'attendance',
+                    children: [
+                        {
+                            path: '',
+                            name: 'attendance',
+                            component: () => import('@/features/attendance/views/AttendanceEntry.vue')
+                        },
+                        {
+                            path: 'daily',
+                            name: 'attendance-daily',
+                            component: () => import('@/features/attendance/views/AdminAttendance.vue'),
+                            meta: { permission: 'attendance.view' }
+                        },
+                        {
+                            path: 'daily/:id',
+                            name: 'attendance-detail',
+                            component: () => import('@/features/attendance/views/AdminAttendanceDetail.vue'),
+                            meta: { permission: 'attendance.view' }
+                        },
+                        {
+                            path: 'kbm',
+                            name: 'attendance-kbm',
+                            component: () => import('@/features/attendance/views/AdminKbmAttendance.vue'),
+                            meta: { permission: 'attendance.view' }
+                        }
+                    ]
+                },
                 // Academic Management Routes
                 {
                     path: 'academic',
