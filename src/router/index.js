@@ -33,6 +33,12 @@ const router = createRouter({
             meta: { guest: true }
         },
         {
+            path: '/library',
+            name: 'public-library',
+            component: () => import('@/features/library/views/LibraryLandingPage.vue'),
+            meta: { guest: true }
+        },
+        {
             path: '/login',
             name: 'login',
             component: Login,
@@ -46,6 +52,40 @@ const router = createRouter({
                 {
                     path: '',
                     redirect: '/admin/dashboard'
+                },
+                {
+                    path: 'library',
+                    children: [
+                        {
+                            path: '',
+                            redirect: '/admin/library/dashboard'
+                        },
+                        {
+                            path: 'dashboard',
+                            name: 'library-dashboard',
+                            component: () => import('@/features/library/views/LibraryDashboard.vue')
+                        },
+                        {
+                            path: 'books',
+                            name: 'library-books',
+                            component: () => import('@/features/library/views/BookList.vue')
+                        },
+                        {
+                            path: 'books/:id',
+                            name: 'library-book-detail',
+                            component: () => import('@/features/library/views/BookDetail.vue')
+                        },
+                        {
+                            path: 'circulation',
+                            name: 'library-circulation',
+                            component: () => import('@/features/library/views/Circulation.vue')
+                        },
+                        {
+                            path: 'visitors',
+                            name: 'library-visitors',
+                            component: () => import('@/features/library/views/VisitorLog.vue')
+                        }
+                    ]
                 },
                 {
                     path: 'dashboard',

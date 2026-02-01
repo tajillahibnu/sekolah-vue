@@ -58,7 +58,7 @@ const dashboardComponent = computed(() => {
         <div class="absolute top-0 right-0 w-64 h-64 bg-white rounded-full -translate-y-1/2 translate-x-1/2"></div>
         <div class="absolute bottom-0 left-0 w-48 h-48 bg-white rounded-full translate-y-1/2 -translate-x-1/2"></div>
       </div>
-      
+
       <div class="relative p-8">
         <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
           <div class="space-y-2">
@@ -67,10 +67,11 @@ const dashboardComponent = computed(() => {
               {{ greeting }}, {{ authStore.user?.name }}! 👋
             </h1>
             <p class="text-base opacity-90">
-              Anda login sebagai <span class="font-semibold bg-white/20 px-3 py-1 rounded-full">{{ authStore.activeRole?.name }}</span>
+              Anda login sebagai <span class="font-semibold bg-white/20 px-3 py-1 rounded-full">{{
+                authStore.activeRole?.name }}</span>
             </p>
           </div>
-          
+
           <!-- Universal Quick Info -->
           <div class="flex gap-4 md:gap-6">
             <div class="text-center">

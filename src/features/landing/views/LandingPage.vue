@@ -607,7 +607,7 @@ const filteredStaff = computed(() => {
                                                     d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
                                             </svg>
                                             <span v-else class="text-[10px] font-bold">{{ brand.charAt(0).toUpperCase()
-                                                }}</span>
+                                            }}</span>
                                         </a>
                                     </template>
                                 </template>
@@ -837,6 +837,9 @@ const filteredStaff = computed(() => {
                             <li><a href="#" class="hover:text-primary">Kurikulum</a></li>
                             <li><a href="#" class="hover:text-primary">Kehidupan Siswa</a></li>
                             <li><a href="#" class="hover:text-primary">Alumni</a></li>
+                            <li><router-link to="/library"
+                                    class="hover:text-primary font-bold text-primary">Perpustakaan
+                                    Digital</router-link></li>
                         </ul>
                     </div>
                     <div>
@@ -1027,7 +1030,7 @@ const filteredStaff = computed(() => {
                                 {{ selectedAchievement.category }}
                             </Badge>
                             <h3 class="text-white text-2xl font-bold leading-tight">{{ selectedAchievement.achievement
-                            }}</h3>
+                                }}</h3>
                         </div>
                     </div>
 
@@ -1047,7 +1050,7 @@ const filteredStaff = computed(() => {
                             <div class="flex items-center gap-3 text-primary">
                                 <TrophyIcon class="w-6 h-6" />
                                 <span class="font-bold text-2xl tracking-tight">{{ selectedAchievement.achievement
-                                    }}</span>
+                                }}</span>
                             </div>
                         </div>
 

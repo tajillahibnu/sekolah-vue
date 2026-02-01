@@ -25,7 +25,7 @@ const props = defineProps({
     size: {
         type: String,
         default: 'lg', // sm, md, lg, xl
-        validator: (value) => ['sm', 'md', 'lg', 'xl'].includes(value)
+        validator: (value) => ['sm', 'md', 'lg', 'xl', '2xl'].includes(value)
     }
 });
 
@@ -42,7 +42,8 @@ const sizeClasses = {
     sm: 'max-w-sm',
     md: 'max-w-2xl',
     lg: 'max-w-4xl',
-    xl: 'max-w-6xl'
+    xl: 'max-w-6xl',
+    '2xl': 'max-w-7xl'
 };
 </script>
 

@@ -81,9 +81,10 @@
         "to": "/admin/library",
         "icon": "BookOpenIcon",
         "children": [
-            { "label": "Daftar Buku", "to": "/admin/library/books" },
-            { "label": "Peminjaman", "to": "/admin/library/loans" },
-            { "label": "Anggota", "to": "/admin/library/members" }
+            { "label": "Dashboard", "to": "/admin/library/dashboard" },
+            { "label": "Data Buku", "to": "/admin/library/books" },
+            { "label": "Sirkulasi", "to": "/admin/library/circulation" },
+            { "label": "Buku Tamu", "to": "/admin/library/visitors" }
         ]
       },
       {
