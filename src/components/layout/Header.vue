@@ -203,7 +203,7 @@ const closeDetail = () => {
                             class="hidden sm:block text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Tahun
                             Pelajaran</span>
                         <span class="text-[10px] sm:text-[11px] font-bold text-foreground">{{ sessionStore.academicYear
-                            }}</span>
+                        }}</span>
                     </div>
                 </div>
                 <div class="w-px h-4 sm:h-6 bg-primary/10"></div>
@@ -215,7 +215,7 @@ const closeDetail = () => {
                         <span
                             class="hidden sm:block text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Semester</span>
                         <span class="text-[10px] sm:text-[11px] font-bold text-foreground">{{ sessionStore.semester
-                            }}</span>
+                        }}</span>
                     </div>
                 </div>
             </button>
@@ -383,24 +383,32 @@ const closeDetail = () => {
                 </div>
                 <ul tabindex="0"
                     class="dropdown-content z-[100] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-60 mt-2">
-                    <li class="px-4 py-4 border-b border-primary/5 mb-1">
+                    <li class="menu-title px-4 py-3 border-b border-primary/5 mb-1">
                         <div class="flex flex-col gap-0.5 p-0">
                             <span class="font-bold text-sm text-foreground truncate w-full">{{ user?.name }}</span>
-                            <span class="text-xs text-muted-foreground truncate w-full">{{ user?.email }}</span>
+                            <span class="text-xs font-medium text-muted-foreground truncate w-full">{{ user?.email
+                                }}</span>
                         </div>
                     </li>
                     <li class="mt-1">
                         <router-link to="/admin/profile"
-                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all">Profile
-                            Settings</router-link>
+                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3">
+                            <UserCircleIcon class="w-4 h-4" />
+                            Profile Setting
+                        </router-link>
                     </li>
-                    <li><a
-                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all">Activity
-                            Log</a></li>
+                    <li>
+                        <a
+                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3">
+                            <ClipboardDocumentListIcon class="w-4 h-4" />
+                            Activity Log
+                        </a>
+                    </li>
                     <div class="divider h-px bg-primary/10 my-1"></div>
                     <li>
                         <a @click="showLogoutConfirm = true"
-                            class="rounded-lg px-4 py-2.5 hover:bg-destructive/10 text-destructive text-sm font-bold transition-all">
+                            class="rounded-lg px-4 py-2.5 hover:bg-destructive/10 text-destructive hover:text-destructive text-sm font-bold transition-all gap-3">
+                            <ArrowRightOnRectangleIcon class="w-4 h-4" />
                             Logout
                         </a>
                     </li>
