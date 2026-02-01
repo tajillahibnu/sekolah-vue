@@ -22,8 +22,12 @@ import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import StudentForm from '../components/StudentForm.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue';
 
+import { useAttendanceStore } from '@/features/attendance/stores/attendanceStore'; // Import Store
+
 const route = useRoute();
 const router = useRouter();
+const attendanceStore = useAttendanceStore(); // Init Store
+
 const users = ref([]);
 const loading = ref(false);
 const loadingMore = ref(false);
@@ -31,6 +35,47 @@ const searchQuery = ref('');
 const debouncedSearchQuery = refDebounced(searchQuery, 500);
 const selectedClass = ref('');
 const viewMode = ref('table'); // 'table' or 'card'
+
+// ... existing code ...
+
+// Helper: Get Daily Status from Store (Mock match by Name or random for demo)
+const getDailyStatus = (student) => {
+  // Attempt to find matching student in attendance store
+  // Since IDs might different between "Students API" and "Attendance Store", we match by name or fallback to random for demo
+  const attLog = attendanceStore.dailyAttendance.find(l => l.studentName === student.name);
+  return attLog || null;
+};
+
+const getStatusColor = (status) => {
+  switch (status) {
+    case 'Hadir': return 'text-emerald-600 bg-emerald-50 border-emerald-100';
+    case 'Sakit': return 'text-amber-600 bg-amber-50 border-amber-100';
+    case 'Izin': return 'text-blue-600 bg-blue-50 border-blue-100';
+    case 'Alpha': return 'text-rose-600 bg-rose-50 border-rose-100';
+    default: return 'text-slate-600 bg-slate-50 border-slate-100';
+  }
+};
+
+const getKbmSummary = (student) => {
+  // Generate or fetch KBM summary
+  // Returns { present: 8, total: 8, percent: 100 }
+  // Using store's getKbmSchedule logic to calculate
+  // We need a student ID for the store logic. We'll use a hash or just random if not found.
+  const mockId = student.id; // API User ID
+  const schedule = attendanceStore.getKbmSchedule(mockId);
+  if (!schedule || schedule.length === 0) return null;
+
+  const lessons = schedule.filter(s => s.type === 'lesson');
+  const presentCount = lessons.filter(s => s.status === 'Hadir').length;
+
+  return {
+    present: presentCount,
+    total: lessons.length,
+    percent: (presentCount / lessons.length) * 100
+  };
+};
+
+// ... existing code ...
 
 // Pagination state
 const page = ref(1);
@@ -324,6 +369,21 @@ fetchUsers();
               </div>
             </div>
             <div class="flex items-center gap-3">
+              <!-- Daily Status Badge -->
+              <span v-if="getDailyStatus(student)"
+                class="hidden sm:inline-flex items-center px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border"
+                :class="getStatusColor(getDailyStatus(student)?.status)">
+                Harian: {{ getDailyStatus(student)?.status }}
+              </span>
+              <!-- KBM Badge -->
+              <div v-if="getKbmSummary(student)"
+                class="hidden sm:flex items-center gap-1 bg-slate-50 px-2 py-1 rounded-lg text-[10px] font-bold border border-slate-100">
+                <span class="text-slate-500">KBM:</span>
+                <span :class="getKbmSummary(student).percent >= 100 ? 'text-emerald-600' : 'text-blue-600'">
+                  {{ getKbmSummary(student).present }}/{{ getKbmSummary(student).total }}
+                </span>
+              </div>
+
               <span
                 class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border"
                 :class="getStatusBadgeClass(student.status)">
@@ -421,6 +481,31 @@ fetchUsers();
       <template v-else>
         <div v-for="student in filteredUsers" :key="student.id"
           class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
+
+          <!-- Attendance Status Badge (Top Right) -->
+          <div class="absolute top-0 right-0 p-4 z-20 flex flex-col items-end gap-1">
+            <!-- Daily Status -->
+            <span v-if="getDailyStatus(student)"
+              class="px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider border bg-white/80 backdrop-blur-sm shadow-sm"
+              :class="getStatusColor(getDailyStatus(student)?.status)">
+              {{ getDailyStatus(student)?.status === 'Hadir' ? `Hadir ${getDailyStatus(student)?.timeIn}` :
+                getDailyStatus(student)?.status }}
+            </span>
+            <span v-else
+              class="px-2 py-1 rounded-lg text-[10px] font-black uppercase tracking-wider bg-slate-100 text-slate-400">
+              Belum Absen
+            </span>
+
+            <!-- KBM Status Summary -->
+            <div v-if="getKbmSummary(student)"
+              class="flex items-center gap-1 bg-white/80 backdrop-blur-sm px-2 py-1 rounded-lg text-[10px] font-bold border border-slate-100 shadow-sm">
+              <div class="w-1.5 h-1.5 rounded-full"
+                :class="getKbmSummary(student).percent >= 100 ? 'bg-emerald-500' : 'bg-blue-500'"></div>
+              <span class="text-slate-600">KBM {{ getKbmSummary(student).present }}/{{ getKbmSummary(student).total
+              }}</span>
+            </div>
+          </div>
+
           <!-- Background Accent -->
           <div
             class="absolute -top-12 -right-12 w-24 h-24 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all">
@@ -435,11 +520,6 @@ fetchUsers();
                 class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-background">
               </div>
             </div>
-            <span
-              class="inline-flex items-center px-3 py-1 rounded-xl text-[9px] font-black uppercase tracking-wider border bg-background"
-              :class="getStatusBadgeClass(student.status)">
-              {{ getStatusLabel(student.status) }}
-            </span>
           </div>
 
           <!-- Student Info -->
@@ -474,7 +554,7 @@ fetchUsers();
             <!-- Actions -->
             <div
               class="pt-4 flex items-center gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
-              <button @click="router.push(`/students/${student.id}`)"
+              <button @click="router.push(`/admin/students/${student.id}`)"
                 class="flex-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
                 <EyeIcon class="w-4 h-4" />
                 Detail
