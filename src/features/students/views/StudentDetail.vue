@@ -25,6 +25,8 @@ import Button from '@/components/ui/button/Button.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue'
 import api from '@/services/api'
 import { useAttendanceStore } from '@/features/attendance/stores/attendanceStore';
+import Modal from '@/components/common/Modal.vue'
+import StudentForm from '../components/StudentForm.vue'
 
 const route = useRoute()
 const router = useRouter()
@@ -187,6 +189,25 @@ const openProof = (url) => {
     showProofModal.value = true;
 };
 
+// --- Edit Student Profile Logic ---
+const showEditModal = ref(false);
+const editStudentData = ref(null);
+
+const handleEditProfile = () => {
+    editStudentData.value = { ...student.value };
+    showEditModal.value = true;
+};
+
+const handleEditSubmit = async (formData) => {
+    try {
+        await api.put(`/students/${student.value.id}`, formData);
+        await fetchStudent(); // Refresh data
+        showEditModal.value = false;
+    } catch (error) {
+        console.error('Failed to update student', error);
+    }
+};
+
 const kbmViewMode = ref('subject'); // 'subject' | 'day'
 const selectedSubject = ref(null); // For modal
 
@@ -289,7 +310,7 @@ onMounted(() => {
 
             <!-- Quick Actions (Only on Profile) -->
             <div v-if="student && activeTab === 'profile'" class="hidden sm:block">
-                <button @click="router.push(`/students`)"
+                <button @click="handleEditProfile"
                     class="bg-primary hover:bg-primary/90 text-primary-foreground px-6 py-3 rounded-2xl font-bold transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2 shadow-lg shadow-primary/30">
                     <PencilIcon class="w-4 h-4" />
                     Edit Profil
@@ -898,4 +919,10 @@ onMounted(() => {
             </div>
         </div>
     </div>
+
+    <!-- Edit Student Modal -->
+    <Modal :show="showEditModal" title="Edit Data Siswa" size="lg" @close="showEditModal = false">
+        <StudentForm mode="edit" :model-value="editStudentData" @submit="handleEditSubmit"
+            @cancel="showEditModal = false" />
+    </Modal>
 </template>
