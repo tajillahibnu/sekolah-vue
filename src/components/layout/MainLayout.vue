@@ -9,7 +9,7 @@ const layoutStore = useLayoutStore();
 </script>
 
 <template>
-  <div class="min-h-screen bg-base-50 flex flex-col">
+  <div class="min-h-screen flex flex-col admin-pattern text-slate-800">
     <!-- Top Fixed Header -->
     <Header class="z-[60]" />
 
@@ -18,7 +18,7 @@ const layoutStore = useLayoutStore();
       <Sidebar class="z-40" />
 
       <!-- Main Content -->
-      <div class="flex-1 flex flex-col w-full transition-all duration-300 bg-base-50"
+      <div class="flex-1 flex flex-col w-full transition-all duration-300"
         :class="layoutStore.isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'">
         <main class="flex-1 p-6 overflow-y-auto">
           <router-view v-slot="{ Component }">
@@ -36,6 +36,12 @@ const layoutStore = useLayoutStore();
 </template>
 
 <style scoped>
+.admin-pattern {
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 0.2s ease;
