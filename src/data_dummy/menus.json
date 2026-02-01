@@ -27,6 +27,16 @@
         ]
       },
       {
+        "label": "Jadwal KBM",
+        "to": "/admin/kbm-schedule",
+        "icon": "CalendarDaysIcon",
+        "children": [
+            { "label": "Master Jadwal", "to": "/admin/kbm-schedule/master" },
+            { "label": "Jadwal Siswa", "to": "/admin/kbm-schedule/student" },
+            { "label": "Jadwal Guru", "to": "/admin/kbm-schedule/teacher" }
+        ]
+      },
+      {
         "label": "Akademik",
         "to": "/admin/academic",
         "icon": "AcademicCapIcon",

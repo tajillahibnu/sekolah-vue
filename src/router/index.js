@@ -365,6 +365,27 @@ const router = createRouter({
                         }
                     ]
                 },
+                // KBM Schedule Routes
+                {
+                    path: 'kbm-schedule',
+                    children: [
+                        {
+                            path: 'master',
+                            name: 'master-schedule',
+                            component: () => import('../views/admin/kbm/MasterSchedule.vue')
+                        },
+                        {
+                            path: 'student',
+                            name: 'student-schedule',
+                            component: () => import('../views/admin/kbm/StudentSchedule.vue')
+                        },
+                        {
+                            path: 'teacher',
+                            name: 'teacher-schedule',
+                            component: () => import('../views/admin/kbm/TeacherSchedule.vue')
+                        }
+                    ]
+                },
                 // App Management Routes
                 {
                     path: 'app',
