@@ -3,6 +3,11 @@ import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import { useAuthStore } from '../stores/auth';
 import { useToast } from '../composables/useToast';
+import { Button } from '@/components/ui/button';
+import Input from '@/components/ui/input/Input.vue';
+import Label from '@/components/ui/label/Label.vue';
+import { SunIcon, MoonIcon, ArrowLeftIcon } from '@heroicons/vue/24/outline';
+import { useTheme } from '../composables/useTheme';
 
 const email = ref('budi@sekolah.id');
 const password = ref('password');
@@ -10,6 +15,11 @@ const router = useRouter();
 const authStore = useAuthStore();
 const toast = useToast();
 const loading = ref(false);
+const { theme, setTheme } = useTheme();
+
+const toggleTheme = () => {
+  setTheme(theme.value === 'dark' ? 'light' : 'dark');
+};
 
 const handleLogin = async () => {
   loading.value = true;
@@ -30,85 +40,123 @@ const handleLogin = async () => {
 
 <template>
   <div
-    class="min-h-screen bg-gradient-to-br from-primary/10 via-base-200 to-secondary/10 flex items-center justify-center p-4">
-    <div class="card w-full max-w-md shadow-2xl bg-base-100 border border-base-300">
-      <div class="card-body p-8">
-        <router-link to="/"
-          class="flex items-center gap-2 text-primary hover:text-primary/70 transition-colors text-sm font-medium mb-6 group w-fit">
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 transition-transform group-hover:-translate-x-1"
-            fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
-          </svg>
-          Kembali ke Beranda
-        </router-link>
-        <div class="flex flex-col items-center mb-8 text-center">
-          <div
-            class="w-20 h-20 bg-primary text-primary-content rounded-2xl flex items-center justify-center mb-4 shadow-xl rotate-3 hover:rotate-0 transition-transform duration-300">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24"
-              stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5z" />
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z" />
-            </svg>
-          </div>
-          <h2 class="text-4xl font-extrabold text-primary tracking-tight">Sekolah App</h2>
-          <p class="text-sm text-base-content/60 mt-2">Sistem Administrasi Sekolah Terpadu</p>
-        </div>
+    class="container relative min-h-screen flex-col items-center justify-center grid lg:max-w-none lg:grid-cols-2 lg:px-0">
 
-        <form @submit.prevent="handleLogin" class="space-y-5">
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text font-semibold">Email Pengguna</span>
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-base-content/40">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path d="M2.003 5.884L10 9.882l7.997-3.998A2 2 0 0016 4H4a2 2 0 00-1.997 1.884z" />
-                  <path d="M18 8.118l-8 4-8-4V14a2 2 0 002 2h12a2 2 0 002-2V8.118z" />
-                </svg>
-              </span>
-              <input type="email" v-model="email" placeholder="nama@sekolah.id"
-                class="input input-bordered w-full pl-10 focus:input-primary transition-all duration-200" required />
-            </div>
-          </div>
+    <router-link to="/"
+      class="absolute right-4 top-4 md:right-8 md:top-8 z-50 flex items-center gap-2 text-sm font-medium text-muted-foreground hover:text-primary transition-colors">
+      <ArrowLeftIcon class="w-4 h-4" />
+      Kembali ke Portal
+    </router-link>
 
-          <div class="form-control">
-            <label class="label">
-              <span class="label-text font-semibold">Kata Sandi</span>
-            </label>
-            <div class="relative">
-              <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-base-content/40">
-                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-                  <path fill-rule="evenodd"
-                    d="M5 9V7a5 5 0 0110 0v2a2 2 0 012 2v5a2 2 0 01-2 2H5a2 2 0 01-2-2v-5a2 2 0 012-2zm8-2v2H7V7a3 3 0 016 0z"
-                    clip-rule="evenodd" />
-                </svg>
-              </span>
-              <input type="password" v-model="password" placeholder="********"
-                class="input input-bordered w-full pl-10 focus:input-primary transition-all duration-200" required />
-            </div>
-          </div>
-
-          <div class="flex items-center justify-between text-sm mt-1">
-            <label class="label cursor-pointer gap-2">
-              <input type="checkbox" class="checkbox checkbox-sm checkbox-primary" />
-              <span class="label-text">Ingat saya</span>
-            </label>
-            <a href="#" class="link link-primary link-hover font-medium">Lupa password?</a>
-          </div>
-
-          <div class="form-control mt-8">
-            <button type="submit"
-              class="btn btn-primary w-full shadow-lg hover:shadow-primary/30 hover:scale-[1.02] active:scale-[0.98] transition-all duration-200"
-              :class="{ 'loading': loading }" :disabled="loading">
-              <span v-if="!loading">Masuk ke Dashboard</span>
-              <span v-else>Memproses...</span>
-            </button>
-          </div>
-        </form>
-
-        <div class="divider text-xs text-base-content/30 mt-8 uppercase tracking-widest">© 2024 Sekolah App</div>
+    <!-- Left Side (Branding / Hero) -->
+    <div class="relative hidden h-full flex-col bg-muted p-10 text-white dark:border-r lg:flex">
+      <div class="absolute inset-0 bg-zinc-900">
+        <img src="/assets/login-bg.png" alt="Background" class="h-full w-full object-cover opacity-80" />
+        <div class="absolute inset-0 bg-primary/20 mix-blend-multiply" />
+      </div>
+      <div class="relative z-20 flex items-center text-lg font-medium gap-2">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+          stroke-linecap="round" stroke-linejoin="round" class="mr-2 h-6 w-6">
+          <path d="M15 6v12a3 3 0 1 0 3-3H6a3 3 0 1 0 3 3V6a3 3 0 1 0-3 3h12a3 3 0 1 0-3-3" />
+        </svg>
+        Sekolah App
+      </div>
+      <div class="relative z-20 mt-auto">
+        <blockquote class="space-y-2">
+          <p class="text-lg">
+            &ldquo;Platform manajemen sekolah yang membantu kami mengelola administrasi, akademik, dan kesiswaan dengan
+            lebih efisien dan terintegrasi.&rdquo;
+          </p>
+          <footer class="text-sm">Tim IT Sekolah</footer>
+        </blockquote>
       </div>
     </div>
+
+    <!-- Right Side (Login Form) -->
+    <div class="lg:p-8">
+      <div class="mx-auto flex w-full flex-col justify-center space-y-6 sm:w-[350px]">
+        <div class="flex flex-col space-y-2 text-center">
+          <h1 class="text-2xl font-semibold tracking-tight">
+            Masuk ke Akun
+          </h1>
+          <p class="text-sm text-muted-foreground">
+            Masukkan email dan kata sandi Anda di bawah ini
+          </p>
+        </div>
+
+        <div class="grid gap-6">
+          <form @submit.prevent="handleLogin">
+            <div class="grid gap-4">
+              <div class="grid gap-2">
+                <Label for="email">Email</Label>
+                <Input id="email" placeholder="nama@sekolah.id" type="email" auto-capitalize="none"
+                  auto-complete="email" auto-correct="off" :disabled="loading" v-model="email" />
+              </div>
+              <div class="grid gap-2">
+                <div class="flex items-center justify-between">
+                  <Label for="password">Kata Sandi</Label>
+                  <router-link to="/forgot-password" class="text-xs font-medium text-primary hover:underline">Lupa
+                    sandi?</router-link>
+                </div>
+                <Input id="password" type="password" auto-capitalize="none" auto-complete="current-password"
+                  :disabled="loading" v-model="password" />
+              </div>
+              <Button :disabled="loading">
+                <svg v-if="loading" class="mr-2 h-4 w-4 animate-spin" xmlns="http://www.w3.org/2000/svg" width="24"
+                  height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                  stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M21 12a9 9 0 1 1-6.219-8.56" />
+                </svg>
+                Masuk dengan Email
+              </Button>
+            </div>
+          </form>
+
+          <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+              <span class="w-full border-t"></span>
+            </div>
+            <div class="relative flex justify-center text-xs uppercase">
+              <span class="bg-background px-2 text-muted-foreground">
+                Atau lanjut dengan
+              </span>
+            </div>
+          </div>
+
+          <Button variant="outline" type="button" :disabled="loading">
+            <svg class="mr-2 h-4 w-4" viewBox="0 0 24 24">
+              <path
+                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                fill="#4285F4" />
+              <path
+                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                fill="#34A853" />
+              <path
+                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"
+                fill="#FBBC05" />
+              <path
+                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                fill="#EA4335" />
+            </svg>
+            Google
+          </Button>
+        </div>
+
+        <p class="px-8 text-center text-sm text-muted-foreground">
+          Belum punya akun?
+          <router-link to="/register" class="underline underline-offset-4 hover:text-primary">
+            Daftar Sekarang
+          </router-link>
+        </p>
+      </div>
+    </div>
+    <!-- Floating Theme Toggle -->
+    <Button variant="outline" size="icon"
+      class="fixed bottom-4 right-4 z-50 rounded-full h-10 w-10 bg-background/80 backdrop-blur shadow-lg hover:bg-accent border-border"
+      @click="toggleTheme">
+      <SunIcon v-if="theme === 'dark'" class="h-[1.2rem] w-[1.2rem] transition-all" />
+      <MoonIcon v-else class="h-[1.2rem] w-[1.2rem] transition-all" />
+      <span class="sr-only">Toggle theme</span>
+    </Button>
   </div>
 </template>

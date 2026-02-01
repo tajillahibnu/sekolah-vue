@@ -45,6 +45,24 @@ const router = createRouter({
             meta: { guest: true }
         },
         {
+            path: '/register',
+            name: 'register',
+            component: () => import('../views/Register.vue'),
+            meta: { guest: true }
+        },
+        {
+            path: '/auth/otp',
+            name: 'otp-verification',
+            component: () => import('../views/OtpVerification.vue'),
+            meta: { guest: true }
+        },
+        {
+            path: '/forgot-password',
+            name: 'forgot-password',
+            component: () => import('../views/ForgotPassword.vue'),
+            meta: { guest: true }
+        },
+        {
             path: '/admin',
             component: MainLayout,
             meta: { requiresAuth: true },
