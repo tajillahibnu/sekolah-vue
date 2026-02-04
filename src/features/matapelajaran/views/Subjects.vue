@@ -206,19 +206,18 @@ fetchSubjects();
         <!-- List View (Table-like Horizontal Cards) -->
         <div v-if="viewMode === 'table'" class="space-y-4">
             <template v-if="loading">
-                <div v-for="i in 5" :key="i"
-                    class="bg-background border border-primary/10 rounded-3xl p-6 animate-pulse space-y-4">
+                <div v-for="i in 5" :key="i" class="bg-card border-0 rounded-3xl p-6 animate-pulse space-y-4">
                     <div class="h-6 w-1/3 bg-primary/10 rounded-lg"></div>
                     <div class="h-4 w-1/2 bg-primary/5 rounded-lg"></div>
                 </div>
             </template>
             <template v-else>
                 <div v-for="subject in subjects" :key="subject.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6">
 
                     <!-- Subject Info -->
                     <div class="flex items-start gap-4">
-                         <div class="p-4 bg-primary/5 rounded-2xl text-primary font-bold text-center min-w-[4rem]">
+                        <div class="p-4 bg-primary/5 rounded-2xl text-primary font-bold text-center min-w-[4rem]">
                             <span class="text-xs uppercase tracking-wider block opacity-70">Kode</span>
                             <span class="text-lg">{{ subject.code }}</span>
                         </div>
@@ -233,19 +232,21 @@ fetchSubjects();
                                     {{ subject.category }}
                                 </span>
                             </div>
-                            <p v-if="subject.description" class="text-sm text-muted-foreground pt-1">{{ subject.description }}</p>
+                            <p v-if="subject.description" class="text-sm text-muted-foreground pt-1">{{
+                                subject.description }}</p>
                         </div>
                     </div>
 
                     <!-- Status & Actions -->
                     <div class="flex items-center gap-4 sm:border-l sm:border-primary/5 sm:pl-6">
-                         <span class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border"
+                        <span
+                            class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border"
                             :class="getStatusBadgeClass(subject.status)">
                             {{ getStatusLabel(subject.status) }}
                         </span>
-                        
+
                         <div class="flex items-center gap-2">
-                             <button @click="handleEdit(subject)"
+                            <button @click="handleEdit(subject)"
                                 class="p-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all active:scale-95"
                                 title="Edit Mata Pelajaran">
                                 <PencilIcon class="w-5 h-5" />
@@ -263,31 +264,35 @@ fetchSubjects();
 
         <!-- Card View -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-             <template v-if="loading">
-                <div v-for="i in 6" :key="i" class="bg-background border border-primary/10 rounded-3xl p-6 h-48 animate-pulse"></div>
+            <template v-if="loading">
+                <div v-for="i in 6" :key="i" class="bg-card border-0 rounded-3xl p-6 h-48 animate-pulse">
+                </div>
             </template>
             <template v-else>
-                 <div v-for="subject in subjects" :key="subject.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between h-full">
-                    
+                <div v-for="subject in subjects" :key="subject.id"
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between h-full">
+
                     <div class="flex justify-between items-start mb-4">
-                         <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold text-xs">
-                             {{ subject.code }}
-                         </span>
-                          <span class="inline-flex items-center px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border"
+                        <span class="inline-block px-3 py-1 bg-primary/10 text-primary rounded-lg font-bold text-xs">
+                            {{ subject.code }}
+                        </span>
+                        <span
+                            class="inline-flex items-center px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider border"
                             :class="getStatusBadgeClass(subject.status)">
                             {{ getStatusLabel(subject.status) }}
                         </span>
                     </div>
 
                     <div class="mb-6 flex-1">
-                        <h3 class="font-black text-lg text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">
-                             {{ subject.name }}
+                        <h3
+                            class="font-black text-lg text-foreground mb-1 group-hover:text-primary transition-colors line-clamp-2">
+                            {{ subject.name }}
                         </h3>
-                        <p class="text-xs text-muted-foreground font-bold uppercase tracking-wider">{{ subject.category }}</p>
+                        <p class="text-xs text-muted-foreground font-bold uppercase tracking-wider">{{ subject.category
+                        }}</p>
                     </div>
 
-                     <!-- Actions -->
+                    <!-- Actions -->
                     <div class="flex items-center gap-2 pt-4 border-t border-primary/5">
                         <button @click="handleEdit(subject)"
                             class="flex-1 px-4 py-2 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold text-xs rounded-xl transition-all">
@@ -298,46 +303,50 @@ fetchSubjects();
                             <TrashIcon class="w-4 h-4" />
                         </button>
                     </div>
-                 </div>
+                </div>
             </template>
         </div>
 
-         <!-- Empty State -->
-        <div v-if="!loading && subjects.length === 0" class="text-center py-12 border-2 border-dashed border-primary/10 rounded-3xl">
-             <BookOpenIcon class="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50"/>
+        <!-- Empty State -->
+        <div v-if="!loading && subjects.length === 0"
+            class="text-center py-12 border-2 border-dashed border-primary/10 rounded-3xl">
+            <BookOpenIcon class="w-12 h-12 text-muted-foreground mx-auto mb-3 opacity-50" />
             <p class="text-muted-foreground font-medium">Tidak ada mata pelajaran ditemukan</p>
-            <button @click="handleAdd" class="mt-4 text-primary font-bold hover:underline">Tambah mata pelajaran baru</button>
+            <button @click="handleAdd" class="mt-4 text-primary font-bold hover:underline">Tambah mata pelajaran
+                baru</button>
         </div>
 
-         <!-- Modal & Confirm -->
-        <Modal :show="showModal" :title="modalMode === 'create' ? 'Tambah Mata Pelajaran' : 'Edit Mata Pelajaran'" size="lg"
-            @close="showModal = false">
+        <!-- Modal & Confirm -->
+        <Modal :show="showModal" :title="modalMode === 'create' ? 'Tambah Mata Pelajaran' : 'Edit Mata Pelajaran'"
+            size="lg" @close="showModal = false">
             <SubjectForm :mode="modalMode" :model-value="selectedSubject" @submit="handleFormSubmit"
                 @cancel="showModal = false" />
         </Modal>
 
         <ConfirmDialog v-model:show="showDeleteConfirm" title="Hapus Mata Pelajaran"
-            :message="`Apakah Anda yakin ingin menghapus mata pelajaran ${subjectToDelete?.name}?`"
-            confirm-text="Hapus" cancel-text="Batal" type="error" @confirm="confirmDelete" />
+            :message="`Apakah Anda yakin ingin menghapus mata pelajaran ${subjectToDelete?.name}?`" confirm-text="Hapus"
+            cancel-text="Batal" type="error" @confirm="confirmDelete" />
 
         <!-- Pagination Footer -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5 mt-4">
-             <div class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
+        <div
+            class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-primary/5 mt-4">
+            <div
+                class="flex items-center gap-1 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
                 <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
                     class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
                     :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
                     {{ l }}
                 </button>
             </div>
-             <div class="flex items-center gap-2">
-                 <button @click="changePage(page - 1)" :disabled="page <= 1"
+            <div class="flex items-center gap-2">
+                <button @click="changePage(page - 1)" :disabled="page <= 1"
                     class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
-                   &larr;
+                    &larr;
                 </button>
                 <span class="text-sm font-bold text-muted-foreground">Halaman {{ page }}</span>
-                 <button @click="changePage(page + 1)" :disabled="page >= totalPages"
+                <button @click="changePage(page + 1)" :disabled="page >= totalPages"
                     class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
-                   &rarr;
+                    &rarr;
                 </button>
             </div>
         </div>

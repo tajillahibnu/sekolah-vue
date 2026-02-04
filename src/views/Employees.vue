@@ -1,7 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { 
-  MagnifyingGlassIcon, 
+import {
+  MagnifyingGlassIcon,
   Bars3Icon,
   Squares2X2Icon,
   PlusIcon,
@@ -22,7 +22,7 @@ const fetchEmployees = async () => {
   try {
     const response = await api.get('/users');
     // Filter only Guru and Staff
-    users.value = response.data.filter(user => 
+    users.value = response.data.filter(user =>
       user.role.toLowerCase() === 'guru' || user.role.toLowerCase() === 'staff'
     );
   } catch (error) {
@@ -35,35 +35,37 @@ const fetchEmployees = async () => {
 // Filtered users
 const filteredUsers = computed(() => {
   let filtered = users.value;
-  
+
   // Filter by search query
   if (searchQuery.value) {
-    filtered = filtered.filter(user => 
+    filtered = filtered.filter(user =>
       user.name.toLowerCase().includes(searchQuery.value.toLowerCase()) ||
       user.email.toLowerCase().includes(searchQuery.value.toLowerCase())
     );
   }
-  
+
   // Filter by role
   if (selectedRole.value !== 'all') {
     filtered = filtered.filter(user => user.role.toLowerCase() === selectedRole.value.toLowerCase());
   }
-  
+
   return filtered;
 });
 
 // Get role badge color
 const getRoleBadgeClass = (role) => {
   const classes = {
-    'Guru': 'badge-primary',
-    'Staff': 'badge-accent'
+    'Guru': 'border-transparent bg-primary text-primary-foreground hover:bg-primary/80',
+    'Staff': 'border-transparent bg-destructive text-destructive-foreground hover:bg-destructive/80'
   };
-  return classes[role] || 'badge-ghost';
+  return classes[role] || 'border-transparent bg-muted text-muted-foreground hover:bg-muted/80';
 };
 
 // Get status badge
 const getStatusBadgeClass = (status) => {
-  return status === 'active' ? 'badge-success' : 'badge-error';
+  return status === 'active'
+    ? 'border-transparent bg-emerald-100 text-emerald-700 hover:bg-emerald-200'
+    : 'border-transparent bg-rose-100 text-rose-700 hover:bg-rose-200';
 };
 
 // Initialize
@@ -75,53 +77,47 @@ fetchEmployees();
     <!-- Header -->
     <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
       <div>
-        <h1 class="text-2xl font-bold text-base-content">Data Pegawai</h1>
-        <p class="text-sm text-base-content/60 mt-1">Kelola data guru dan staff</p>
+        <h1 class="text-2xl font-bold text-foreground">Data Pegawai</h1>
+        <p class="text-sm text-muted-foreground mt-1">Kelola data guru dan staff</p>
       </div>
-      <button class="btn btn-primary gap-2">
+      <button
+        class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 flex items-center gap-2 font-medium transition-colors shadow-sm">
         <PlusIcon class="w-5 h-5" />
         Tambah Pegawai
       </button>
     </div>
 
     <!-- Filters & View Toggle -->
-    <div class="card bg-base-100 shadow-sm border border-base-200">
-      <div class="card-body p-4">
+    <div class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+      <div class="p-4">
         <div class="flex flex-col lg:flex-row gap-4">
           <!-- Search -->
           <div class="flex-1">
             <div class="relative">
-              <MagnifyingGlassIcon class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-base-content/40" />
-              <input 
-                v-model="searchQuery"
-                type="text" 
-                placeholder="Cari nama atau email..." 
-                class="input input-bordered w-full pl-10"
-              />
+              <MagnifyingGlassIcon class="w-5 h-5 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
+              <input v-model="searchQuery" type="text" placeholder="Cari nama atau email..."
+                class="flex h-10 w-full rounded-md border-transparent bg-muted/50 pl-10 pr-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus:bg-background focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50" />
             </div>
           </div>
 
           <!-- Role Filter -->
-          <select v-model="selectedRole" class="select select-bordered w-full lg:w-48">
-            <option value="all">Semua</option>
-            <option value="guru">Guru</option>
-            <option value="staff">Staff</option>
-          </select>
+          <div class="relative">
+            <select v-model="selectedRole"
+              class="flex h-10 w-full items-center justify-between rounded-md border-transparent bg-muted/50 px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus:outline-none focus:bg-background focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 lg:w-48 appearance-none">
+              <option value="all">Semua</option>
+              <option value="guru">Guru</option>
+              <option value="staff">Staff</option>
+            </select>
+          </div>
 
           <!-- View Toggle -->
-          <div class="join">
-            <button 
-              @click="viewMode = 'table'"
-              class="btn join-item"
-              :class="viewMode === 'table' ? 'btn-active' : ''"
-            >
+          <div class="flex items-center gap-1 border-0 bg-muted/50 rounded-lg p-1">
+            <button @click="viewMode = 'table'" class="p-2 rounded-md transition-colors"
+              :class="viewMode === 'table' ? 'bg-primary text-primary-foreground shadow-sm' : 'hover:bg-muted text-muted-foreground'">
               <Bars3Icon class="w-5 h-5" />
             </button>
-            <button 
-              @click="viewMode = 'card'"
-              class="btn join-item"
-              :class="viewMode === 'card' ? 'btn-active' : ''"
-            >
+            <button @click="viewMode = 'card'" class="p-2 rounded-md transition-colors"
+              :class="viewMode === 'card' ? 'bg-primary text-primary-foreground shadow-sm' : 'hover:bg-muted text-muted-foreground'">
               <Squares2X2Icon class="w-5 h-5" />
             </button>
           </div>
@@ -130,56 +126,63 @@ fetchEmployees();
     </div>
 
     <!-- Table View -->
-    <div v-if="viewMode === 'table'" class="card bg-base-100 shadow-sm border border-base-200 overflow-hidden">
-      <div class="overflow-x-auto">
-        <table class="table table-zebra">
-          <thead>
-            <tr>
-              <th>Pegawai</th>
-              <th>Jabatan</th>
-              <th>Kontak</th>
-              <th>Status</th>
-              <th>Bergabung</th>
-              <th class="text-center">Aksi</th>
+    <div v-if="viewMode === 'table'" class="bg-card text-card-foreground rounded-xl border-0 shadow-sm overflow-hidden">
+      <div class="relative w-full overflow-auto">
+        <table class="w-full caption-bottom text-sm">
+          <thead class="[&_tr]:border-b-0">
+            <tr class="border-b-0 transition-colors hover:bg-muted/50 data-[state=selected]:bg-muted">
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Pegawai</th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Jabatan</th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Kontak</th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Status</th>
+              <th class="h-12 px-4 text-left align-middle font-medium text-muted-foreground">Bergabung</th>
+              <th class="h-12 px-4 text-center align-middle font-medium text-muted-foreground">Aksi</th>
             </tr>
           </thead>
-          <tbody>
-            <tr v-for="user in filteredUsers" :key="user.id">
-              <td>
+          <tbody class="[&_tr:last-child]:border-0">
+            <tr v-for="user in filteredUsers" :key="user.id"
+              class="border-b border-border/50 transition-colors hover:bg-muted/50">
+              <td class="p-4 align-middle">
                 <div class="flex items-center gap-3">
-                  <div class="avatar">
-                    <div class="w-10 h-10 rounded-full">
-                      <img :src="user.avatar" :alt="user.name" />
+                  <div class="relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full">
+                    <div class="h-full w-full bg-muted">
+                      <img :src="user.avatar" :alt="user.name" class="h-full w-full object-cover" />
                     </div>
                   </div>
                   <div>
                     <div class="font-semibold">{{ user.name }}</div>
-                    <div class="text-sm text-base-content/60">{{ user.email }}</div>
+                    <div class="text-sm text-muted-foreground">{{ user.email }}</div>
                   </div>
                 </div>
               </td>
-              <td>
-                <span class="badge" :class="getRoleBadgeClass(user.role)">{{ user.role }}</span>
-                <div v-if="user.subject" class="text-xs text-base-content/60 mt-1">{{ user.subject }}</div>
-                <div v-if="user.position" class="text-xs text-base-content/60 mt-1">{{ user.position }}</div>
+              <td class="p-4 align-middle">
+                <span
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  :class="getRoleBadgeClass(user.role)">{{ user.role }}</span>
+                <div v-if="user.subject" class="text-xs text-muted-foreground mt-1">{{ user.subject }}</div>
+                <div v-if="user.position" class="text-xs text-muted-foreground mt-1">{{ user.position }}</div>
               </td>
-              <td>
+              <td class="p-4 align-middle">
                 <div class="text-sm">{{ user.phone }}</div>
               </td>
-              <td>
-                <span class="badge badge-sm" :class="getStatusBadgeClass(user.status)">
+              <td class="p-4 align-middle">
+                <span
+                  class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                  :class="getStatusBadgeClass(user.status)">
                   {{ user.status === 'active' ? 'Aktif' : 'Nonaktif' }}
                 </span>
               </td>
-              <td>
+              <td class="p-4 align-middle">
                 <div class="text-sm">{{ new Date(user.joinDate).toLocaleDateString('id-ID') }}</div>
               </td>
-              <td>
+              <td class="p-4 align-middle">
                 <div class="flex items-center justify-center gap-2">
-                  <button class="btn btn-ghost btn-xs">
+                  <button
+                    class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 flex">
                     <PencilIcon class="w-4 h-4" />
                   </button>
-                  <button class="btn btn-ghost btn-xs text-error">
+                  <button
+                    class="items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 w-9 flex text-destructive">
                     <TrashIcon class="w-4 h-4" />
                   </button>
                 </div>
@@ -192,20 +195,19 @@ fetchEmployees();
 
     <!-- Card View -->
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-      <div 
-        v-for="user in filteredUsers" 
-        :key="user.id"
-        class="card bg-base-100 shadow-sm border border-base-200 hover:shadow-md transition-shadow"
-      >
-        <div class="card-body p-4">
+      <div v-for="user in filteredUsers" :key="user.id"
+        class="bg-card text-card-foreground rounded-xl border-0 shadow-sm hover:shadow-md transition-shadow">
+        <div class="p-6">
           <!-- Avatar & Status -->
           <div class="flex items-start justify-between mb-3">
-            <div class="avatar">
-              <div class="w-16 h-16 rounded-full">
-                <img :src="user.avatar" :alt="user.name" />
+            <div class="relative flex h-16 w-16 shrink-0 overflow-hidden rounded-full">
+              <div class="h-full w-full bg-muted">
+                <img :src="user.avatar" :alt="user.name" class="h-full w-full object-cover" />
               </div>
             </div>
-            <span class="badge badge-sm" :class="getStatusBadgeClass(user.status)">
+            <span
+              class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+              :class="getStatusBadgeClass(user.status)">
               {{ user.status === 'active' ? 'Aktif' : 'Nonaktif' }}
             </span>
           </div>
@@ -213,15 +215,17 @@ fetchEmployees();
           <!-- User Info -->
           <div class="space-y-2">
             <h3 class="font-semibold text-base truncate">{{ user.name }}</h3>
-            <p class="text-sm text-base-content/60 truncate">{{ user.email }}</p>
-            
+            <p class="text-sm text-muted-foreground truncate">{{ user.email }}</p>
+
             <!-- Role Badge -->
             <div class="flex items-center gap-2">
-              <span class="badge badge-sm" :class="getRoleBadgeClass(user.role)">{{ user.role }}</span>
+              <span
+                class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                :class="getRoleBadgeClass(user.role)">{{ user.role }}</span>
             </div>
 
             <!-- Additional Info -->
-            <div class="text-xs text-base-content/60 space-y-1">
+            <div class="text-xs text-muted-foreground space-y-1">
               <div v-if="user.subject">📚 {{ user.subject }}</div>
               <div v-if="user.position">💼 {{ user.position }}</div>
               <div>📞 {{ user.phone }}</div>
@@ -230,12 +234,14 @@ fetchEmployees();
           </div>
 
           <!-- Actions -->
-          <div class="card-actions justify-end mt-4 pt-4 border-t border-base-200">
-            <button class="btn btn-sm btn-ghost gap-1">
+          <div class="flex items-center justify-end gap-2 mt-4 pt-4 border-t border-border/50">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-3 gap-1">
               <PencilIcon class="w-4 h-4" />
               Edit
             </button>
-            <button class="btn btn-sm btn-ghost text-error gap-1">
+            <button
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium ring-offset-background transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 hover:bg-accent hover:text-accent-foreground h-9 px-3 text-destructive gap-1">
               <TrashIcon class="w-4 h-4" />
               Hapus
             </button>
@@ -245,9 +251,9 @@ fetchEmployees();
     </div>
 
     <!-- Empty State -->
-    <div v-if="filteredUsers.length === 0" class="card bg-base-100 shadow-sm border border-base-200">
-      <div class="card-body text-center py-12">
-        <p class="text-base-content/60">Tidak ada data pegawai ditemukan</p>
+    <div v-if="filteredUsers.length === 0" class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+      <div class="p-12 text-center">
+        <p class="text-muted-foreground">Tidak ada data pegawai ditemukan</p>
       </div>
     </div>
   </div>

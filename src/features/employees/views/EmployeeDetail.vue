@@ -69,8 +69,8 @@ onMounted(() => {
         </div>
 
         <!-- Skeleton Main Card -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body">
+        <div class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+            <div class="p-6">
                 <div class="flex flex-col md:flex-row gap-6">
                     <Skeleton class="w-32 h-32 rounded-full" />
                     <div class="flex-1 space-y-4">
@@ -87,8 +87,8 @@ onMounted(() => {
 
         <!-- Skeleton Sections -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            <div v-for="i in 2" :key="i" class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
+            <div v-for="i in 2" :key="i" class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+                <div class="p-6">
                     <Skeleton class="h-6 w-40 mb-4" />
                     <div class="space-y-4">
                         <div v-for="j in 4" :key="j" class="flex justify-between">
@@ -103,60 +103,65 @@ onMounted(() => {
 
     <div v-else-if="!employee" class="text-center py-12">
         <h2 class="text-xl font-semibold">Pegawai tidak ditemukan</h2>
-        <button @click="router.back()" class="btn btn-ghost mt-4">Kembali</button>
+        <button @click="router.back()"
+            class="mt-4 px-4 py-2 hover:bg-accent hover:text-accent-foreground rounded-lg font-medium transition-colors">Kembali</button>
     </div>
 
     <div v-else class="space-y-6">
         <!-- Header -->
         <div class="flex items-center gap-4">
-            <button @click="router.back()" class="btn btn-circle btn-ghost">
+            <button @click="router.back()"
+                class="p-2 rounded-full hover:bg-accent hover:text-accent-foreground transition-colors">
                 <ArrowLeftIcon class="w-6 h-6" />
             </button>
             <div class="flex-1">
                 <h1 class="text-2xl font-bold">{{ employee.name }}</h1>
-                <p class="text-base-content/60">{{ employee.nip || '-' }}</p>
+                <p class="text-muted-foreground">{{ employee.nip || '-' }}</p>
             </div>
-            <button class="btn btn-primary gap-2">
+            <button
+                class="px-4 py-2 bg-primary text-primary-foreground rounded-lg hover:bg-primary/90 flex items-center gap-2 font-medium transition-colors shadow-sm">
                 <PencilSquareIcon class="w-5 h-5" />
                 Edit
             </button>
         </div>
 
         <!-- Main Info Card -->
-        <div class="card bg-base-100 shadow-sm border border-base-200">
-            <div class="card-body">
+        <div class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+            <div class="p-6">
                 <div class="flex flex-col md:flex-row gap-6">
                     <!-- Photo -->
-                    <div class="w-32 h-32 rounded-full bg-base-200 flex items-center justify-center shrink-0">
-                        <UserIcon class="w-16 h-16 text-base-content/30" />
+                    <div class="w-32 h-32 rounded-full bg-muted flex items-center justify-center shrink-0">
+                        <UserIcon class="w-16 h-16 text-muted-foreground/30" />
                     </div>
 
                     <!-- Basic Info -->
                     <div class="flex-1 space-y-4">
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
                             <div>
-                                <label class="text-xs text-base-content/50 uppercase font-bold">Jabatan</label>
+                                <label class="text-xs text-muted-foreground uppercase font-bold">Jabatan</label>
                                 <div class="font-medium flex items-center gap-2">
                                     <BriefcaseIcon class="w-4 h-4 text-primary" />
                                     {{ employee.position }}
-                                    <span v-if="employee.classAssigned" class="badge badge-sm badge-secondary">
+                                    <span v-if="employee.classAssigned"
+                                        class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 border-transparent bg-secondary text-secondary-foreground hover:bg-secondary/80">
                                         {{ employee.classAssigned }}
                                     </span>
                                 </div>
                             </div>
                             <div>
-                                <label class="text-xs text-base-content/50 uppercase font-bold">Tipe Kepegawaian</label>
+                                <label class="text-xs text-muted-foreground uppercase font-bold">Tipe
+                                    Kepegawaian</label>
                                 <div class="font-medium">{{ employee.type }}</div>
                             </div>
                             <div>
-                                <label class="text-xs text-base-content/50 uppercase font-bold">Status</label>
-                                <div class="badge"
-                                    :class="employee.status === 'Aktif' ? 'badge-success' : 'badge-error'">
+                                <label class="text-xs text-muted-foreground uppercase font-bold">Status</label>
+                                <div class="inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2"
+                                    :class="employee.status === 'Aktif' ? 'border-transparent bg-emerald-100 text-emerald-700 hover:bg-emerald-200' : 'border-transparent bg-rose-100 text-rose-700 hover:bg-rose-200'">
                                     {{ employee.status }}
                                 </div>
                             </div>
                             <div>
-                                <label class="text-xs text-base-content/50 uppercase font-bold">Bergabung Sejak</label>
+                                <label class="text-xs text-muted-foreground uppercase font-bold">Bergabung Sejak</label>
                                 <div class="font-medium">{{ employee.joinDate || '-' }}</div>
                             </div>
                         </div>
@@ -168,35 +173,35 @@ onMounted(() => {
         <!-- Detail Tabs / Sections -->
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
             <!-- Personal Info -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg mb-4 flex items-center gap-2">
+            <div class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
                         <UserIcon class="w-5 h-5 text-primary" />
                         Informasi Pribadi
                     </h3>
                     <div class="space-y-3">
                         <div class="grid grid-cols-2">
-                            <span class="text-base-content/60 text-sm">NIK</span>
+                            <span class="text-muted-foreground text-sm">NIK</span>
                             <span class="font-medium">{{ employee.nik || '-' }}</span>
                         </div>
                         <div class="grid grid-cols-2">
-                            <span class="text-base-content/60 text-sm">Jenis Kelamin</span>
+                            <span class="text-muted-foreground text-sm">Jenis Kelamin</span>
                             <span class="font-medium">{{ employee.gender || '-' }}</span>
                         </div>
                         <div class="grid grid-cols-2">
-                            <span class="text-base-content/60 text-sm">Tempat, Tgl Lahir</span>
+                            <span class="text-muted-foreground text-sm">Tempat, Tgl Lahir</span>
                             <span class="font-medium">
                                 {{ employee.birthPlace }}, {{ employee.birthDate }}
                             </span>
                         </div>
                         <div class="grid grid-cols-2">
-                            <span class="text-base-content/60 text-sm">Agama</span>
+                            <span class="text-muted-foreground text-sm">Agama</span>
                             <span class="font-medium">{{ employee.religion || '-' }}</span>
                         </div>
                         <div class="grid grid-cols-2">
-                            <span class="text-base-content/60 text-sm">Pendidikan</span>
+                            <span class="text-muted-foreground text-sm">Pendidikan</span>
                             <span class="font-medium flex items-center gap-2">
-                                <AcademicCapIcon class="w-4 h-4 text-base-content/40" />
+                                <AcademicCapIcon class="w-4 h-4 text-muted-foreground/40" />
                                 {{ employee.education || '-' }}
                             </span>
                         </div>
@@ -205,32 +210,32 @@ onMounted(() => {
             </div>
 
             <!-- Contact & Address -->
-            <div class="card bg-base-100 shadow-sm border border-base-200">
-                <div class="card-body">
-                    <h3 class="card-title text-lg mb-4 flex items-center gap-2">
+            <div class="bg-card text-card-foreground rounded-xl border-0 shadow-sm">
+                <div class="p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center gap-2">
                         <MapPinIcon class="w-5 h-5 text-primary" />
                         Kontak & Alamat
                     </h3>
                     <div class="space-y-4">
                         <div class="flex items-start gap-3">
-                            <EnvelopeIcon class="w-5 h-5 text-base-content/40 mt-0.5" />
+                            <EnvelopeIcon class="w-5 h-5 text-muted-foreground/40 mt-0.5" />
                             <div>
-                                <div class="text-xs text-base-content/50">Email</div>
+                                <div class="text-xs text-muted-foreground">Email</div>
                                 <div class="font-medium">{{ employee.email }}</div>
                             </div>
                         </div>
                         <div class="flex items-start gap-3">
-                            <PhoneIcon class="w-5 h-5 text-base-content/40 mt-0.5" />
+                            <PhoneIcon class="w-5 h-5 text-muted-foreground/40 mt-0.5" />
                             <div>
-                                <div class="text-xs text-base-content/50">Telepon</div>
+                                <div class="text-xs text-muted-foreground">Telepon</div>
                                 <div class="font-medium">{{ employee.phone }}</div>
                             </div>
                         </div>
-                        <div class="divider my-2"></div>
+                        <div class="h-px w-full bg-border/50 my-2"></div>
                         <div class="flex items-start gap-3">
-                            <MapPinIcon class="w-5 h-5 text-base-content/40 mt-0.5" />
+                            <MapPinIcon class="w-5 h-5 text-muted-foreground/40 mt-0.5" />
                             <div>
-                                <div class="text-xs text-base-content/50">Alamat</div>
+                                <div class="text-xs text-muted-foreground">Alamat</div>
                                 <div class="font-medium">{{ employee.address || '-' }}</div>
                             </div>
                         </div>

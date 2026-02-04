@@ -104,6 +104,20 @@ const fetchMenu = async () => {
 
         menuItems.value.push(bulletinMenu);
 
+        // E-Raport Menu Injection
+        if (authStore.activeRole?.id === 'admin' || authStore.activeRole?.id === 'guru') {
+            const raportMenu = {
+                label: 'E-Raport',
+                icon: 'DocumentChartBarIcon',
+                children: [
+                    { label: 'Dashboard', to: '/admin/raport/dashboard' },
+                    { label: 'Input Nilai', to: '/admin/raport/entries' },
+                    { label: 'Cetak Raport', to: '/admin/raport/print' }
+                ]
+            };
+            menuItems.value.push(raportMenu);
+        }
+
         // Add more dynamic apps here if needed
 
         if (appManagementDetails.children.length > 0) {

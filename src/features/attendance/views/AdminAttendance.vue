@@ -205,46 +205,45 @@ const saveQuickAttendance = async () => {
                     }) }}</p>
             </div>
             <button
-                class="bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 px-6 py-3 rounded-2xl font-bold shadow-lg shadow-slate-200/50 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
-                <ArrowDownTrayIcon class="w-5 h-5 text-slate-500" />
+                class="bg-card border-0 text-foreground hover:bg-muted/50 px-6 py-3 rounded-2xl font-bold shadow-lg shadow-slate-200/50 transition-all hover:-translate-y-0.5 active:scale-95 flex items-center justify-center gap-2">
+                <ArrowDownTrayIcon class="w-5 h-5 text-muted-foreground" />
                 Export Data
             </button>
         </div>
 
         <!-- Filters & View Toggle (Glassmorphism Style) -->
-        <div
-            class="relative z-40 bg-white/60 backdrop-blur-md border border-slate-200 rounded-3xl p-2 shadow-xl shadow-slate-200/50">
+        <div class="relative z-40 bg-card/60 backdrop-blur-md border-0 rounded-3xl p-2 shadow-xl shadow-slate-200/50">
             <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-2">
                 <!-- Search -->
                 <div class="relative flex-1 group">
                     <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
                         <MagnifyingGlassIcon
-                            class="h-5 w-5 text-slate-400 group-focus-within:text-blue-500 transition-colors" />
+                            class="h-5 w-5 text-muted-foreground group-focus-within:text-primary transition-colors" />
                     </div>
                     <input v-model="searchQuery" type="text" placeholder="Cari nama atau NIS..."
-                        class="block w-full pl-12 pr-4 py-4 bg-slate-50 border-transparent rounded-2xl text-sm font-medium focus:bg-white focus:ring-2 focus:ring-blue-100 focus:border-blue-100 transition-all placeholder:text-slate-400 text-slate-700" />
+                        class="block w-full pl-12 pr-4 py-4 bg-muted/50 border-transparent rounded-2xl text-sm font-medium focus:bg-card focus:ring-2 focus:ring-primary/20 focus:border-primary/20 transition-all placeholder:text-muted-foreground/50 text-foreground" />
                 </div>
 
                 <div class="flex flex-col sm:flex-row gap-2">
                     <!-- Custom Class Dropdown -->
                     <div class="relative w-full sm:w-56">
                         <button @click="showClassDropdown = !showClassDropdown"
-                            class="w-full h-full flex items-center justify-between px-5 py-4 bg-slate-50 border-transparent rounded-2xl text-sm font-bold text-slate-700 hover:bg-slate-100 transition-all text-left">
+                            class="w-full h-full flex items-center justify-between px-5 py-4 bg-muted/50 border-transparent rounded-2xl text-sm font-bold text-foreground hover:bg-muted transition-all text-left">
                             <div class="flex items-center gap-2.5">
-                                <FunnelIcon class="w-4 h-4 text-blue-500" />
+                                <FunnelIcon class="w-4 h-4 text-primary" />
                                 <span>{{ selectedClassLabel }}</span>
                             </div>
-                            <ChevronDownIcon class="w-4 h-4 text-slate-400 transition-transform duration-300"
+                            <ChevronDownIcon class="w-4 h-4 text-muted-foreground transition-transform duration-300"
                                 :class="{ 'rotate-180': showClassDropdown }" />
                         </button>
 
                         <div v-if="showClassDropdown"
-                            class="absolute top-full left-0 right-0 mt-2 z-[60] bg-white border border-slate-100 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
+                            class="absolute top-full left-0 right-0 mt-2 z-[60] bg-card border-0 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
                             <div class="space-y-1">
                                 <button v-for="opt in classOptions" :key="opt.value"
                                     @click="selectedClass = opt.value; showClassDropdown = false"
                                     class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all"
-                                    :class="selectedClass === opt.value ? 'bg-blue-50 text-blue-600' : 'hover:bg-slate-50 text-slate-500 hover:text-slate-700'">
+                                    :class="selectedClass === opt.value ? 'bg-primary/10 text-primary' : 'hover:bg-muted text-muted-foreground hover:text-foreground'">
                                     <span>{{ opt.label }}</span>
                                     <CheckIcon v-if="selectedClass === opt.value" class="w-4 h-4" />
                                 </button>
@@ -258,21 +257,21 @@ const saveQuickAttendance = async () => {
         <!-- Controls (Separate Row) -->
         <div class="flex justify-between items-center gap-3 px-1 mb-4">
             <!-- Page Info -->
-            <div class="text-[10px] font-black uppercase tracking-widest text-slate-400">
-                Menampilkan <span class="text-blue-600 font-black">{{ paginatedStudents.length }}</span> dari
-                <span class="text-blue-600 font-black">{{ total }}</span> Siswa
+            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
+                Menampilkan <span class="text-primary font-black">{{ paginatedStudents.length }}</span> dari
+                <span class="text-primary font-black">{{ total }}</span> Siswa
             </div>
 
             <!-- View Toggle -->
-            <div class="flex bg-white border border-slate-200 p-1 rounded-2xl gap-1 shadow-sm">
+            <div class="flex bg-card border-0 p-1 rounded-2xl gap-1 shadow-sm">
                 <button @click="viewMode = 'table'"
                     class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-                    :class="viewMode === 'table' ? 'bg-slate-800 text-white shadow-md' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'">
+                    :class="viewMode === 'table' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-muted'">
                     <Bars3Icon class="w-5 h-5" />
                 </button>
                 <button @click="viewMode = 'card'"
                     class="px-4 py-2 rounded-xl transition-all duration-300 flex items-center justify-center gap-2"
-                    :class="viewMode === 'card' ? 'bg-slate-800 text-white shadow-md' : 'text-slate-400 hover:text-slate-700 hover:bg-slate-50'">
+                    :class="viewMode === 'card' ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:text-foreground hover:bg-muted'">
                     <Squares2X2Icon class="w-5 h-5" />
                 </button>
             </div>
@@ -281,27 +280,26 @@ const saveQuickAttendance = async () => {
         <!-- List View (Horizontal Card Style) -->
         <div v-if="viewMode === 'table'" class="space-y-4">
             <template v-if="loading">
-                <div v-for="i in 5" :key="i"
-                    class="bg-white border border-slate-100 rounded-3xl p-6 animate-pulse space-y-6">
+                <div v-for="i in 5" :key="i" class="bg-card border-0 rounded-3xl p-6 animate-pulse space-y-6">
                     <!-- Skeleton content -->
                 </div>
             </template>
             <template v-else>
                 <div v-for="student in paginatedStudents" :key="student.id"
-                    class="group bg-white border border-slate-100 rounded-3xl p-6 hover:shadow-xl hover:shadow-slate-200/50 transition-all hover:-translate-y-1 relative overflow-hidden">
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
 
                     <!-- Card Header -->
-                    <div
-                        class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-50 pb-4 mb-5">
+                    <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-0 pb-4 mb-5">
                         <div class="flex items-center gap-3">
-                            <div class="p-2 bg-slate-50 rounded-xl group-hover:bg-blue-50 transition-colors">
-                                <UserIcon class="w-5 h-5 text-slate-400 group-hover:text-blue-500" />
+                            <div class="p-2 bg-muted/50 rounded-xl group-hover:bg-primary/10 transition-colors">
+                                <UserIcon class="w-5 h-5 text-muted-foreground group-hover:text-primary" />
                             </div>
                             <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
-                                <span class="text-[11px] font-black uppercase tracking-widest text-slate-400">{{
-                                    student.nis }}</span>
-                                <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-200"></div>
-                                <span class="text-[11px] font-black uppercase tracking-widest text-slate-600">{{
+                                <span
+                                    class="text-[11px] font-black uppercase tracking-widest text-muted-foreground/60">{{
+                                        student.nis }}</span>
+                                <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-border"></div>
+                                <span class="text-[11px] font-black uppercase tracking-widest text-muted-foreground">{{
                                     student.class || student.className }}</span>
                             </div>
                         </div>
@@ -309,16 +307,16 @@ const saveQuickAttendance = async () => {
                         <div class="flex items-center gap-3">
                             <!-- Status Badge -->
                             <span v-if="getStudentStatus(student.id)" :class="[
-                                'inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border transition-colors',
-                                getStudentStatus(student.id).status === 'Hadir' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' :
-                                    getStudentStatus(student.id).status === 'Izin' ? 'bg-blue-50 text-blue-600 border-blue-100' :
-                                        getStudentStatus(student.id).status === 'Sakit' ? 'bg-amber-50 text-amber-600 border-amber-100' :
-                                            'bg-red-50 text-red-600 border-red-100'
+                                'inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border-0 transition-colors',
+                                getStudentStatus(student.id).status === 'Hadir' ? 'bg-emerald-50 text-emerald-600' :
+                                    getStudentStatus(student.id).status === 'Izin' ? 'bg-blue-50 text-blue-600' :
+                                        getStudentStatus(student.id).status === 'Sakit' ? 'bg-amber-50 text-amber-600' :
+                                            'bg-red-50 text-red-600'
                             ]">
                                 {{ getStudentStatus(student.id).status }}
                             </span>
                             <span v-else
-                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border bg-slate-50 text-slate-400 border-slate-100">
+                                class="inline-flex items-center px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-wider border-0 bg-muted/50 text-muted-foreground/60">
                                 Belum Absen
                             </span>
                         </div>
@@ -333,7 +331,7 @@ const saveQuickAttendance = async () => {
                             </div>
                             <div class="space-y-1">
                                 <h3
-                                    class="font-black text-xl text-slate-800 tracking-tight group-hover:text-blue-600 transition-colors">
+                                    class="font-black text-xl text-foreground tracking-tight group-hover:text-primary transition-colors">
                                     {{ student.name }}
                                 </h3>
                                 <!-- Time Info -->
@@ -349,7 +347,7 @@ const saveQuickAttendance = async () => {
                                         }}
                                     </span>
                                 </div>
-                                <div v-else class="text-xs text-slate-400 italic">
+                                <div v-else class="text-xs text-muted-foreground/60 italic">
                                     Belum ada catatan waktu
                                 </div>
                             </div>
@@ -357,9 +355,9 @@ const saveQuickAttendance = async () => {
 
                         <div class="flex items-center justify-between md:justify-end gap-6 md:min-w-[200px]">
                             <!-- Actions -->
-                            <div class="hidden min-[1100px]:flex items-center gap-2 pl-6 border-l border-slate-100">
+                            <div class="hidden min-[1100px]:flex items-center gap-2 pl-6 border-0">
                                 <button @click="router.push(`/admin/attendance/daily/${student.id}`)"
-                                    class="px-4 py-2.5 bg-white border-2 border-slate-100 hover:border-blue-100 hover:bg-blue-50 text-blue-600 font-bold text-sm rounded-xl transition-all active:scale-95 flex items-center gap-2">
+                                    class="px-4 py-2.5 bg-card border-0 hover:bg-primary/5 text-primary font-bold text-sm rounded-xl transition-all active:scale-95 flex items-center gap-2">
                                     <EyeIcon class="w-4 h-4" /> Detail
                                 </button>
                                 <button @click="openQuickModal(student)"
@@ -371,8 +369,7 @@ const saveQuickAttendance = async () => {
                     </div>
 
                     <!-- Mobile Actions -->
-                    <div
-                        class="mt-6 pt-5 border-t border-slate-50 flex min-[1100px]:hidden items-center justify-end gap-3">
+                    <div class="mt-6 pt-5 border-0 flex min-[1100px]:hidden items-center justify-end gap-3">
                         <button @click="router.push(`/admin/attendance/daily/${student.id}`)"
                             class="flex-1 sm:flex-none text-blue-600 font-black text-sm hover:underline py-2">
                             Lihat Detail
@@ -389,7 +386,7 @@ const saveQuickAttendance = async () => {
         <!-- Card View (Alternative Grid) -->
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <div v-for="student in paginatedStudents" :key="student.id"
-                class="group bg-white border border-slate-100 rounded-3xl p-6 hover:shadow-2xl hover:shadow-slate-200/50 transition-all hover:-translate-y-1 relative overflow-hidden">
+                class="group bg-card border-0 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
 
                 <!-- Avatar & Status -->
                 <div class="flex items-start justify-between mb-5 relative">
@@ -398,8 +395,8 @@ const saveQuickAttendance = async () => {
                             class="w-16 h-16 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform" />
                     </div>
                     <span v-if="getStudentStatus(student.id)" :class="[
-                        'inline-flex items-center px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider border',
-                        getStudentStatus(student.id).status === 'Hadir' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-slate-50 text-slate-500 border-slate-100'
+                        'inline-flex items-center px-3 py-1.5 rounded-xl text-[9px] font-black uppercase tracking-wider border-0',
+                        getStudentStatus(student.id).status === 'Hadir' ? 'bg-emerald-50 text-emerald-600' : 'bg-muted/50 text-muted-foreground'
                     ]">
                         {{ getStudentStatus(student.id).status }}
                     </span>
@@ -409,16 +406,16 @@ const saveQuickAttendance = async () => {
                 <div class="space-y-4">
                     <div class="space-y-1">
                         <h3
-                            class="font-black text-slate-800 text-lg tracking-tight truncate group-hover:text-blue-600 transition-colors">
+                            class="font-black text-foreground text-lg tracking-tight truncate group-hover:text-primary transition-colors">
                             {{ student.name }}
                         </h3>
-                        <p class="text-xs text-slate-400 font-medium truncate">{{ student.nis }}</p>
+                        <p class="text-xs text-muted-foreground font-medium truncate">{{ student.nis }}</p>
                     </div>
 
                     <!-- Actions -->
-                    <div class="pt-4 flex items-center gap-2 border-t border-slate-50">
+                    <div class="pt-4 flex items-center gap-2 border-0">
                         <button @click="router.push(`/admin/attendance/daily/${student.id}`)"
-                            class="flex-1 bg-slate-50 hover:bg-blue-600 hover:text-white text-slate-600 py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
+                            class="flex-1 bg-muted/50 hover:bg-primary hover:text-primary-foreground text-muted-foreground py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
                             <EyeIcon class="w-4 h-4" /> Detail
                         </button>
                         <button @click="openQuickModal(student)"
@@ -431,13 +428,12 @@ const saveQuickAttendance = async () => {
         </div>
 
         <!-- Pagination Controls -->
-        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-t border-slate-100">
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-6 py-8 px-4 border-0">
             <!-- Limit Selector -->
-            <div
-                class="flex items-center gap-1 bg-white border border-slate-200 p-1 rounded-2xl shadow-sm order-2 sm:order-1">
+            <div class="flex items-center gap-1 bg-card border-0 p-1 rounded-2xl shadow-sm order-2 sm:order-1">
                 <button v-for="l in limitOptions" :key="l" @click="selectedLimit = l"
                     class="px-3 py-2 rounded-xl text-xs font-black transition-all min-w-[3rem]"
-                    :class="selectedLimit === l ? 'bg-slate-800 text-white shadow-md' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-700'">
+                    :class="selectedLimit === l ? 'bg-primary text-primary-foreground shadow-md' : 'text-muted-foreground hover:bg-muted hover:text-foreground'">
                     {{ l }}
                 </button>
             </div>
@@ -445,7 +441,7 @@ const saveQuickAttendance = async () => {
             <!-- Page Navigation -->
             <div class="flex items-center gap-2 order-1 sm:order-2">
                 <button @click="changePage(page - 1)" :disabled="page <= 1"
-                    class="p-2 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+                    class="p-2 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:hover:bg-transparent transition-all">
                     <span class="sr-only">Previous</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
@@ -457,13 +453,13 @@ const saveQuickAttendance = async () => {
                 <div class="flex items-center gap-1">
                     <button v-for="p in totalPages" :key="p" @click="changePage(p)"
                         class="w-8 h-8 flex items-center justify-center rounded-xl text-xs font-black transition-all"
-                        :class="page === p ? 'bg-slate-800 text-white shadow-lg' : 'text-slate-400 hover:bg-slate-50 hover:text-slate-700'">
+                        :class="page === p ? 'bg-primary text-primary-foreground shadow-lg' : 'text-muted-foreground hover:bg-muted hover:text-foreground'">
                         {{ p }}
                     </button>
                 </div>
 
                 <button @click="changePage(page + 1)" :disabled="page >= totalPages"
-                    class="p-2 rounded-xl text-slate-400 hover:bg-slate-100 hover:text-slate-700 disabled:opacity-50 disabled:hover:bg-transparent transition-all">
+                    class="p-2 rounded-xl text-muted-foreground hover:bg-muted hover:text-foreground disabled:opacity-50 disabled:hover:bg-transparent transition-all">
                     <span class="sr-only">Next</span>
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
                         <path fill-rule="evenodd"
@@ -476,13 +472,13 @@ const saveQuickAttendance = async () => {
 
         <!-- Quick Attendance Modal -->
         <div v-if="showQuickModal"
-            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
+            class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
             <div
-                class="bg-white rounded-2xl w-full max-w-lg shadow-xl overflow-hidden animate-in fade-in zoom-in duration-200">
-                <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
-                    <h3 class="font-bold text-slate-800">Absensi: {{ selectedStudent?.name }}</h3>
+                class="bg-card rounded-2xl w-full max-w-lg shadow-xl overflow-hidden animate-in fade-in zoom-in duration-200">
+                <div class="px-6 py-4 border-0 flex items-center justify-between">
+                    <h3 class="font-bold text-foreground">Absensi: {{ selectedStudent?.name }}</h3>
                     <button @click="showQuickModal = false"
-                        class="p-1 rounded-lg hover:bg-slate-100 text-slate-400 transition-colors">
+                        class="p-1 rounded-lg hover:bg-muted text-muted-foreground transition-colors">
                         <XMarkIcon class="w-5 h-5" />
                     </button>
                 </div>
@@ -490,7 +486,7 @@ const saveQuickAttendance = async () => {
                 <div class="p-6 space-y-4">
                     <div class="grid grid-cols-2 gap-4">
                         <div class="col-span-2">
-                            <div class="text-xs font-bold text-slate-400 uppercase mb-2">Tanggal: {{ new
+                            <div class="text-xs font-bold text-muted-foreground uppercase mb-2">Tanggal: {{ new
                                 Date().toLocaleDateString('id-ID', {
                                     weekday: 'long', year: 'numeric', month: 'long',
                                     day:
@@ -499,18 +495,18 @@ const saveQuickAttendance = async () => {
                         </div>
 
                         <div class="col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-2">Status
+                            <label class="block text-xs font-bold text-muted-foreground uppercase mb-2">Status
                                 Kehadiran</label>
                             <div class="flex gap-2">
                                 <button v-for="s in ['Hadir', 'Izin', 'Sakit', 'Alpha']" :key="s"
                                     @click="quickForm.status = s" type="button" :class="[
-                                        'flex-1 py-2 rounded-xl text-sm font-semibold border transition-all',
+                                        'flex-1 py-2 rounded-xl text-sm font-semibold border-0 transition-all',
                                         quickForm.status === s
-                                            ? (s === 'Hadir' ? 'bg-emerald-50 border-emerald-200 text-emerald-700' :
-                                                s === 'Izin' ? 'bg-blue-50 border-blue-200 text-blue-700' :
-                                                    s === 'Sakit' ? 'bg-amber-50 border-amber-200 text-amber-700' :
-                                                        'bg-red-50 border-red-200 text-red-700')
-                                            : 'bg-white border-slate-200 text-slate-600 hover:bg-slate-50'
+                                            ? (s === 'Hadir' ? 'bg-emerald-50 text-emerald-700' :
+                                                s === 'Izin' ? 'bg-blue-50 text-blue-700' :
+                                                    s === 'Sakit' ? 'bg-amber-50 text-amber-700' :
+                                                        'bg-red-50 text-red-700')
+                                            : 'bg-muted/50 text-muted-foreground hover:bg-muted'
                                     ]">
                                     {{ s }}
                                 </button>
@@ -518,30 +514,32 @@ const saveQuickAttendance = async () => {
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Jam Masuk</label>
+                            <label class="block text-xs font-bold text-muted-foreground uppercase mb-1">Jam
+                                Masuk</label>
                             <input v-model="quickForm.timeIn" type="time"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-100 outline-none">
+                                class="w-full bg-muted/50 border-0 rounded-xl px-4 py-2 text-sm text-foreground focus:ring-2 focus:ring-primary/20 outline-none">
                         </div>
 
                         <div>
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Jam Pulang</label>
+                            <label class="block text-xs font-bold text-muted-foreground uppercase mb-1">Jam
+                                Pulang</label>
                             <input v-model="quickForm.timeOut" type="time"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-100 outline-none">
+                                class="w-full bg-muted/50 border-0 rounded-xl px-4 py-2 text-sm text-foreground focus:ring-2 focus:ring-primary/20 outline-none">
                         </div>
 
                         <div class="col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Catatan</label>
+                            <label class="block text-xs font-bold text-muted-foreground uppercase mb-1">Catatan</label>
                             <textarea v-model="quickForm.notes" rows="2"
-                                class="w-full bg-slate-50 border border-slate-200 rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-blue-100 outline-none placeholder:text-slate-400"
+                                class="w-full bg-muted/50 border-0 rounded-xl px-4 py-2 text-sm text-foreground focus:ring-2 focus:ring-primary/20 outline-none placeholder:text-muted-foreground/50"
                                 placeholder="Keterangan tambahan..."></textarea>
                         </div>
 
                         <!-- Proof Upload (Show only if Sakit or Izin) -->
                         <div v-if="['Sakit', 'Izin'].includes(quickForm.status)" class="col-span-2">
-                            <label class="block text-xs font-bold text-slate-500 uppercase mb-1">Bukti Surat
+                            <label class="block text-xs font-bold text-muted-foreground uppercase mb-1">Bukti Surat
                                 (Foto/Dokumen)</label>
                             <div
-                                class="border-2 border-dashed border-slate-200 rounded-xl p-4 text-center hover:bg-slate-50 transition-colors relative cursor-pointer">
+                                class="border-0 bg-muted/30 rounded-xl p-4 text-center hover:bg-muted/50 transition-colors relative cursor-pointer">
                                 <input type="file" @change="handleFileChange"
                                     class="absolute inset-0 opacity-0 cursor-pointer" accept="image/*,.pdf">
                                 <div v-if="quickForm.proofUrl"
@@ -558,9 +556,9 @@ const saveQuickAttendance = async () => {
                     </div>
                 </div>
 
-                <div class="px-6 py-4 bg-slate-50 flex justify-end gap-3">
+                <div class="px-6 py-4 bg-muted/20 flex justify-end gap-3">
                     <button @click="showQuickModal = false"
-                        class="px-4 py-2 text-sm font-bold text-slate-500 hover:bg-slate-200 rounded-xl transition-colors">Batal</button>
+                        class="px-4 py-2 text-sm font-bold text-muted-foreground hover:bg-muted rounded-xl transition-colors">Batal</button>
                     <button @click="saveQuickAttendance"
                         class="px-6 py-2 text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 rounded-xl transition-colors shadow-sm disabled:opacity-50 disabled:cursor-not-allowed"
                         :disabled="saving">

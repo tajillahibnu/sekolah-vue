@@ -168,11 +168,11 @@ const saveChanges = async () => {
 // Helpers
 const getStatusColor = (status) => {
     switch (status) {
-        case 'Hadir': return 'text-emerald-600 bg-emerald-50 border-emerald-100';
-        case 'Sakit': return 'text-amber-600 bg-amber-50 border-amber-100';
-        case 'Izin': return 'text-blue-600 bg-blue-50 border-blue-100';
-        case 'Alpha': return 'text-rose-600 bg-rose-50 border-rose-100';
-        default: return 'text-slate-600 bg-slate-50 border-slate-100';
+        case 'Hadir': return 'text-emerald-600 bg-emerald-50 border-0';
+        case 'Sakit': return 'text-amber-600 bg-amber-50 border-0';
+        case 'Izin': return 'text-blue-600 bg-blue-50 border-0';
+        case 'Alpha': return 'text-rose-600 bg-rose-50 border-0';
+        default: return 'text-slate-600 bg-slate-50 border-0';
     }
 };
 
@@ -192,9 +192,9 @@ const formatDate = (dateStr) => {
 </script>
 
 <template>
-    <div class="min-h-screen bg-slate-50/50 pb-20 font-sans">
+    <div class="min-h-screen bg-background pb-20 font-sans">
         <!-- Header Section -->
-        <header class="bg-white border-b border-slate-200 sticky top-0 z-40">
+        <header class="bg-card border-0 sticky top-0 z-40 shadow-sm">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                 <div class="flex flex-col md:flex-row md:items-center justify-between py-4 gap-4">
                     <div class="flex items-center gap-4">
@@ -249,8 +249,7 @@ const formatDate = (dateStr) => {
             <!-- Analytics Dashboard -->
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <!-- Attendance Rate -->
-                <div
-                    class="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
+                <div class="bg-card rounded-3xl p-6 border-0 shadow-xl shadow-primary/5 relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                         <ChartPieIcon class="w-32 h-32 text-blue-600" />
                     </div>
@@ -268,8 +267,7 @@ const formatDate = (dateStr) => {
                 </div>
 
                 <!-- Punctuality -->
-                <div
-                    class="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group">
+                <div class="bg-card rounded-3xl p-6 border-0 shadow-xl shadow-primary/5 relative overflow-hidden group">
                     <div class="absolute top-0 right-0 p-6 opacity-5 group-hover:opacity-10 transition-opacity">
                         <ClockIcon class="w-32 h-32 text-emerald-600" />
                     </div>
@@ -290,8 +288,7 @@ const formatDate = (dateStr) => {
                 </div>
 
                 <!-- Status Breakdown -->
-                <div
-                    class="bg-white rounded-3xl p-6 border border-slate-100 shadow-xl shadow-slate-200/50 flex flex-col justify-between">
+                <div class="bg-card rounded-3xl p-6 border-0 shadow-xl shadow-primary/5 flex flex-col justify-between">
                     <h3 class="text-slate-500 font-bold text-sm uppercase tracking-wider mb-2">Detail Status</h3>
                     <div class="grid grid-cols-2 gap-3 mt-auto">
                         <div class="bg-amber-50 rounded-2xl p-3 flex flex-col border border-amber-100">
@@ -315,14 +312,14 @@ const formatDate = (dateStr) => {
             </div>
 
             <!-- Main Content Area -->
-            <div class="bg-white border border-slate-200 rounded-[2.5rem] p-8 shadow-2xl shadow-slate-200/20">
+            <div class="bg-card border-0 rounded-[2.5rem] p-8 shadow-2xl shadow-primary/5">
                 <!-- Filters -->
                 <div class="flex flex-col sm:flex-row justify-between items-center mb-8 gap-4">
                     <div>
-                        <h2 class="text-2xl font-black text-slate-800">Riwayat Absensi</h2>
-                        <p class="text-slate-500 font-medium text-sm">Pilih periode untuk melihat data</p>
+                        <h2 class="text-2xl font-black text-foreground">Riwayat Absensi</h2>
+                        <p class="text-muted-foreground font-medium text-sm">Pilih periode untuk melihat data</p>
                     </div>
-                    <div class="flex bg-slate-50 p-1.5 rounded-2xl border border-slate-200">
+                    <div class="flex bg-muted/50 p-1.5 rounded-2xl border-0">
                         <div class="relative">
                             <button @click="showYearDropdown = !showYearDropdown"
                                 class="px-4 py-2 text-sm font-bold text-slate-700 hover:bg-white rounded-xl transition-all flex items-center gap-2">
@@ -360,7 +357,7 @@ const formatDate = (dateStr) => {
                             :class="[
                                 !day ? 'bg-transparent' :
                                     day.log ? getStatusBg(day.log.status) + ' cursor-pointer shadow-sm hover:shadow-md transform hover:-translate-y-1'
-                                        : 'bg-slate-50 text-slate-300 cursor-pointer hover:bg-slate-100 hover:text-slate-500 border-2 border-dashed border-slate-200'
+                                        : 'bg-muted/30 text-muted-foreground/50 cursor-pointer hover:bg-muted hover:text-muted-foreground border-0'
                             ]" @click="handleCalendarClick(day)">
 
                             <template v-if="day">
@@ -384,35 +381,34 @@ const formatDate = (dateStr) => {
 
                 <!-- Table View -->
                 <div v-else class="animate-in fade-in duration-300">
-                    <div v-if="history.length === 0"
-                        class="text-center py-20 bg-slate-50 rounded-3xl border-2 border-dashed border-slate-200">
-                        <p class="text-slate-500 font-bold">Tidak ada data untuk periode ini.</p>
+                    <div v-if="history.length === 0" class="text-center py-20 bg-muted/30 rounded-3xl border-0">
+                        <p class="text-muted-foreground font-bold">Tidak ada data untuk periode ini.</p>
                     </div>
-                    <div v-else class="overflow-hidden rounded-2xl border border-slate-200">
+                    <div v-else class="overflow-hidden rounded-2xl border-0">
                         <table class="w-full text-left border-collapse">
-                            <thead class="bg-slate-50">
+                            <thead class="bg-muted/50">
                                 <tr>
                                     <th
-                                        class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                        class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-0">
                                         Tanggal</th>
                                     <th
-                                        class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                        class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-0">
                                         Status</th>
                                     <th
-                                        class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                        class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-0">
                                         Waktu</th>
                                     <th
-                                        class="px-6 py-4 text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                        class="px-6 py-4 text-xs font-bold text-muted-foreground uppercase tracking-wider border-0">
                                         Catatan</th>
                                     <th
-                                        class="px-6 py-4 text-center text-xs font-bold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+                                        class="px-6 py-4 text-center text-xs font-bold text-muted-foreground uppercase tracking-wider border-0">
                                         Aksi</th>
                                 </tr>
                             </thead>
-                            <tbody class="divide-y divide-slate-100 bg-white">
+                            <tbody class="divide-y divide-transparent bg-card">
                                 <tr v-for="log in history" :key="log.id"
-                                    class="hover:bg-slate-50 transition-colors group">
-                                    <td class="px-6 py-4 font-bold text-slate-700">{{ formatDate(log.date) }}</td>
+                                    class="hover:bg-muted/50 transition-colors group">
+                                    <td class="px-6 py-4 font-bold text-foreground">{{ formatDate(log.date) }}</td>
                                     <td class="px-6 py-4">
                                         <span
                                             class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-bold uppercase tracking-wide border"
@@ -424,12 +420,12 @@ const formatDate = (dateStr) => {
                                         <div class="flex items-center gap-3 text-sm font-mono text-slate-600">
                                             <span class="flex items-center gap-1.5">
                                                 <div class="w-1.5 h-1.5 rounded-full bg-emerald-500"></div>{{ log.timeIn
-                                                || '--:--' }}
+                                                    || '--:--' }}
                                             </span>
                                             <span class="text-slate-300">/</span>
                                             <span class="flex items-center gap-1.5">
                                                 <div class="w-1.5 h-1.5 rounded-full bg-rose-500"></div>{{ log.timeOut
-                                                || '--:--' }}
+                                                    || '--:--' }}
                                             </span>
                                         </div>
                                     </td>
@@ -451,11 +447,11 @@ const formatDate = (dateStr) => {
 
     <!-- Edit Modal (Simplified for brevity but functional) -->
     <div v-if="showEditModal"
-        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
-        <div class="bg-white rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
-            <div class="px-6 py-4 border-b border-slate-100 flex justify-between items-center bg-slate-50/50">
-                <h3 class="font-black text-lg text-slate-800">{{ isCreating ? 'Catat Absensi' : 'Edit Data' }} <span
-                        class="font-normal text-slate-500 text-sm ml-2">{{ editForm.date }}</span></h3>
+        class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
+        <div class="bg-card rounded-3xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200">
+            <div class="px-6 py-4 border-0 flex justify-between items-center bg-muted/20">
+                <h3 class="font-black text-lg text-foreground">{{ isCreating ? 'Catat Absensi' : 'Edit Data' }} <span
+                        class="font-normal text-muted-foreground text-sm ml-2">{{ editForm.date }}</span></h3>
                 <button @click="showEditModal = false">
                     <XMarkIcon class="w-6 h-6 text-slate-400 hover:text-slate-600" />
                 </button>
@@ -463,34 +459,34 @@ const formatDate = (dateStr) => {
             <div class="p-6 space-y-4">
                 <div class="grid grid-cols-4 gap-2">
                     <button v-for="s in ['Hadir', 'Sakit', 'Izin', 'Alpha']" :key="s" @click="editForm.status = s"
-                        class="py-2 rounded-xl text-xs font-bold border transition-all"
-                        :class="editForm.status === s ? getStatusColor(s) + ' ring-2 ring-offset-1 ring-slate-200' : 'border-slate-200 text-slate-500 hover:bg-slate-50'">
+                        class="py-2 rounded-xl text-xs font-bold border-0 transition-all"
+                        :class="editForm.status === s ? getStatusColor(s) + ' ring-2 ring-offset-1 ring-border/50' : 'bg-muted/50 text-muted-foreground hover:bg-muted'">
                         {{ s }}
                     </button>
                 </div>
                 <div class="grid grid-cols-2 gap-4">
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Masuk</label>
+                        <label class="text-xs font-bold text-muted-foreground uppercase mb-1 block">Masuk</label>
                         <input v-model="editForm.timeIn" type="time"
-                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:border-blue-500">
+                            class="w-full bg-muted/50 border-0 rounded-xl px-3 py-2 text-sm font-bold text-foreground outline-none focus:ring-2 focus:ring-primary/20">
                     </div>
                     <div>
-                        <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Pulang</label>
+                        <label class="text-xs font-bold text-muted-foreground uppercase mb-1 block">Pulang</label>
                         <input v-model="editForm.timeOut" type="time"
-                            class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:border-blue-500">
+                            class="w-full bg-muted/50 border-0 rounded-xl px-3 py-2 text-sm font-bold outline-none focus:ring-2 focus:ring-primary/20">
                     </div>
                 </div>
                 <div>
-                    <label class="text-xs font-bold text-slate-500 uppercase mb-1 block">Catatan</label>
+                    <label class="text-xs font-bold text-muted-foreground uppercase mb-1 block">Catatan</label>
                     <textarea v-model="editForm.notes" rows="2"
-                        class="w-full bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 text-sm font-medium outline-none focus:border-blue-500 resize-none"></textarea>
+                        class="w-full bg-muted/50 border-0 rounded-xl px-3 py-2 text-sm font-medium text-foreground outline-none focus:ring-2 focus:ring-primary/20 resize-none"></textarea>
                 </div>
             </div>
-            <div class="px-6 py-4 bg-slate-50 border-t border-slate-100 flex justify-end gap-2">
+            <div class="px-6 py-4 bg-muted/20 border-0 flex justify-end gap-2">
                 <button @click="showEditModal = false"
-                    class="px-4 py-2 text-sm font-bold text-slate-500 hover:text-slate-700">Batal</button>
+                    class="px-4 py-2 text-sm font-bold text-muted-foreground hover:text-foreground">Batal</button>
                 <button @click="saveChanges"
-                    class="px-6 py-2 bg-slate-900 text-white text-sm font-bold rounded-xl hover:bg-slate-800 shadow-lg shadow-slate-900/10">Simpan</button>
+                    class="px-6 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl hover:bg-primary/90 shadow-lg shadow-primary/20">Simpan</button>
             </div>
         </div>
     </div>

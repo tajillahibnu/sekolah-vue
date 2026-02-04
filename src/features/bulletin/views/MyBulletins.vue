@@ -176,13 +176,12 @@ const viewRejectionNote = (bulletin) => {
     <!-- Bulletin List (Horizontal Card Style consistent with Data Siswa) -->
     <div class="space-y-4">
       <div v-if="loading" class="space-y-4">
-        <div v-for="i in 3" :key="i"
-          class="bg-background border border-primary/10 rounded-[32px] p-6 animate-pulse h-32"></div>
+        <div v-for="i in 3" :key="i" class="bg-card border-0 rounded-[32px] p-6 animate-pulse h-32"></div>
       </div>
 
       <template v-else-if="bulletins.length > 0">
         <div v-for="bulletin in bulletins" :key="bulletin.id"
-          class="group bg-background border border-primary/10 rounded-[40px] p-6 hover:shadow-2xl hover:shadow-primary/5 transition-all hover:-translate-y-1 overflow-hidden">
+          class="group bg-card border-0 rounded-[40px] p-6 hover:shadow-2xl hover:shadow-primary/5 transition-all hover:-translate-y-1 overflow-hidden">
           <div class="flex flex-col md:flex-row items-center gap-8">
             <!-- Media Preview Circle/Square like avatar -->
             <div class="relative shrink-0">

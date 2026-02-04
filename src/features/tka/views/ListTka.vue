@@ -311,7 +311,7 @@ const getStatusLabel = (status) => {
                         </button>
 
                         <div v-if="showStatusDropdown"
-                            class="absolute top-full left-0 right-0 mt-2 z-[60] bg-background border border-primary/10 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
+                            class="absolute top-full left-0 right-0 mt-2 z-[60] bg-card border-0 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
                             <div class="space-y-1">
                                 <button v-for="opt in statusOptions" :key="opt.value"
                                     @click="statusFilter = opt.value; showStatusDropdown = false"
@@ -342,7 +342,7 @@ const getStatusLabel = (status) => {
         <div class="space-y-4">
             <template v-if="paginatedTka.length > 0">
                 <div v-for="tka in paginatedTka" :key="tka.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
 
                     <!-- Card Header -->
                     <div
@@ -430,7 +430,7 @@ const getStatusLabel = (status) => {
                     </div>
                 </div>
             </template>
-            <div v-else class="text-center py-12 bg-background border border-primary/10 rounded-3xl">
+            <div v-else class="text-center py-12 bg-card border-0 rounded-3xl">
                 <p class="text-muted-foreground font-medium">Tidak ada data TKA yang ditemukan.</p>
             </div>
         </div>

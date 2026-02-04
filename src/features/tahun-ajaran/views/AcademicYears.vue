@@ -149,12 +149,12 @@ fetchItems();
         <!-- List -->
         <div class="space-y-4">
             <template v-if="loading">
-                <div v-for="i in 3" :key="i"
-                    class="bg-background border border-primary/10 rounded-3xl p-6 h-24 animate-pulse"></div>
+                <div v-for="i in 3" :key="i" class="bg-card border-0 rounded-3xl p-6 h-24 animate-pulse">
+                </div>
             </template>
             <template v-else>
                 <div v-for="item in items" :key="item.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6"
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col sm:flex-row sm:items-center justify-between gap-6"
                     :class="{ 'ring-2 ring-primary/20 bg-primary/5': item.status === 'active' }">
                     <div class="flex items-center gap-4">
                         <div class="p-3 bg-background rounded-2xl border border-border shadow-sm">

@@ -355,7 +355,7 @@ onMounted(() => {
             class="grid grid-cols-1 lg:grid-cols-3 gap-8 animate-in fade-in slide-in-from-bottom-4 duration-500">
             <!-- Left Column: Profile Card -->
             <div
-                class="lg:col-span-1 h-fit bg-background border border-primary/10 rounded-3xl shadow-xl shadow-primary/5 overflow-hidden sticky top-8">
+                class="lg:col-span-1 h-fit bg-card border border-border rounded-3xl shadow-xl shadow-primary/5 overflow-hidden sticky top-8">
                 <!-- Header with gradient -->
                 <div class="h-32 bg-gradient-to-br from-slate-100 via-slate-50 to-transparent relative">
                     <div
@@ -418,7 +418,7 @@ onMounted(() => {
             <div class="lg:col-span-2 space-y-8">
                 <!-- Personal Info -->
                 <div
-                    class="bg-background border border-primary/10 rounded-3xl shadow-xl shadow-primary/5 p-8 relative overflow-hidden">
+                    class="bg-card border border-border rounded-3xl shadow-xl shadow-primary/5 p-8 relative overflow-hidden">
                     <div class="flex items-center gap-4 mb-8 relative">
                         <div class="p-3 bg-blue-50 rounded-2xl shadow-sm">
                             <UserIcon class="w-6 h-6 text-blue-600" />
@@ -447,7 +447,7 @@ onMounted(() => {
 
                 <!-- Academic & Parents (Simplified for brevity in this update) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    <div class="bg-background border border-primary/10 rounded-3xl shadow-xl shadow-primary/5 p-8">
+                    <div class="bg-card border border-border rounded-3xl shadow-xl shadow-primary/5 p-8">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="p-3 bg-emerald-50 rounded-2xl">
                                 <AcademicCapIcon class="w-6 h-6 text-emerald-600" />
@@ -465,7 +465,7 @@ onMounted(() => {
                             </div>
                         </div>
                     </div>
-                    <div class="bg-background border border-primary/10 rounded-3xl shadow-xl shadow-primary/5 p-8">
+                    <div class="bg-card border border-border rounded-3xl shadow-xl shadow-primary/5 p-8">
                         <div class="flex items-center gap-4 mb-6">
                             <div class="p-3 bg-purple-50 rounded-2xl">
                                 <UsersIcon class="w-6 h-6 text-purple-600" />

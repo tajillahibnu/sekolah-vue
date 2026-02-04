@@ -284,7 +284,7 @@ fetchUsers();
             </button>
 
             <div v-if="showClassDropdown"
-              class="absolute top-full left-0 right-0 mt-2 z-[60] bg-background border border-primary/10 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
+              class="absolute top-full left-0 right-0 mt-2 z-[60] bg-card border-0 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
               <div class="space-y-1">
                 <button v-for="opt in classOptions" :key="opt.value"
                   @click="selectedClass = opt.value; showClassDropdown = false"
@@ -328,8 +328,7 @@ fetchUsers();
     <div v-if="viewMode === 'table'" class="space-y-4">
       <!-- Skeleton Rows (Horizontal Card Style) -->
       <template v-if="loading">
-        <div v-for="i in 5" :key="i"
-          class="bg-background border border-primary/10 rounded-3xl p-6 animate-pulse space-y-6">
+        <div v-for="i in 5" :key="i" class="bg-card border-0 rounded-3xl p-6 animate-pulse space-y-6">
           <div class="flex items-center justify-between border-b border-primary/5 pb-4">
             <div class="flex items-center gap-3">
               <div class="h-8 w-8 bg-primary/10 rounded-xl"></div>
@@ -351,7 +350,7 @@ fetchUsers();
       <!-- Actual Data (Horizontal Card Style) -->
       <template v-else>
         <div v-for="student in filteredUsers" :key="student.id"
-          class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
+          class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
 
           <!-- Card Header (Icon, Metadata, Status) -->
           <div
@@ -451,7 +450,7 @@ fetchUsers();
                 Ubah Data
               </button>
               <button @click="handleDelete(student)"
-                class="p-2.5 bg-background border border-primary/10 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                class="p-2.5 bg-card border-0 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-colors">
                 <TrashIcon class="w-5 h-5" />
               </button>
             </div>
@@ -464,7 +463,7 @@ fetchUsers();
     <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
       <!-- Skeleton Cards -->
       <template v-if="loading">
-        <div v-for="i in 8" :key="i" class="bg-background border border-primary/10 rounded-3xl p-6 h-64 animate-pulse">
+        <div v-for="i in 8" :key="i" class="bg-card border-0 rounded-3xl p-6 h-64 animate-pulse">
           <div class="flex items-start justify-between mb-4">
             <div class="h-16 w-16 bg-primary/10 rounded-2xl"></div>
             <div class="h-6 w-20 bg-primary/10 rounded-xl"></div>
@@ -480,7 +479,7 @@ fetchUsers();
       <!-- Actual Data -->
       <template v-else>
         <div v-for="student in filteredUsers" :key="student.id"
-          class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
+          class="group bg-card border-0 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
 
           <!-- Attendance Status Badge (Top Right) -->
           <div class="absolute top-0 right-0 p-4 z-20 flex flex-col items-end gap-1">

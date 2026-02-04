@@ -9,7 +9,7 @@ const layoutStore = useLayoutStore();
 </script>
 
 <template>
-  <div class="min-h-screen flex flex-col admin-pattern text-slate-800">
+  <div class="min-h-screen flex flex-col admin-pattern text-foreground">
     <!-- Top Fixed Header -->
     <Header class="z-[60]" />
 
@@ -37,8 +37,8 @@ const layoutStore = useLayoutStore();
 
 <style scoped>
 .admin-pattern {
-  background-color: #f8fafc;
-  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-color: hsl(var(--background));
+  background-image: radial-gradient(hsl(var(--foreground) / 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
 }
 

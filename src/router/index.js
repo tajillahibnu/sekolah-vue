@@ -404,6 +404,27 @@ const router = createRouter({
                         }
                     ]
                 },
+                // E-Raport Routes
+                {
+                    path: 'raport',
+                    children: [
+                        {
+                            path: 'dashboard',
+                            name: 'raport-dashboard',
+                            component: () => import('@/features/raport/views/RaportDashboard.vue')
+                        },
+                        {
+                            path: 'entries',
+                            name: 'raport-entries',
+                            component: () => import('@/features/raport/views/InputNilai.vue')
+                        },
+                        {
+                            path: 'print',
+                            name: 'raport-print',
+                            component: () => import('@/features/raport/views/CetakRaport.vue')
+                        },
+                    ]
+                },
                 // App Management Routes
                 {
                     path: 'app',

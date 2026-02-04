@@ -299,8 +299,7 @@ onMounted(() => {
         <div v-if="viewMode === 'table'" class="space-y-4">
             <!-- Skeleton Rows -->
             <template v-if="loading">
-                <div v-for="i in 5" :key="i"
-                    class="bg-background border border-primary/10 rounded-3xl p-6 animate-pulse space-y-6">
+                <div v-for="i in 5" :key="i" class="bg-card border-0 rounded-3xl p-6 animate-pulse space-y-6">
                     <div class="flex items-center justify-between border-b border-primary/5 pb-4">
                         <div class="flex items-center gap-3">
                             <div class="h-8 w-8 bg-primary/10 rounded-xl"></div>
@@ -322,7 +321,7 @@ onMounted(() => {
             <!-- Actual Data -->
             <template v-else>
                 <div v-for="emp in filteredEmployees" :key="emp.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-xl hover:shadow-primary/5 transition-all hover:-translate-y-1 relative overflow-hidden">
 
                     <!-- Card Header (Icon, Metadata, Status) -->
                     <div
@@ -355,9 +354,9 @@ onMounted(() => {
                     <div class="flex flex-col md:flex-row md:items-center gap-6">
                         <div class="flex items-center gap-5 flex-1">
                             <div class="relative">
-                                <div class="avatar" :class="{'placeholder': !emp.photo}">
-                                    <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden" 
-                                         :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                                <div class="avatar" :class="{ 'placeholder': !emp.photo }">
+                                    <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden"
+                                        :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
                                         <img v-if="emp.photo" :src="emp.photo" :alt="emp.name" />
                                         <span v-else class="text-xl font-black">{{ getInitials(emp.name) }}</span>
                                     </div>
@@ -432,8 +431,7 @@ onMounted(() => {
         <div v-else class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
             <!-- Skeleton Cards -->
             <template v-if="loading">
-                <div v-for="i in 8" :key="i"
-                    class="bg-background border border-primary/10 rounded-3xl p-6 h-64 animate-pulse">
+                <div v-for="i in 8" :key="i" class="bg-card border-0 rounded-3xl p-6 h-64 animate-pulse">
                     <div class="flex items-start justify-between mb-4">
                         <div class="h-16 w-16 bg-primary/10 rounded-2xl"></div>
                         <div class="h-6 w-20 bg-primary/10 rounded-xl"></div>
@@ -449,7 +447,7 @@ onMounted(() => {
             <!-- Actual Data -->
             <template v-else>
                 <div v-for="emp in filteredEmployees" :key="emp.id"
-                    class="group bg-background border border-primary/10 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
+                    class="group bg-card border-0 rounded-3xl p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden">
                     <!-- Background Accent -->
                     <div
                         class="absolute -top-12 -right-12 w-24 h-24 bg-primary/5 rounded-full blur-3xl group-hover:bg-primary/10 transition-all">
@@ -458,9 +456,9 @@ onMounted(() => {
                     <!-- Avatar & Status -->
                     <div class="flex items-start justify-between mb-5 relative">
                         <div class="relative">
-                            <div class="avatar" :class="{'placeholder': !emp.photo}">
-                                <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden" 
-                                     :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                            <div class="avatar" :class="{ 'placeholder': !emp.photo }">
+                                <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden"
+                                    :class="emp.photo ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
                                     <img v-if="emp.photo" :src="emp.photo" :alt="emp.name" />
                                     <span v-else class="text-xl font-black">{{ getInitials(emp.name) }}</span>
                                 </div>
@@ -578,8 +576,7 @@ onMounted(() => {
         </div>
 
         <!-- Empty State -->
-        <div v-if="!loading && filteredEmployees.length === 0"
-            class="card bg-base-100 shadow-sm border border-base-200">
+        <div v-if="!loading && filteredEmployees.length === 0" class="card bg-card shadow-sm border border-border">
             <div class="card-body text-center py-12">
                 <p class="text-base-content/60">Tidak ada data pegawai ditemukan</p>
             </div>

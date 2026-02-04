@@ -289,8 +289,7 @@ const getStatusClass = (status) => {
         </button>
 
         <!-- Header -->
-        <div
-            class="bg-background border border-primary/10 rounded-3xl p-8 shadow-xl shadow-primary/5 relative overflow-hidden">
+        <div class="bg-card border-0 rounded-3xl p-8 shadow-xl shadow-primary/5 relative overflow-hidden">
             <div
                 class="absolute top-0 right-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2">
             </div>
@@ -405,7 +404,7 @@ const getStatusClass = (status) => {
                         <ChevronDownIcon class="w-4 h-4 text-muted-foreground" />
                     </button>
                     <div v-if="showLevelDropdown"
-                        class="absolute top-full z-50 w-full mt-2 bg-background border border-primary/10 rounded-xl shadow-lg p-1">
+                        class="absolute top-full z-50 w-full mt-2 bg-card border-0 rounded-xl shadow-lg p-1">
                         <button v-for="opt in levelOptions" :key="opt.value"
                             @click="filterLevel = opt.value; showLevelDropdown = false"
                             class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-primary/5">
@@ -422,7 +421,7 @@ const getStatusClass = (status) => {
                         <ChevronDownIcon class="w-4 h-4 text-muted-foreground" />
                     </button>
                     <div v-if="showClassDropdown"
-                        class="absolute top-full z-50 w-full mt-2 bg-background border border-primary/10 rounded-xl shadow-lg p-1">
+                        class="absolute top-full z-50 w-full mt-2 bg-card border-0 rounded-xl shadow-lg p-1">
                         <button v-for="opt in classOptions" :key="opt.value"
                             @click="filterClass = opt.value; showClassDropdown = false"
                             class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-primary/5">
@@ -439,7 +438,7 @@ const getStatusClass = (status) => {
                         <ChevronDownIcon class="w-4 h-4 text-muted-foreground" />
                     </button>
                     <div v-if="showMajorDropdown"
-                        class="absolute top-full z-50 w-full mt-2 bg-background border border-primary/10 rounded-xl shadow-lg p-1">
+                        class="absolute top-full z-50 w-full mt-2 bg-card border-0 rounded-xl shadow-lg p-1">
                         <button v-for="opt in majorOptions" :key="opt.value"
                             @click="filterMajor = opt.value; showMajorDropdown = false"
                             class="w-full text-left px-3 py-2 rounded-lg text-sm hover:bg-primary/5">
@@ -453,7 +452,7 @@ const getStatusClass = (status) => {
         <!-- Tab Content: Results -->
         <div v-if="activeTab === 'results'">
             <!-- Table -->
-            <div class="bg-background border border-primary/10 rounded-3xl overflow-hidden shadow-sm">
+            <div class="bg-card border-0 rounded-3xl overflow-hidden shadow-sm">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead
@@ -552,8 +551,7 @@ const getStatusClass = (status) => {
 
                     <!-- Limit Selector & Info -->
                     <div class="flex items-center gap-4">
-                        <div
-                            class="flex items-center gap-1 bg-background border border-primary/10 p-1 rounded-xl shadow-sm">
+                        <div class="flex items-center gap-1 bg-card border-0 p-1 rounded-xl shadow-sm">
                             <button v-for="l in resultsPagination.limitOptions" :key="l"
                                 @click="resultsPagination.limit.value = l; resultsPagination.page.value = 1"
                                 class="px-3 py-1.5 rounded-lg text-[10px] font-black transition-all"
@@ -572,7 +570,7 @@ const getStatusClass = (status) => {
                     <div class="flex items-center gap-2">
                         <button @click="resultsPagination.changePage(resultsPagination.page.value - 1)"
                             :disabled="resultsPagination.page.value <= 1"
-                            class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
+                            class="p-2 rounded-lg bg-card border-0 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Prev</span>
                             <ChevronDownIcon class="h-4 w-4 rotate-90" />
                         </button>
@@ -586,7 +584,7 @@ const getStatusClass = (status) => {
                         </div>
                         <button @click="resultsPagination.changePage(resultsPagination.page.value + 1)"
                             :disabled="resultsPagination.page.value >= resultsPagination.totalPages.value"
-                            class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
+                            class="p-2 rounded-lg bg-card border-0 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Next</span>
                             <ChevronDownIcon class="h-4 w-4 -rotate-90" />
                         </button>
@@ -597,7 +595,7 @@ const getStatusClass = (status) => {
 
         <!-- Tab Content: Not Submitted -->
         <div v-if="activeTab === 'not_submitted'">
-            <div class="bg-background border border-primary/10 rounded-3xl overflow-hidden shadow-sm">
+            <div class="bg-card border-0 rounded-3xl overflow-hidden shadow-sm">
                 <div class="overflow-x-auto">
                     <table class="w-full text-left text-sm">
                         <thead
@@ -676,8 +674,7 @@ const getStatusClass = (status) => {
 
                     <!-- Limit Selector & Info -->
                     <div class="flex items-center gap-4">
-                        <div
-                            class="flex items-center gap-1 bg-background border border-primary/10 p-1 rounded-xl shadow-sm">
+                        <div class="flex items-center gap-1 bg-card border-0 p-1 rounded-xl shadow-sm">
                             <button v-for="l in notSubmittedPagination.limitOptions" :key="l"
                                 @click="notSubmittedPagination.limit.value = l; notSubmittedPagination.page.value = 1"
                                 class="px-3 py-1.5 rounded-lg text-[10px] font-black transition-all"
@@ -697,7 +694,7 @@ const getStatusClass = (status) => {
                     <div class="flex items-center gap-2">
                         <button @click="notSubmittedPagination.changePage(notSubmittedPagination.page.value - 1)"
                             :disabled="notSubmittedPagination.page.value <= 1"
-                            class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
+                            class="p-2 rounded-lg bg-card border-0 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Prev</span>
                             <ChevronDownIcon class="h-4 w-4 rotate-90" />
                         </button>
@@ -711,7 +708,7 @@ const getStatusClass = (status) => {
                         </div>
                         <button @click="notSubmittedPagination.changePage(notSubmittedPagination.page.value + 1)"
                             :disabled="notSubmittedPagination.page.value >= notSubmittedPagination.totalPages.value"
-                            class="p-2 rounded-lg bg-background border border-primary/10 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
+                            class="p-2 rounded-lg bg-card border-0 text-muted-foreground hover:text-primary disabled:opacity-50 disabled:hover:text-muted-foreground transition-all">
                             <span class="sr-only">Next</span>
                             <ChevronDownIcon class="h-4 w-4 -rotate-90" />
                         </button>
@@ -723,7 +720,7 @@ const getStatusClass = (status) => {
         <!-- Questions Overview (Bottom) -->
         <div v-if="activeTab === 'questions'" class="space-y-4">
             <!-- Overview Content Placeholder -->
-            <div class="bg-background border border-primary/10 rounded-3xl p-6">
+            <div class="bg-card border-0 rounded-3xl p-6">
                 <h3 class="font-bold text-lg mb-4">Daftar Soal</h3>
                 <div class="space-y-3">
                     <div v-for="q in questions" :key="q.id"

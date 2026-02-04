@@ -183,7 +183,7 @@ const closeDetail = () => {
 
             <!-- Logo (Hidden on Mobile) -->
             <div class="hidden sm:flex items-center gap-2 text-primary font-bold text-lg tracking-tight">
-                <div class="bg-indigo-50 p-2 rounded-xl shadow-sm border border-indigo-100/50">
+                <div class="bg-indigo-50 p-2 rounded-xl shadow-sm border-0">
                     <AcademicCapIcon class="w-6 h-6 text-indigo-600" />
                 </div>
                 <span>SKUL Dashboard</span>
@@ -233,27 +233,27 @@ const closeDetail = () => {
             <div class="h-6 w-px bg-primary/10 mx-1 hidden sm:block"></div>
 
             <!-- Theme Switcher -->
-            <div class="dropdown dropdown-end">
-                <div tabindex="0" role="button"
-                    class="p-2 hover:bg-primary/5 rounded-xl text-muted-foreground hover:text-primary transition-all">
+            <div class="relative group">
+                <div role="button" tabindex="0"
+                    class="p-2 hover:bg-primary/5 rounded-xl text-muted-foreground hover:text-primary transition-all cursor-pointer">
                     <SunIcon v-if="theme === 'light'" class="h-5 w-5" />
                     <MoonIcon v-else-if="theme === 'dark'" class="h-5 w-5" />
                     <ComputerDesktopIcon v-else class="h-5 w-5" />
                 </div>
-                <ul tabindex="0"
-                    class="dropdown-content z-[100] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-40 mt-2">
+                <ul
+                    class="absolute right-0 top-full mt-2 w-40 p-2 shadow-xl bg-background border-0 rounded-2xl invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all z-[100] origin-top-right">
                     <li><a @click="setTheme('light')"
-                            class="rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all"
+                            class="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all cursor-pointer"
                             :class="{ 'text-primary bg-primary/10': theme === 'light' }">
                             <SunIcon class="h-4 w-4" /> Light
                         </a></li>
                     <li><a @click="setTheme('dark')"
-                            class="rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all"
+                            class="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all cursor-pointer"
                             :class="{ 'text-primary bg-primary/10': theme === 'dark' }">
                             <MoonIcon class="h-4 w-4" /> Dark
                         </a></li>
                     <li><a @click="setTheme('system')"
-                            class="rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all"
+                            class="flex items-center gap-2 rounded-lg px-4 py-2 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all cursor-pointer"
                             :class="{ 'text-primary bg-primary/10': theme === 'system' }">
                             <ComputerDesktopIcon class="h-4 w-4" /> System
                         </a></li>
@@ -261,7 +261,7 @@ const closeDetail = () => {
             </div>
 
             <!-- Notifications -->
-            <div class="dropdown dropdown-end">
+            <div class="relative group">
                 <button
                     class="p-2 hover:bg-primary/10 rounded-full text-muted-foreground hover:text-primary relative group transition-all duration-300">
                     <BellIcon class="h-6 w-6" />
@@ -269,8 +269,9 @@ const closeDetail = () => {
                         class="absolute top-2.5 right-2.5 w-2.5 h-2.5 bg-rose-500 rounded-full ring-2 ring-background animate-pulse"></span>
                 </button>
 
-                <div tabindex="0"
-                    class="dropdown-content z-[100] menu p-0 shadow-2xl bg-background/95 backdrop-blur-xl rounded-3xl w-[90vw] -right-[3.5rem] sm:right-0 fixed sm:absolute top-16 sm:top-auto sm:w-[26rem] mt-2 sm:mt-6 origin-top-right transition-all duration-200">
+                <!-- Dropdown Content (Hover based for now to simulate DaisyUI dropdowns behavior roughly, but focus-within is better for access, staying simple for migration) -->
+                <div
+                    class="absolute top-full right-0 mt-4 sm:mt-6 w-[90vw] sm:w-[26rem] -right-[3.5rem] sm:right-0 p-0 shadow-2xl bg-background/95 backdrop-blur-xl rounded-3xl z-[100] border-0 origin-top-right invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-200">
 
                     <!-- Header & Tabs -->
                     <div class="p-4">
@@ -374,16 +375,16 @@ const closeDetail = () => {
             </div>
 
             <!-- Profile Section -->
-            <div class="dropdown dropdown-end ml-1">
-                <div tabindex="0" role="button"
-                    class="flex items-center gap-2 p-1 pl-1 pr-2 hover:bg-primary/5 rounded-full transition-all border border-transparent hover:border-primary/10">
+            <div class="relative group ml-1">
+                <div role="button" tabindex="0"
+                    class="flex items-center gap-2 p-1 pl-1 pr-2 hover:bg-primary/5 rounded-full transition-all border border-transparent hover:border-primary/10 cursor-pointer">
                     <div class="w-8 h-8 rounded-full overflow-hidden ring-2 ring-background">
                         <img :src="user?.avatar || 'https://ui-avatars.com/api/?name=' + user?.name" alt="Avatar" />
                     </div>
                 </div>
-                <ul tabindex="0"
-                    class="dropdown-content z-[100] menu p-2 shadow-xl bg-background border border-primary/10 rounded-2xl w-60 mt-2">
-                    <li class="menu-title px-4 py-3 border-b border-primary/5 mb-1">
+                <ul
+                    class="absolute right-0 top-full mt-2 w-60 p-2 shadow-xl bg-background border-0 rounded-2xl invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all z-[100] origin-top-right">
+                    <li class="px-4 py-3 border-b border-border/30 mb-1">
                         <div class="flex flex-col gap-0.5 p-0">
                             <span class="font-bold text-sm text-foreground truncate w-full">{{ user?.name }}</span>
                             <span class="text-xs font-medium text-muted-foreground truncate w-full">{{ user?.email
@@ -392,22 +393,22 @@ const closeDetail = () => {
                     </li>
                     <li class="mt-1">
                         <router-link to="/admin/profile"
-                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3">
+                            class="flex items-center rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3">
                             <UserCircleIcon class="w-4 h-4" />
                             Profile Setting
                         </router-link>
                     </li>
                     <li>
                         <a
-                            class="rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3">
+                            class="flex items-center rounded-lg px-4 py-2.5 hover:bg-primary/5 hover:text-primary text-sm font-medium transition-all gap-3 cursor-pointer">
                             <ClipboardDocumentListIcon class="w-4 h-4" />
                             Activity Log
                         </a>
                     </li>
-                    <div class="divider h-px bg-primary/10 my-1"></div>
+                    <div class="h-px bg-border/30 my-1"></div>
                     <li>
                         <a @click="showLogoutConfirm = true"
-                            class="rounded-lg px-4 py-2.5 hover:bg-destructive/10 text-destructive hover:text-destructive text-sm font-bold transition-all gap-3">
+                            class="flex items-center rounded-lg px-4 py-2.5 hover:bg-destructive/10 text-destructive hover:text-destructive text-sm font-bold transition-all gap-3 cursor-pointer">
                             <ArrowRightOnRectangleIcon class="w-4 h-4" />
                             Logout
                         </a>
@@ -418,19 +419,22 @@ const closeDetail = () => {
 
         <!-- Role Switch Confirmation Modal -->
         <Teleport to="body">
-            <dialog class="modal modal-bottom sm:modal-middle" :class="{ 'modal-open': showConfirmModal }">
-                <div class="modal-box">
+            <div v-if="showConfirmModal"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+                <div
+                    class="bg-card text-card-foreground p-6 rounded-xl w-full max-w-sm shadow-2xl scale-100 animate-in zoom-in-95 duration-200 border-0">
                     <h3 class="font-bold text-lg">Konfirmasi Ganti Role</h3>
-                    <p class="py-4">Apakah Anda yakin ingin mengganti role? Halaman akan dimuat ulang.</p>
-                    <div class="modal-action">
-                        <button class="btn" @click="showConfirmModal = false">Batal</button>
-                        <button class="btn btn-primary" @click="confirmRoleSwitch">Ya, Ganti Role</button>
+                    <p class="py-4 text-muted-foreground">Apakah Anda yakin ingin mengganti role? Halaman akan dimuat
+                        ulang.</p>
+                    <div class="flex justify-end gap-2 mt-4">
+                        <button class="px-4 py-2 text-sm font-medium hover:bg-muted rounded-lg transition-colors"
+                            @click="showConfirmModal = false">Batal</button>
+                        <button
+                            class="px-4 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-lg hover:bg-primary/90 transition-colors shadow-sm"
+                            @click="confirmRoleSwitch">Ya, Ganti Role</button>
                     </div>
                 </div>
-                <form method="dialog" class="modal-backdrop">
-                    <button @click="showConfirmModal = false">close</button>
-                </form>
-            </dialog>
+            </div>
         </Teleport>
 
         <!-- Logout Confirmation Modal -->
@@ -443,19 +447,29 @@ const closeDetail = () => {
 
         <!-- Notification Detail Modal -->
         <Teleport to="body">
-            <dialog class="modal modal-bottom sm:modal-middle" :class="{ 'modal-open': selectedNotification }">
-                <div class="modal-box">
-                    <button class="btn btn-sm btn-circle btn-ghost absolute right-2 top-2"
-                        @click="closeDetail">✕</button>
-                    <template v-if="selectedNotification">
+            <div v-if="selectedNotification"
+                class="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm animate-in fade-in duration-200">
+                <div
+                    class="bg-card text-card-foreground p-0 rounded-2xl w-full max-w-lg shadow-2xl overflow-hidden animate-in zoom-in-95 duration-200 border-0 relative">
+                    <button class="absolute right-4 top-4 p-2 rounded-full hover:bg-muted/50 transition-colors z-10"
+                        @click="closeDetail">
+                        <span class="sr-only">Close</span>
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-muted-foreground" fill="none"
+                            viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M6 18L18 6M6 6l12 12" />
+                        </svg>
+                    </button>
+
+                    <div class="p-6">
                         <div class="flex items-start gap-4 mb-4">
-                            <div class="p-3 rounded-full bg-base-200 text-primary shrink-0">
+                            <div class="p-3 rounded-full bg-muted/50 text-primary shrink-0">
                                 <component
                                     :is="selectedNotification.type === 'warning' ? ExclamationTriangleIcon : selectedNotification.type === 'log' ? ClipboardDocumentListIcon : InformationCircleIcon"
                                     class="w-6 h-6"
                                     :class="selectedNotification.type === 'warning' ? 'text-amber-500' : selectedNotification.type === 'log' ? 'text-purple-500' : 'text-blue-500'" />
                             </div>
-                            <div>
+                            <div class="pr-8">
                                 <h3 class="font-bold text-xl text-foreground">{{ selectedNotification.title }}</h3>
                                 <p class="text-xs text-muted-foreground mt-1">{{ selectedNotification.date }} • {{
                                     selectedNotification.type === 'system' || selectedNotification.type === 'warning' ||
@@ -466,15 +480,14 @@ const closeDetail = () => {
                             <p class="text-sm text-foreground/80 leading-7 whitespace-pre-line">{{
                                 selectedNotification.content }}</p>
                         </div>
-                        <div class="modal-action">
-                            <button class="btn btn-primary" @click="closeDetail">Tutup</button>
-                        </div>
-                    </template>
+                    </div>
+                    <div class="p-4 bg-muted/20 border-t border-border/30 flex justify-end">
+                        <button
+                            class="px-6 py-2 bg-primary text-primary-foreground text-sm font-bold rounded-xl hover:bg-primary/90 transition-colors shadow-sm"
+                            @click="closeDetail">Tutup</button>
+                    </div>
                 </div>
-                <form method="dialog" class="modal-backdrop">
-                    <button @click="closeDetail">close</button>
-                </form>
-            </dialog>
+            </div>
         </Teleport>
     </header>
 </template>
