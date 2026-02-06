@@ -18,8 +18,7 @@ const layoutStore = useLayoutStore();
       <Sidebar class="z-40" />
 
       <!-- Main Content -->
-      <div class="flex-1 flex flex-col w-full transition-all duration-300"
-        :class="layoutStore.isSidebarCollapsed ? 'lg:ml-20' : 'lg:ml-64'">
+      <div class="flex-1 flex flex-col w-full transition-all duration-300 min-w-0">
         <main class="flex-1 p-6 overflow-y-auto">
           <router-view v-slot="{ Component }">
             <transition name="fade" mode="out-in">

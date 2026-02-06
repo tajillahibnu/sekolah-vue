@@ -188,7 +188,7 @@ const confirmRoleSwitch = async () => {
 
     <!-- Sidebar Container -->
     <aside
-        class="bg-background/80 backdrop-blur-md flex flex-col fixed left-0 top-16 bottom-0 transition-all duration-300 z-40 shadow-xl shadow-primary/5 overflow-visible"
+        class="bg-background border-r border-border/40 flex flex-col fixed left-0 top-16 bottom-0 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] transition-all duration-300 z-40 shadow-sm overflow-visible"
         :class="[
             layoutStore.isSidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0',
             layoutStore.isSidebarCollapsed ? 'w-20' : 'w-64'
@@ -296,7 +296,7 @@ const confirmRoleSwitch = async () => {
                             <span
                                 class="text-[9px] font-bold uppercase tracking-wider text-muted-foreground leading-none">Aktif</span>
                             <span class="text-sm font-bold text-foreground truncate w-full">{{ activeRole?.name
-                            }}</span>
+                                }}</span>
                         </div>
                     </div>
                     <component :is="IconComponent('ChevronRightIcon')"
@@ -321,7 +321,7 @@ const confirmRoleSwitch = async () => {
                                     role.name }}</span>
                             <span class="text-[9px] text-muted-foreground truncate w-full">{{
                                 getRoleConfig(role.id).desc
-                            }}</span>
+                                }}</span>
                         </div>
                     </button>
                 </div>
