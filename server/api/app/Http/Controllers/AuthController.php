@@ -36,11 +36,11 @@ class AuthController extends Controller
                     'id' => $user->id,
                     'name' => $user->name,
                     'email' => $user->email,
-                    'roles' => $roles->map(function($roleName) use ($permissions) {
+                    'roles' => $user->roles->map(function($role) {
                         return [
-                            'id' => $roleName, // Frontend expects 'id'
-                            'name' => ucfirst($roleName),
-                            'permissions' => $permissions // Spatie flattens permissions, so we can just return all permissions here or filter if we wanted strict role-based permissions
+                            'id' => $role->name, 
+                            'name' => ucfirst($role->name),
+                            'permissions' => $role->permissions->pluck('name')
                         ];
                     }),
                 ],

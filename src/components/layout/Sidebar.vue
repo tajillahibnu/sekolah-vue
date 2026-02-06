@@ -60,70 +60,7 @@ const fetchMenu = async () => {
     try {
         const response = await api.get('/menus');
         const roleMenu = response.data.data.find(m => m.role === authStore.activeRole?.id);
-        const fetchedItems = roleMenu ? roleMenu.items : [];
-
-        // Manual Injection of Application Management
-        // Only if user has permissions to see it
-        const appManagementDetails = {
-            label: 'App Management',
-            icon: 'CommandLineIcon',
-            children: []
-        };
-
-        if (authStore.hasPermission('roles.manage') || authStore.activeRole?.id === 'admin') {
-            appManagementDetails.children.push({
-                label: 'Roles & Permissions',
-                icon: 'UsersIcon',
-                to: '/admin/app/roles'
-            });
-            appManagementDetails.children.push({
-                label: 'Menu Management',
-                icon: 'Bars3Icon',
-                to: '/admin/app/menus'
-            });
-        }
-
-        // Bulletin Menu Access (Available for almost all roles)
-        menuItems.value = [...fetchedItems];
-
-        const bulletinMenu = {
-            label: 'Buletin Sekolah',
-            icon: 'BookOpenIcon',
-            children: [
-                { label: 'Jelajah Buletin', to: '/admin/bulletins' },
-                { label: 'Kontribusi Saya', to: '/admin/bulletins/my-bulletins' }
-            ]
-        };
-
-        if (authStore.activeRole?.id === 'admin' || authStore.hasPermission('bulletin.verify')) {
-            bulletinMenu.children.push({
-                label: 'Verifikasi Konten',
-                to: '/admin/bulletins/verify'
-            });
-        }
-
-        menuItems.value.push(bulletinMenu);
-
-        // E-Raport Menu Injection
-        if (authStore.activeRole?.id === 'admin' || authStore.activeRole?.id === 'guru') {
-            const raportMenu = {
-                label: 'E-Raport',
-                icon: 'DocumentChartBarIcon',
-                children: [
-                    { label: 'Dashboard', to: '/admin/raport/dashboard' },
-                    { label: 'Input Nilai', to: '/admin/raport/entries' },
-                    { label: 'Cetak Raport', to: '/admin/raport/print' }
-                ]
-            };
-            menuItems.value.push(raportMenu);
-        }
-
-        // Add more dynamic apps here if needed
-
-        if (appManagementDetails.children.length > 0) {
-            menuItems.value = [...menuItems.value, appManagementDetails];
-        }
-
+        menuItems.value = roleMenu ? roleMenu.items : [];
     } catch (error) {
         console.error('Failed to fetch menus', error);
         menuItems.value = [];

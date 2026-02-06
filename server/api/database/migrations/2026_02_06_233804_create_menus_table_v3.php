@@ -13,9 +13,15 @@ return new class extends Migration
     {
         Schema::create('menus', function (Blueprint $table) {
             $table->id();
-            $table->string('role_name')->unique(); // Using role_name to map to Spatie roles
-            $table->json('items');
+            $table->string('name');
+            $table->string('icon_menu')->nullable();
+            $table->string('to')->nullable();
+            $table->unsignedBigInteger('parent_id')->nullable();
+            $table->string('permission_name')->nullable();
+            $table->integer('order')->default(0);
             $table->timestamps();
+
+            $table->foreign('parent_id')->references('id')->on('menus')->onDelete('cascade');
         });
     }
 

@@ -22,7 +22,7 @@ onMounted(() => {
        However, if we want to block interaction, v-if is fine or overlay on top. 
        Current logic uses v-if/else which unmounts the app. 
        Better to overlay it so the app loads underneath. -->
-  <div v-show="!loadingStore.isLoading">
+  <div>
     <Toast />
     <RouterView />
   </div>
