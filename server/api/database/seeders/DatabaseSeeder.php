@@ -19,7 +19,10 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'name' => 'Test User',
-            'email' => 'test@example.com',
+            'email' => 'admin@sekolahbeta.com',
+            'password' => 'password',
         ]);
+
+        $this->call(RbacSeeder::class);
     }
 }

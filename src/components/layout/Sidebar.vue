@@ -59,7 +59,7 @@ const fetchMenu = async () => {
     loading.value = true;
     try {
         const response = await api.get('/menus');
-        const roleMenu = response.data.find(m => m.role === authStore.activeRole?.id);
+        const roleMenu = response.data.data.find(m => m.role === authStore.activeRole?.id);
         const fetchedItems = roleMenu ? roleMenu.items : [];
 
         // Manual Injection of Application Management
@@ -296,7 +296,7 @@ const confirmRoleSwitch = async () => {
                             <span
                                 class="text-[9px] font-bold uppercase tracking-wider text-muted-foreground leading-none">Aktif</span>
                             <span class="text-sm font-bold text-foreground truncate w-full">{{ activeRole?.name
-                                }}</span>
+                            }}</span>
                         </div>
                     </div>
                     <component :is="IconComponent('ChevronRightIcon')"
@@ -321,7 +321,7 @@ const confirmRoleSwitch = async () => {
                                     role.name }}</span>
                             <span class="text-[9px] text-muted-foreground truncate w-full">{{
                                 getRoleConfig(role.id).desc
-                                }}</span>
+                            }}</span>
                         </div>
                     </button>
                 </div>

@@ -9,8 +9,8 @@ import Label from '@/components/ui/label/Label.vue';
 import { SunIcon, MoonIcon, ArrowLeftIcon } from '@heroicons/vue/24/outline';
 import { useTheme } from '../composables/useTheme';
 
-const email = ref('budi@sekolah.id');
-const password = ref('password');
+const email = ref('');
+const password = ref('');
 const router = useRouter();
 const authStore = useAuthStore();
 const toast = useToast();

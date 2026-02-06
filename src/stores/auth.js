@@ -21,7 +21,9 @@ export const useAuthStore = defineStore('auth', {
             try {
                 // In real app, send credentials. Mock just returns static user.
                 const response = await api.post('/login', credentials);
-                const { user, token } = response.data;
+                // Standardized API response puts data in 'data' key
+                const { user, access_token } = response.data.data;
+                const token = access_token;
 
                 this.token = token;
                 this.user = user;
