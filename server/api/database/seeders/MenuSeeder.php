@@ -24,7 +24,7 @@ class MenuSeeder extends Seeder
                 'order' => 2,
                 'children' => [
                     ['name' => 'Daftar Kelas', 'to' => '/admin/academic/classes', 'order' => 1],
-                    ['name' => 'Mata Pelajaran', 'to' => '/admin/academic/subjects', 'order' => 2],
+                    ['name' => 'Mata Pelajaran', 'to' => '/admin/academic/mata-pelajaran', 'order' => 2],
                     ['name' => 'Tahun Ajaran', 'to' => '/admin/academic/school-year', 'order' => 3],
                 ]
             ],

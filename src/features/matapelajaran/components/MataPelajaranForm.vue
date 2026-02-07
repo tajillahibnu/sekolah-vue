@@ -20,24 +20,20 @@ const props = defineProps({
 const emit = defineEmits(['update:modelValue', 'submit', 'cancel']);
 
 const form = ref({
-    code: '',
-    name: '',
-    category: '',
-    description: '',
-    status: 'active'
+    kode: '',
+    nama: '',
+    kategori: '',
+    deskripsi: '',
+    tipe: 'Teori',
+    is_aktif: true
 });
 
 const errors = ref({});
 
-// Computed for Switch (Boolean <-> String)
-const isActive = computed({
-    get: () => form.value.status === 'active',
-    set: (val) => {
-        form.value.status = val ? 'active' : 'inactive';
-    }
-});
+const types = ['Teori', 'Praktik', 'Campuran'];
 
 const categories = [
+    'Umum',
     'Muatan Nasional',
     'Muatan Kewilayahan',
     'Muatan Peminatan Kejuruan',
@@ -46,24 +42,28 @@ const categories = [
     'Kompetensi Keahlian'
 ];
 
+const resetForm = () => {
+    form.value = {
+        kode: '',
+        nama: '',
+        kategori: '',
+        deskripsi: '',
+        tipe: 'Teori',
+        is_aktif: true
+    };
+    errors.value = {};
+};
+
 watch(() => props.modelValue, (val) => {
     if (val) {
-        form.value = { ...val };
+        form.value = {
+            ...val,
+            is_aktif: val.is_aktif === 1 || val.is_aktif === true
+        };
     } else {
         resetForm();
     }
 }, { immediate: true });
-
-const resetForm = () => {
-    form.value = {
-        code: '',
-        name: '',
-        category: '',
-        description: '',
-        status: 'active'
-    };
-    errors.value = {};
-};
 
 const isEdit = computed(() => props.mode === 'edit');
 
@@ -71,18 +71,23 @@ const validate = () => {
     errors.value = {};
     let isValid = true;
 
-    if (!form.value.code) {
-        errors.value.code = 'Kode mata pelajaran wajib diisi';
+    if (!form.value.kode) {
+        errors.value.kode = 'Kode mata pelajaran wajib diisi';
         isValid = false;
     }
 
-    if (!form.value.name) {
-        errors.value.name = 'Nama mata pelajaran wajib diisi';
+    if (!form.value.nama) {
+        errors.value.nama = 'Nama mata pelajaran wajib diisi';
         isValid = false;
     }
 
-    if (!form.value.category) {
-        errors.value.category = 'Kategori wajib dipilih';
+    if (!form.value.kategori) {
+        errors.value.kategori = 'Kategori wajib dipilih';
+        isValid = false;
+    }
+
+    if (!form.value.tipe) {
+        errors.value.tipe = 'Tipe mata pelajaran wajib dipilih';
         isValid = false;
     }
 
@@ -102,26 +107,30 @@ const handleSubmit = () => {
             <!-- Code & Name -->
             <div class="grid grid-cols-1 sm:grid-cols-4 gap-4">
                 <div class="sm:col-span-1">
-                    <FormInput v-model="form.code" label="Kode Mapel" placeholder="e.g. MTK" :error="errors.code"
+                    <FormInput v-model="form.kode" label="Kode Mapel" placeholder="e.g. MTK" :error="errors.kode"
                         required />
                 </div>
                 <div class="sm:col-span-3">
-                    <FormInput v-model="form.name" label="Nama Mata Pelajaran" placeholder="e.g. Matematika Wajib"
-                        :error="errors.name" required />
+                    <FormInput v-model="form.nama" label="Nama Mata Pelajaran" placeholder="e.g. Matematika Wajib"
+                        :error="errors.nama" required />
                 </div>
             </div>
 
-            <!-- Category -->
-            <FormSelect v-model="form.category" label="Kategori" placeholder="Pilih Kategori" :options="categories"
-                :error="errors.category" required />
+            <!-- Category & Type -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <FormSelect v-model="form.kategori" label="Kategori" placeholder="Pilih Kategori" :options="categories"
+                    :error="errors.kategori" required />
+                <FormSelect v-model="form.tipe" label="Tipe Mapel" placeholder="Pilih Tipe" :options="types"
+                    :error="errors.tipe" required />
+            </div>
 
             <!-- Description -->
-            <FormTextarea v-model="form.description" label="Deskripsi"
+            <FormTextarea v-model="form.deskripsi" label="Deskripsi"
                 placeholder="Keterangan singkat tentang mata pelajaran..." :rows="3" />
 
             <!-- Status -->
             <div>
-                <FormSwitch v-model="isActive" label="Status Mata Pelajaran" />
+                <FormSwitch v-model="form.is_aktif" label="Status Mata Pelajaran" />
             </div>
         </div>
 

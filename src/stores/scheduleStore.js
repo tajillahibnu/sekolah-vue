@@ -24,13 +24,13 @@ export const useScheduleStore = defineStore('schedule', () => {
     const classes = ref(['X-RPL-1', 'X-RPL-2', 'XI-RPL-1', 'XI-IPA-1', 'XI-IPS-1', 'XII-RPL-1']);
 
     const subjects = ref([
-        { id: 'mtk', name: 'Matematika Wajib', color: 'bg-blue-100 border-blue-200 text-blue-700' },
-        { id: 'ind', name: 'Bahasa Indonesia', color: 'bg-emerald-100 border-emerald-200 text-emerald-700' },
-        { id: 'ing', name: 'Bahasa Inggris', color: 'bg-violet-100 border-violet-200 text-violet-700' },
-        { id: 'web', name: 'Pemrograman Web', color: 'bg-amber-100 border-amber-200 text-amber-700' },
-        { id: 'db', name: 'Basis Data', color: 'bg-cyan-100 border-cyan-200 text-cyan-700' },
-        { id: 'pkn', name: 'PKN', color: 'bg-rose-100 border-rose-200 text-rose-700' },
-        { id: 'agm', name: 'Agama', color: 'bg-lime-100 border-lime-200 text-lime-700' },
+        { id: 'mtk', nama: 'Matematika Wajib', color: 'bg-blue-100 border-blue-200 text-blue-700' },
+        { id: 'ind', nama: 'Bahasa Indonesia', color: 'bg-emerald-100 border-emerald-200 text-emerald-700' },
+        { id: 'ing', nama: 'Bahasa Inggris', color: 'bg-violet-100 border-violet-200 text-violet-700' },
+        { id: 'web', nama: 'Pemrograman Web', color: 'bg-amber-100 border-amber-200 text-amber-700' },
+        { id: 'db', nama: 'Basis Data', color: 'bg-cyan-100 border-cyan-200 text-cyan-700' },
+        { id: 'pkn', nama: 'PKN', color: 'bg-rose-100 border-rose-200 text-rose-700' },
+        { id: 'agm', nama: 'Agama', color: 'bg-lime-100 border-lime-200 text-lime-700' },
     ]);
 
     const teachers = ref([
@@ -96,7 +96,7 @@ export const useScheduleStore = defineStore('schedule', () => {
             if (grid[s.periodId]) {
                 grid[s.periodId][s.day] = {
                     ...s,
-                    subjectName: subject?.name || 'Unknown',
+                    subjectName: subject?.nama || 'Unknown',
                     subjectColor: subject?.color || 'bg-slate-100 border-slate-200 text-slate-600',
                     teacherName: teacher?.name || 'Unknown',
                     rowSpan: 1,
@@ -155,7 +155,7 @@ export const useScheduleStore = defineStore('schedule', () => {
             if (grid[s.periodId]) {
                 grid[s.periodId][s.day] = {
                     ...s,
-                    subjectName: subject?.name || 'Unknown',
+                    subjectName: subject?.nama || 'Unknown',
                     subjectColor: subject?.color || 'bg-slate-100 border-slate-200 text-slate-600',
                     className: s.classId,
                     rowSpan: 1,

@@ -49,18 +49,20 @@ const newQuestion = ref({ ...initialQuestionState });
 const isEditing = computed(() => !!props.question);
 const modalTitle = computed(() => isEditing.value ? 'Edit Soal' : 'Tambah Soal Baru');
 
-// Fetch Subjects
+const subjectOptions = ref([]);
+
+// Fetch Mata Pelajaran
 onMounted(async () => {
     try {
-        const response = await api.get('/subjects', { params: { limit: 100 } });
+        const response = await api.get('/mata-pelajaran', { params: { limit: 100 } });
         if (response.data && response.data.data) {
-            subjectOptions.value = response.data.data.map(s => ({
-                value: s.name,
-                label: `${s.name} (${s.code})`
+            subjectOptions.value = response.data.data.map(mp => ({
+                value: mp.nama,
+                label: `${mp.nama} (${mp.kode})`
             }));
         }
     } catch (error) {
-        console.error('Failed to fetch subjects:', error);
+        console.error('Gagal mengambil data mata pelajaran:', error);
     }
 });
 

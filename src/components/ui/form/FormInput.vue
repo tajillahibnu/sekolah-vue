@@ -41,11 +41,12 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const inputId = computed(() => `input-${Math.random().toString(36).substr(2, 9)}`)
+const inputId = `input-${Math.random().toString(36).substr(2, 9)}`
 
-const handleInput = (event) => {
-    emit('update:modelValue', event.target.value)
-}
+const modelValue = computed({
+    get: () => props.modelValue,
+    set: (value) => emit('update:modelValue', value)
+})
 </script>
 
 <template>
@@ -54,8 +55,8 @@ const handleInput = (event) => {
             {{ label }}
             <span v-if="required" class="text-destructive ml-1">*</span>
         </Label>
-        <Input :id="inputId" :type="type" :value="modelValue" :placeholder="placeholder" :disabled="disabled"
-            :class="{ 'border-destructive': error }" @input="handleInput" />
+        <Input :id="inputId" :type="type" v-model="modelValue" :placeholder="placeholder" :disabled="disabled"
+            :class="{ 'border-destructive': error }" />
         <p v-if="error" class="text-sm text-destructive">
             {{ error }}
         </p>

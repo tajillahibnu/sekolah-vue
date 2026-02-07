@@ -74,11 +74,11 @@ const mockPermissions = {
         { id: 'academic-year.activate', label: 'Aktifkan Tahun Ajaran' }
     ],
     'Mata Pelajaran': [
-        { id: 'subjects.view', label: 'Lihat Mata Pelajaran' },
-        { id: 'subjects.create', label: 'Tambah Mapel' },
-        { id: 'subjects.edit', label: 'Edit Mapel' },
-        { id: 'subjects.delete', label: 'Hapus Mapel' },
-        { id: 'subjects.curriculum', label: 'Atur Kurikulum Mapel' }
+        { id: 'matapelajaran.view', label: 'Lihat Mata Pelajaran' },
+        { id: 'matapelajaran.create', label: 'Tambah Mapel' },
+        { id: 'matapelajaran.edit', label: 'Edit Mapel' },
+        { id: 'matapelajaran.delete', label: 'Hapus Mapel' },
+        { id: 'matapelajaran.curriculum', label: 'Atur Kurikulum Mapel' }
     ],
     'Kelas': [
         { id: 'classes.view', label: 'Lihat Daftar Kelas' },

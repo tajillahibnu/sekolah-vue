@@ -203,10 +203,10 @@ const router = createRouter({
                             meta: { permission: 'academic.manage' }
                         },
                         {
-                            path: 'subjects',
-                            name: 'academic-subjects',
-                            component: () => import('@/features/matapelajaran/views/Subjects.vue'),
-                            meta: { permission: 'subjects.view' }
+                            path: 'mata-pelajaran',
+                            name: 'academic-mata-pelajaran',
+                            component: () => import('@/features/matapelajaran/views/MataPelajaran.vue'),
+                            meta: { permission: 'matapelajaran.view' }
                         }
                     ]
                 },

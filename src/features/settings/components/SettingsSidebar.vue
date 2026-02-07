@@ -41,12 +41,12 @@ const menuItems = [
         permission: 'classes.view'
     },
     {
-        id: 'subjects',
+        id: 'mata-pelajaran',
         label: 'Mata Pelajaran',
         description: 'Kelola mata pelajaran',
         icon: BookOpenIcon,
-        path: '/settings/subjects',
-        permission: 'subjects.view'
+        path: '/settings/mata-pelajaran',
+        permission: 'matapelajaran.view'
     },
     {
         id: 'school',

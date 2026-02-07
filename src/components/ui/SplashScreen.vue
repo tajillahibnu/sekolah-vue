@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div
-    class="fixed inset-0 z-[100] flex flex-col items-center justify-center bg-background/60 backdrop-blur-md transition-opacity duration-500 overflow-hidden">
+    class="fixed inset-0 z-[9998] flex flex-col items-center justify-center bg-background/60 backdrop-blur-md transition-opacity duration-500 overflow-hidden">
     <!-- Animated Background Elements -->
     <div class="absolute inset-0 overflow-hidden pointer-events-none">
       <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[100px] animate-pulse">

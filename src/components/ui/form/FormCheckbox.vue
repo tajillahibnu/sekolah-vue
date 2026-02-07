@@ -33,7 +33,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const checkboxId = computed(() => `checkbox-${Math.random().toString(36).substr(2, 9)}`)
+const checkboxId = `checkbox-${Math.random().toString(36).substr(2, 9)}`
 
 const handleCheckedChange = (checked) => {
     emit('update:modelValue', checked)

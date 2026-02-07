@@ -42,7 +42,7 @@
         "icon": "AcademicCapIcon",
         "children": [
             { "label": "Tahun Ajaran", "to": "/admin/academic/school-year" },
-            { "label": "Mata Pelajaran", "to": "/admin/academic/subjects" },
+            { "label": "Mata Pelajaran", "to": "/admin/academic/mata-pelajaran" },
             { "label": "Kelas", "to": "/admin/academic/classes" },
             { "label": "Penugasan Siswa", "to": "/admin/academic/assignments" },
             { "label": "Jadwal", "to": "/admin/academic/schedule" }
@@ -257,7 +257,7 @@
       },
       {
         "label": "Mata Pelajaran",
-        "to": "/admin/subjects",
+        "to": "/admin/academic/mata-pelajaran",
         "icon": "BookOpenIcon"
       },
       {

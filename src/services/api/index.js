@@ -58,7 +58,16 @@ api.interceptors.response.use(
         }
 
         const toast = useToast();
-        const message = response?.data?.message || error.message || 'Terjadi kesalahan pada server';
+        let message = 'Terjadi kesalahan pada server';
+
+        if (response?.status === 422 && response?.data?.errors) {
+            // Laravel-style validation errors
+            const firstError = Object.values(response.data.errors)[0];
+            message = Array.isArray(firstError) ? firstError[0] : firstError;
+        } else {
+            message = response?.data?.message || error.message || message;
+        }
+
         toast.error(message);
 
         return Promise.reject(error);

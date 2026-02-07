@@ -1,66 +1,74 @@
 [
   {
     "id": 1,
-    "code": "MTK",
-    "name": "Matematika",
+    "kode": "MTK",
+    "nama": "Matematika",
     "category": "Muatan Nasional",
     "description": "Mata pelajaran wajib matematika",
-    "status": "active"
+    "tipe": "Teori",
+    "is_aktif": true
   },
   {
     "id": 2,
-    "code": "BIN",
-    "name": "Bahasa Indonesia",
+    "kode": "BIN",
+    "nama": "Bahasa Indonesia",
     "category": "Muatan Nasional",
     "description": "Mata pelajaran wajib bahasa indonesia",
-    "status": "active"
+    "tipe": "Teori",
+    "is_aktif": true
   },
   {
     "id": 3,
-    "code": "ING",
-    "name": "Bahasa Inggris",
+    "kode": "ING",
+    "nama": "Bahasa Inggris",
     "category": "Muatan Nasional",
     "description": "Mata pelajaran wajib bahasa inggris",
-    "status": "active"
+    "tipe": "Teori",
+    "is_aktif": true
   },
   {
     "id": 4,
-    "code": "IPA",
-    "name": "Ilmu Pengetahuan Alam",
+    "kode": "IPA",
+    "nama": "Ilmu Pengetahuan Alam",
     "category": "Muatan Kewilayahan",
     "description": "Mata pelajaran IPA",
-    "status": "active"
+    "tipe": "Praktik",
+    "is_aktif": true
   },
   {
     "id": 5,
-    "code": "IPS",
-    "name": "Ilmu Pengetahuan Sosial",
+    "kode": "IPS",
+    "nama": "Ilmu Pengetahuan Sosial",
     "category": "Muatan Kewilayahan",
     "description": "Mata pelajaran IPS",
-    "status": "active"
+    "tipe": "Teori",
+    "is_aktif": true
   },
   {
     "id": 6,
-    "code": "SBD",
-    "name": "Seni Budaya",
+    "kode": "SBD",
+    "nama": "Seni Budaya",
     "category": "Muatan Kewilayahan",
     "description": "Mata pelajaran seni budaya",
-    "status": "active"
+    "tipe": "Praktik",
+    "is_aktif": true
   },
   {
     "id": 7,
-    "code": "PJK",
-    "name": "Pendidikan Jasmani",
+    "kode": "PJK",
+    "nama": "Pendidikan Jasmani",
     "category": "Muatan Kewilayahan",
     "description": "Mata pelajaran olahraga",
-    "status": "active"
+    "tipe": "Praktik",
+    "is_aktif": true
   },
   {
     "id": 8,
-    "code": "AGM",
-    "name": "Pendidikan Agama",
+    "kode": "AGM",
+    "nama": "Pendidikan Agama",
     "category": "Muatan Nasional",
     "description": "Mata pelajaran agama",
-    "status": "active"
+    "tipe": "Teori",
+    "is_aktif": true
   }
 ]

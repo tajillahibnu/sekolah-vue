@@ -414,7 +414,7 @@ const getPeriodLabel = (period) => {
                                         class="block text-lg font-black text-muted-foreground/50 group-hover:text-primary transition-colors">{{
                                             period.label }}</span>
                                     <span class="block text-[10px] font-bold text-muted-foreground mt-1">{{ period.time
-                                        }}</span>
+                                    }}</span>
                                 </div>
                             </td>
 
@@ -547,7 +547,7 @@ const getPeriodLabel = (period) => {
                             </SelectTrigger>
                             <SelectContent>
                                 <SelectItem v-for="subj in store.subjects" :key="subj.id" :value="subj.id">
-                                    {{ subj.name }}
+                                    {{ subj.nama }}
                                 </SelectItem>
                             </SelectContent>
                         </Select>

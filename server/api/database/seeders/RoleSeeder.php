@@ -41,7 +41,7 @@ class RoleSeeder extends Seeder
                 $role->syncPermissions([
                     'students.view', 'students.create', 'students.edit', 'students.delete',
                     'employees.view', 'employees.create', 'employees.edit', 'employees.delete',
-                    'academic.manage', 'classes.manage', 'subjects.manage'
+                    'academic.manage', 'classes.manage', 'matapelajaran.manage'
                 ]);
             } elseif ($roleName === 'walikelas') {
                 $role->syncPermissions([

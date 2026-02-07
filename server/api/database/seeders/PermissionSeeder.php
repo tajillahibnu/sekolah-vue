@@ -34,8 +34,8 @@ class PermissionSeeder extends Seeder
             'academic.manage',
             'classes.view',
             'classes.manage',
-            'subjects.view',
-            'subjects.manage',
+            'matapelajaran.view',
+            'matapelajaran.manage',
 
             // Features
             'bulletin.view',

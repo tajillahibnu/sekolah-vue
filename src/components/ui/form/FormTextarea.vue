@@ -41,7 +41,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue'])
 
-const textareaId = computed(() => `textarea-${Math.random().toString(36).substr(2, 9)}`)
+const textareaId = `textarea-${Math.random().toString(36).substr(2, 9)}`
 
 const handleInput = (event) => {
     emit('update:modelValue', event.target.value)

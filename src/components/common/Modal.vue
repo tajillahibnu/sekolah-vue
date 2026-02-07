@@ -54,10 +54,14 @@ const sizeClasses = {
             <div v-if="title || desc" class="px-10 pt-10 pb-6 border-b border-primary/5">
                 <DialogTitle v-if="title" class="text-2xl font-black tracking-tight text-foreground">{{ title }}
                 </DialogTitle>
-                <DialogDescription v-if="desc"
-                    class="text-[11px] font-bold uppercase tracking-widest text-muted-foreground/50 mt-2">{{ desc }}
+                <DialogDescription
+                    :class="cn('text-[11px] font-bold uppercase tracking-widest text-muted-foreground/50 mt-2', !desc && 'sr-only')">
+                    {{ desc || title || 'Modal details' }}
                 </DialogDescription>
             </div>
+            <DialogDescription v-else class="sr-only">
+                Modal content
+            </DialogDescription>
 
             <div class="p-10 pt-8">
                 <slot></slot>
