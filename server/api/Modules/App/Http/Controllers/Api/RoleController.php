@@ -1,10 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\App\Http\Controllers\Api;
 
+use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Spatie\Permission\Models\Role;
-use Spatie\Permission\Models\Permission;
+use Modules\App\Models\Role;
+use Modules\App\Models\Permission;
 use Illuminate\Support\Facades\DB;
 
 class RoleController extends Controller
