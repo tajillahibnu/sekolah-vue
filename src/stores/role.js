@@ -21,7 +21,8 @@ export const useRoleStore = defineStore('role', {
             this.error = null;
             try {
                 const response = await roleService.getRoles();
-                this.roles = response.data;
+                // API returns { data: [...] }
+                this.roles = response.data.data;
             } catch (err) {
                 this.error = err.message || 'Failed to fetch roles';
                 console.error(err);
@@ -33,63 +34,35 @@ export const useRoleStore = defineStore('role', {
         async fetchPermissions() {
             try {
                 const response = await roleService.getPermissions();
-                this.availablePermissions = response.data;
+                // API returns { data: [...], grouped: {...} }
+                // Store expects grouped object matching mock structure
+                this.availablePermissions = response.data.grouped;
             } catch (err) {
                 console.error('Failed to fetch permissions', err);
             }
         },
 
         async createPermission(permissionData) {
-            const loadingStore = useLoadingStore();
-            loadingStore.show('Creating Permission...');
-            try {
-                await roleService.createPermission(permissionData);
-                await this.fetchPermissions();
-                return true;
-            } catch (err) {
-                this.error = err.message;
-                throw err;
-            } finally {
-                loadingStore.hide();
-            }
+            // Not implemented on backend
+            console.warn('createPermission not implemented on backend');
         },
 
         async updatePermission(oldId, permissionData) {
-            const loadingStore = useLoadingStore();
-            loadingStore.show('Updating Permission...');
-            try {
-                await roleService.updatePermission(oldId, permissionData);
-                await this.fetchPermissions();
-                return true;
-            } catch (err) {
-                this.error = err.message;
-                throw err;
-            } finally {
-                loadingStore.hide();
-            }
+            // Not implemented on backend
+            console.warn('updatePermission not implemented on backend');
         },
 
         async deletePermission(id) {
-            const loadingStore = useLoadingStore();
-            loadingStore.show('Deleting Permission...');
-            try {
-                await roleService.deletePermission(id);
-                await this.fetchPermissions();
-                return true;
-            } catch (err) {
-                this.error = err.message;
-                throw err;
-            } finally {
-                loadingStore.hide();
-            }
+            // Not implemented on backend
+            console.warn('deletePermission not implemented on backend');
         },
 
         async fetchRole(id) {
             this.isLoading = true;
             try {
                 const response = await roleService.getRole(id);
-                this.currentRole = response.data;
-                return response.data;
+                this.currentRole = response.data.data;
+                return response.data.data;
             } catch (err) {
                 this.error = err.message;
                 throw err;

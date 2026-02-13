@@ -28,50 +28,72 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
-api.interceptors.response.use(
-    (response) => {
-        const { config, data } = response;
-        const method = config.method.toLowerCase();
+export const setupInterceptors = (router) => {
+    api.interceptors.response.use(
+        (response) => {
+            const { config, data } = response;
+            const method = config.method.toLowerCase();
 
-        // Check for custom overrides
-        // If 'silent' or 'skipSuccessToast' is true, do not show global toast
-        if (config.silent || config.skipSuccessToast) {
+            // Check for custom overrides
+            // If 'silent' or 'skipSuccessToast' is true, do not show global toast
+            if (config.silent || config.skipSuccessToast) {
+                return response;
+            }
+
+            // Show toast for mutations (POST, PUT, DELETE)
+            if (['post', 'put', 'delete', 'patch'].includes(method)) {
+                const toast = useToast();
+                const message = data?.message || 'Berhasil menyimpan data';
+                toast.success(message);
+            }
+
             return response;
-        }
+        },
+        (error) => {
+            const { config, response } = error;
 
-        // Show toast for mutations (POST, PUT, DELETE)
-        if (['post', 'put', 'delete', 'patch'].includes(method)) {
+            // Handle 401 Unauthorized
+            if (response && response.status === 401) {
+                // Clear authentication data
+                localStorage.removeItem('token');
+                localStorage.removeItem('user');
+                localStorage.removeItem('activeRole');
+                localStorage.removeItem('permissions');
+
+                const toast = useToast();
+                toast.error('Sesi login telah berakhir, silakan login kembali.');
+
+                if (router) {
+                    router.push('/login');
+                }
+
+                return Promise.reject(error);
+            }
+
+            // Check for custom overrides
+            // If 'silent' or 'skipErrorToast' is true, do not show global toast
+            if (config?.silent || config?.skipErrorToast) {
+                return Promise.reject(error);
+            }
+
             const toast = useToast();
-            const message = data?.message || 'Berhasil menyimpan data';
-            toast.success(message);
-        }
+            let message = 'Terjadi kesalahan pada server';
 
-        return response;
-    },
-    (error) => {
-        const { config, response } = error;
+            if (response?.data?.message) {
+                message = response.data.message;
+            } else if (response?.status === 422 && response?.data?.errors) {
+                // Fallback for Laravel-style validation errors if message is missing (rare)
+                const firstError = Object.values(response.data.errors)[0];
+                message = Array.isArray(firstError) ? firstError[0] : firstError;
+            } else {
+                message = error.message || message;
+            }
 
-        // Check for custom overrides
-        // If 'silent' or 'skipErrorToast' is true, do not show global toast
-        if (config?.silent || config?.skipErrorToast) {
+            toast.error(message);
+
             return Promise.reject(error);
         }
-
-        const toast = useToast();
-        let message = 'Terjadi kesalahan pada server';
-
-        if (response?.status === 422 && response?.data?.errors) {
-            // Laravel-style validation errors
-            const firstError = Object.values(response.data.errors)[0];
-            message = Array.isArray(firstError) ? firstError[0] : firstError;
-        } else {
-            message = response?.data?.message || error.message || message;
-        }
-
-        toast.error(message);
-
-        return Promise.reject(error);
-    }
-);
+    );
+};
 
 export default api;

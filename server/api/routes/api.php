@@ -7,6 +7,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\MenuController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\MataPelajaranController;
+use App\Http\Controllers\RoleController;
 
 Route::post('/login', [AuthController::class, 'login']);
 
@@ -19,4 +20,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // Dashboard
     Route::get('/dashboard/stats', [DashboardController::class, 'stats']);
     Route::get('/dashboard/activities', [DashboardController::class, 'activities']);
+    
+    // Roles & Permissions
+    Route::apiResource('roles', RoleController::class);
+    Route::get('/permissions', [RoleController::class, 'permissions']);
 });

@@ -39,7 +39,10 @@ watch(() => props.initialData, (newVal) => {
         formData.value = {
             name: newVal.name || '',
             description: newVal.description || '',
-            permissions: [...(newVal.permissions || [])]
+            // Map permission objects to names (strings) if they are objects
+            // The backend returns Relation loaded [Permission, Permission]
+            // We need ['permission.name', 'permission.name']
+            permissions: (newVal.permissions || []).map(p => typeof p === 'object' ? p.name : p)
         };
     }
 }, { immediate: true });

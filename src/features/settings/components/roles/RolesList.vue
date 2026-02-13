@@ -153,14 +153,15 @@ const handleFormSubmit = async (formData) => {
                             <ShieldCheckIcon class="w-8 h-8" />
                         </div>
                         <!-- Wildcard Badge -->
-                        <span v-if="role.permissions.includes('*')"
+                        <span v-if="role.name === 'superadmin' || role.name === 'Administrator'"
                             class="px-3 py-1 bg-amber-50 text-amber-600 border border-amber-100/50 text-[10px] font-black uppercase tracking-widest rounded-full">
                             Super Admin
                         </span>
                     </div>
 
                     <h3 class="text-xl font-black text-foreground mb-2">{{ role.name }}</h3>
-                    <p class="text-sm text-muted-foreground leading-relaxed">{{ role.description }}</p>
+                    <!-- Description not available in backend yet, using static or removing -->
+                    <p class="text-sm text-muted-foreground leading-relaxed">{{ role.guard_name }} Role</p>
                 </div>
 
                 <!-- Stats/Info -->
@@ -168,7 +169,8 @@ const handleFormSubmit = async (formData) => {
                     <div class="flex items-center gap-2 text-xs font-medium text-muted-foreground">
                         <span class="w-2 h-2 rounded-full bg-emerald-500"></span>
                         <span>
-                            {{ role.permissions.includes('*') ? 'Unlimited Access' : `${role.permissions.length}
+                            {{ (role.name === 'superadmin' || role.name === 'Administrator') ? 'Unlimited Access' :
+                                `${role.permissions.length}
                             Permissions` }}
                         </span>
                     </div>
