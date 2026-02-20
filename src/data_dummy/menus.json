@@ -1,6 +1,6 @@
 [
   {
-    "role": "admin",
+    "role": "superadmin",
     "items": [
       {
         "label": "Dashboard",
@@ -71,6 +71,135 @@
             { "label": "Laporan Akademik", "to": "/admin/reports/academic" },
             { "label": "Laporan Keuangan", "to": "/admin/reports/finance" },
             { "label": "Laporan Kesiswaan", "to": "/admin/reports/student-affairs" }
+        ]
+      },
+      {
+        "label": "Management",
+        "to": "/admin/management",
+        "icon": "BriefcaseIcon",
+        "children": [
+            { "label": "User", "to": "/admin/management/users" }
+        ]
+      },
+      {
+        "label": "Pengaturan",
+        "to": "/admin/settings",
+        "icon": "Cog6ToothIcon"
+      },
+      {
+        "label": "E-Learning",
+        "to": "/admin/elearning",
+        "icon": "ComputerDesktopIcon",
+        "children": [
+            { "label": "Monitoring", "to": "/admin/elearning/monitor" }
+        ]
+      },
+      {
+        "label": "Perpustakaan",
+        "to": "/admin/library",
+        "icon": "BookOpenIcon",
+        "children": [
+            { "label": "Dashboard", "to": "/admin/library/dashboard" },
+            { "label": "Data Buku", "to": "/admin/library/books" },
+            { "label": "Sirkulasi", "to": "/admin/library/circulation" },
+            { "label": "Buku Tamu", "to": "/admin/library/visitors" }
+        ]
+      },
+      {
+        "label": "Management TKA",
+        "to": "/admin/tka",
+        "icon": "PencilSquareIcon",
+        "children": [
+            { "label": "Bank Soal", "to": "/admin/tka/bank-soal" },
+            { "label": "Daftar TKA", "to": "/admin/tka/list" },
+            { "label": "Buat TKA", "to": "/admin/tka/create" },
+            { "label": "Penugasan TKA", "to": "/admin/tka/assign" },
+            { "label": "Monitoring TKA", "to": "/admin/tka/monitor" },
+            { "label": "Verifikasi TKA", "to": "/admin/tka/verify" }
+        ]
+      }
+    ]
+  },
+  {
+    "role": "admin",
+    "items": [
+      {
+        "label": "Dashboard",
+        "to": "/admin/dashboard",
+        "icon": "HomeIcon"
+      },
+      {
+        "label": "Data Siswa",
+        "to": "/admin/students",
+        "icon": "UserGroupIcon"
+      },
+      {
+        "label": "Data Pegawai",
+        "to": "/admin/employees",
+        "icon": "UsersIcon"
+      },
+      {
+        "label": "Absensi",
+        "to": "/admin/attendance",
+        "icon": "ClipboardDocumentCheckIcon",
+        "children": [
+            { "label": "Absensi Harian", "to": "/admin/attendance/daily" },
+            { "label": "Absensi KBM", "to": "/admin/attendance/kbm" }
+        ]
+      },
+      {
+        "label": "Jadwal KBM",
+        "to": "/admin/kbm-schedule",
+        "icon": "CalendarDaysIcon",
+        "children": [
+            { "label": "Master Jadwal", "to": "/admin/kbm-schedule/master" },
+            { "label": "Jadwal Siswa", "to": "/admin/kbm-schedule/student" },
+            { "label": "Jadwal Guru", "to": "/admin/kbm-schedule/teacher" }
+        ]
+      },
+      {
+        "label": "Akademik",
+        "to": "/admin/academic",
+        "icon": "AcademicCapIcon",
+        "children": [
+            { "label": "Tahun Ajaran", "to": "/admin/academic/school-year" },
+            { "label": "Mata Pelajaran", "to": "/admin/academic/mata-pelajaran" },
+            { "label": "Kelas", "to": "/atambahdmin/academic/classes" },
+            { "label": "Penugasan Siswa", "to": "/admin/academic/assignments" },
+            { "label": "Jadwal", "to": "/admin/academic/schedule" }
+        ]
+      },
+      {
+        "label": "Keuangan",
+        "to": "/admin/finance",
+        "icon": "CurrencyDollarIcon",
+        "children": [
+            { "label": "Pembayaran SPP", "to": "/admin/finance/tuition" },
+            { "label": "Tabungan Siswa", "to": "/admin/finance/savings" },
+            { "label": "Laporan Keuangan", "to": "/admin/finance/reports" }
+        ]
+      },
+      {
+        "label": "Fasilitas",
+        "to": "/admin/facilities",
+        "icon": "BuildingOffice2Icon"
+      },
+      {
+        "label": "Laporan",
+        "to": "/admin/reports",
+        "icon": "DocumentChartBarIcon",
+        "children": [
+            { "label": "Laporan Akademik", "to": "/admin/reports/academic" },
+            { "label": "Laporan Keuangan", "to": "/admin/reports/finance" },
+            { "label": "Laporan Kesiswaan", "to": "/admin/reports/student-affairs" }
+        ]
+      },
+      {
+        "label": "Management",
+        "to": "/admin/management",
+        "icon": "BriefcaseIcon",
+        "children": [
+            { "label": "User", "to": "/admin/management/users" }
         ]
       },
       {

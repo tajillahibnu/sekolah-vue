@@ -18,6 +18,11 @@ return new class extends Migration
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->rememberToken();
+            $table->string('phone')->nullable();
+            $table->string('primary_role')->default('Siswa');
+            $table->string('status')->default('active');
+            $table->string('avatar')->nullable();
+            $table->date('join_date')->nullable();
             $table->timestamps();
         });
 

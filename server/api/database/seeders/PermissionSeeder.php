@@ -15,6 +15,8 @@ class PermissionSeeder extends Seeder
             'settings.manage',
             'logs.view',
             'menu.manage',
+            'users.view',
+            'users.manage',
 
             // Students (Granular)
             'students.view',

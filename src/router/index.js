@@ -210,19 +210,27 @@ const router = createRouter({
                         }
                     ]
                 },
+                // Management Routes
+                {
+                    path: 'management',
+                    name: 'management',
+                    redirect: '/admin/management/users',
+                    children: [
+                        {
+                            path: 'users',
+                            name: 'management-users',
+                            component: () => import('../features/management/views/UsersList.vue'),
+                            meta: { permission: 'users.view' }
+                        }
+                    ]
+                },
                 // Settings Routes
                 {
                     path: 'settings',
                     name: 'settings',
                     component: () => import('../features/settings/views/Settings.vue'),
-                    redirect: '/admin/settings/users',
+                    redirect: '/admin/settings/school',
                     children: [
-                        {
-                            path: 'users',
-                            name: 'settings-users',
-                            component: () => import('../features/settings/components/users/UsersList.vue'),
-                            meta: { permission: 'users.view' }
-                        },
                         {
                             path: 'school',
                             name: 'settings-school',

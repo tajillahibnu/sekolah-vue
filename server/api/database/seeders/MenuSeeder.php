@@ -106,21 +106,29 @@ class MenuSeeder extends Seeder
                 ]
             ],
             [
+                'name' => 'Management',
+                'icon_menu' => 'BriefcaseIcon',
+                'permission_name' => 'users.view', // General management permission
+                'order' => 11,
+                'children' => [
+                    ['name' => 'User', 'to' => '/admin/management/users', 'order' => 1],
+                ]
+            ],
+            [
                 'name' => 'Pengaturan',
                 'icon_menu' => 'Cog6ToothIcon',
                 'permission_name' => 'settings.manage',
-                'order' => 11,
+                'order' => 12,
                 'children' => [
-                    ['name' => 'Pengguna', 'to' => '/admin/settings/users', 'order' => 1],
-                    ['name' => 'Sekolah', 'to' => '/admin/settings/school', 'order' => 2],
-                    ['name' => 'System Logs', 'to' => '/admin/settings/logs', 'order' => 3, 'permission_name' => 'roles.manage'],
+                    ['name' => 'Sekolah', 'to' => '/admin/settings/school', 'order' => 1],
+                    ['name' => 'System Logs', 'to' => '/admin/settings/logs', 'order' => 2, 'permission_name' => 'roles.manage'],
                 ]
             ],
             [
                 'name' => 'App Management',
                 'icon_menu' => 'CommandLineIcon',
                 'permission_name' => 'roles.manage',
-                'order' => 12,
+                'order' => 13,
                 'children' => [
                     ['name' => 'Roles & Permissions', 'to' => '/admin/app/roles', 'order' => 1],
                     ['name' => 'Menu Management', 'to' => '/admin/app/menus', 'order' => 2],

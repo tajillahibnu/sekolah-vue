@@ -28,6 +28,9 @@ api.interceptors.request.use(
     (error) => Promise.reject(error)
 );
 
+// Set flag to prevent multiple "Session Expired" toasts
+let isLoggingOut = false;
+
 export const setupInterceptors = (router) => {
     api.interceptors.response.use(
         (response) => {
@@ -49,22 +52,32 @@ export const setupInterceptors = (router) => {
 
             return response;
         },
-        (error) => {
+        async (error) => {
             const { config, response } = error;
 
             // Handle 401 Unauthorized
             if (response && response.status === 401) {
-                // Clear authentication data
-                localStorage.removeItem('token');
-                localStorage.removeItem('user');
-                localStorage.removeItem('activeRole');
-                localStorage.removeItem('permissions');
+                if (!isLoggingOut) {
+                    isLoggingOut = true;
 
-                const toast = useToast();
-                toast.error('Sesi login telah berakhir, silakan login kembali.');
+                    // Clear authentication data through the store to ensure state is flushed
+                    const { useAuthStore } = await import('../../stores/auth');
+                    const authStore = useAuthStore();
+                    authStore.logout();
 
-                if (router) {
-                    router.push('/login');
+                    const toast = useToast();
+                    toast.error('Sesi login telah berakhir, silakan login kembali.');
+
+                    if (router) {
+                        router.push('/login');
+                    } else {
+                        window.location.href = '/login';
+                    }
+
+                    // Reset flag after small delay to allow redirects
+                    setTimeout(() => {
+                        isLoggingOut = false;
+                    }, 2000);
                 }
 
                 return Promise.reject(error);

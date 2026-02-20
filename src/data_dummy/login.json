@@ -6,6 +6,11 @@
     "avatar": "https://ui-avatars.com/api/?name=Budi+Santoso&background=0D8ABC&color=fff",
     "roles": [
       {
+        "id": "superadmin",
+        "name": "Super Administrator",
+        "permissions": ["*"]
+      },
+      {
         "id": "admin",
         "name": "Administrator",
         "permissions": ["*"]
