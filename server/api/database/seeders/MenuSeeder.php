@@ -29,21 +29,29 @@ class MenuSeeder extends Seeder
                 ]
             ],
             [
-                'name' => 'Kesiswaan',
+                'name' => 'Data',
                 'icon_menu' => 'UserGroupIcon',
                 'permission_name' => 'students.view', 
                 'order' => 3,
                 'children' => [
                     ['name' => 'Data Siswa', 'to' => '/admin/students', 'order' => 1, 'permission_name' => 'students.view'],
                     ['name' => 'Data Pegawai', 'to' => '/admin/employees', 'order' => 2, 'permission_name' => 'employees.view'],
-                    ['name' => 'Pelanggaran', 'to' => '/admin/violations', 'order' => 3, 'permission_name' => 'violations.view'],
+                ]
+            ],
+            [
+                'name' => 'Kesiswaan',
+                'icon_menu' => 'UserGroupIcon',
+                'permission_name' => 'students.view', 
+                'order' => 4,
+                'children' => [
+                    ['name' => 'Data Pelanggaran', 'to' => '/admin/violations', 'order' => 1, 'permission_name' => 'violations.view'],
                 ]
             ],
             [
                 'name' => 'Mengajar',
                 'icon_menu' => 'AcademicCapIcon',
                 'permission_name' => 'elearning.teach',
-                'order' => 4,
+                'order' => 5,
                 'children' => [
                     ['name' => 'Jadwal Mengajar', 'to' => '/admin/kbm-schedule/teacher', 'order' => 1],
                     ['name' => 'Kelas Saya', 'to' => '/admin/elearning/teach', 'order' => 2],
@@ -53,7 +61,7 @@ class MenuSeeder extends Seeder
                 'name' => 'Pembelajaran',
                 'icon_menu' => 'BookOpenIcon',
                 'permission_name' => 'elearning.learn',
-                'order' => 5,
+                'order' => 6,
                 'children' => [
                     ['name' => 'Jadwal Pelajaran', 'to' => '/admin/kbm-schedule/student', 'order' => 1],
                     ['name' => 'Kursus Saya', 'to' => '/admin/elearning/learn', 'order' => 2],
@@ -64,20 +72,20 @@ class MenuSeeder extends Seeder
                 'icon_menu' => 'ClipboardDocumentListIcon',
                 'to' => '/admin/attendance',
                 'permission_name' => 'attendance.view',
-                'order' => 6,
+                'order' => 7,
             ],
             [
                 'name' => 'Ujian',
                 'icon_menu' => 'PencilSquareIcon',
                 'to' => '/admin/tka/student/list',
                 'permission_name' => 'elearning.learn',
-                'order' => 7,
+                'order' => 8,
             ],
             [
                 'name' => 'Tes & Asesmen',
                 'icon_menu' => 'ClipboardDocumentCheckIcon',
                 'permission_name' => 'tka.manage',
-                'order' => 8,
+                'order' => 9,
                 'children' => [
                     ['name' => 'Bank Soal', 'to' => '/admin/tka/bank-soal', 'order' => 1],
                     ['name' => 'Jadwal Tes', 'to' => '/admin/tka/list', 'order' => 2],
@@ -87,7 +95,7 @@ class MenuSeeder extends Seeder
                 'name' => 'Buletin Sekolah',
                 'icon_menu' => 'BookOpenIcon',
                 'permission_name' => 'bulletin.view',
-                'order' => 9,
+                'order' => 10,
                 'children' => [
                     ['name' => 'Jelajah Buletin', 'to' => '/admin/bulletins', 'order' => 1],
                     ['name' => 'Kontribusi Saya', 'to' => '/admin/bulletins/my-bulletins', 'order' => 2],
@@ -98,7 +106,7 @@ class MenuSeeder extends Seeder
                 'name' => 'E-Raport',
                 'icon_menu' => 'DocumentChartBarIcon',
                 'permission_name' => 'academic.manage',
-                'order' => 10,
+                'order' => 11,
                 'children' => [
                     ['name' => 'Dashboard', 'to' => '/admin/raport/dashboard', 'order' => 1],
                     ['name' => 'Input Nilai', 'to' => '/admin/raport/entries', 'order' => 2],
@@ -109,7 +117,7 @@ class MenuSeeder extends Seeder
                 'name' => 'Management',
                 'icon_menu' => 'BriefcaseIcon',
                 'permission_name' => 'users.view', // General management permission
-                'order' => 11,
+                'order' => 12,
                 'children' => [
                     ['name' => 'User', 'to' => '/admin/management/users', 'order' => 1],
                 ]
@@ -118,7 +126,7 @@ class MenuSeeder extends Seeder
                 'name' => 'Pengaturan',
                 'icon_menu' => 'Cog6ToothIcon',
                 'permission_name' => 'settings.manage',
-                'order' => 12,
+                'order' => 13,
                 'children' => [
                     ['name' => 'Sekolah', 'to' => '/admin/settings/school', 'order' => 1],
                     ['name' => 'System Logs', 'to' => '/admin/settings/logs', 'order' => 2, 'permission_name' => 'roles.manage'],
@@ -128,7 +136,7 @@ class MenuSeeder extends Seeder
                 'name' => 'App Management',
                 'icon_menu' => 'CommandLineIcon',
                 'permission_name' => 'roles.manage',
-                'order' => 13,
+                'order' => 14,
                 'children' => [
                     ['name' => 'Roles & Permissions', 'to' => '/admin/app/roles', 'order' => 1],
                     ['name' => 'Menu Management', 'to' => '/admin/app/menus', 'order' => 2],
