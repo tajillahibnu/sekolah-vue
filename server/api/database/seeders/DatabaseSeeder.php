@@ -18,6 +18,7 @@ class DatabaseSeeder extends Seeder
             MenuSeeder::class,
             MataPelajaranSeeder::class,
             AcademicYearSeeder::class,
+            SettingReligionSeeder::class,
         ]);
     }
 }

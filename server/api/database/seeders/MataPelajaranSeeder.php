@@ -25,7 +25,7 @@ class MataPelajaranSeeder extends Seeder
         ];
 
         foreach ($mataPelajaran as $mp) {
-            \App\Models\MataPelajaran::updateOrCreate(['kode' => $mp['kode']], $mp);
+            \Modules\MataPelajaran\Models\MataPelajaran::updateOrCreate(['kode' => $mp['kode']], $mp);
         }
     }
 }

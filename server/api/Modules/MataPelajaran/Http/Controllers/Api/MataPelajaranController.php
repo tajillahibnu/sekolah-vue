@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace Modules\MataPelajaran\Http\Controllers\Api;
 
-use App\Models\MataPelajaran;
+use App\Http\Controllers\Controller;
+use Modules\MataPelajaran\Models\MataPelajaran;
 use Illuminate\Http\Request;
 use App\Traits\ApiResponseTrait;
 
