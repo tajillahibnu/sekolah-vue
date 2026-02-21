@@ -32,10 +32,7 @@ class MataPelajaranController extends Controller
             $perPage = $request->input('limit', 10);
             $mataPelajaran = $query->orderBy('nama', 'asc')->paginate($perPage);
 
-            return $this->apiResponse($mataPelajaran->items())
-                        ->addPaginationMeta($mataPelajaran)
-                        ->setMessage('Data mata pelajaran berhasil diambil')
-                        ->send();
+            return $this->successWithPagination($mataPelajaran, 'Data mata pelajaran berhasil diambil');
 
         } catch (\Exception $e) {
             return $this->error('Gagal mengambil data mata pelajaran: ' . $e->getMessage(), 500);

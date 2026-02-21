@@ -320,12 +320,11 @@ const navigateToDetail = (id) => {
         <!-- Controls Row (Page Info & View Toggle) -->
         <div class="flex justify-between items-center gap-3 px-1">
             <!-- Page Info (Left) -->
-            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                Halaman <span class="text-primary font-black">{{ page }}/{{ totalPages || 1 }}</span>
-                (<span class="text-primary font-black">{{ Math.min((page - 1) * selectedLimit + 1, totalClasses)
-                    }}</span>-
-                <span class="text-primary font-black">{{ Math.min(page * selectedLimit, totalClasses) }}</span>
-                dari <span class="text-primary font-black">{{ totalClasses }}</span> data)
+            <div class="text-xs font-medium text-muted-foreground tracking-wide">
+                Menampilkan <span class="text-foreground font-bold">{{ totalClasses === 0 ? 0 : (page - 1) *
+                    selectedLimit + 1 }}</span>
+                - <span class="text-foreground font-bold">{{ Math.min(page * selectedLimit, totalClasses) }}</span>
+                dari <span class="text-foreground font-bold">{{ totalClasses }}</span> data
             </div>
 
             <!-- View Toggle (Right) -->

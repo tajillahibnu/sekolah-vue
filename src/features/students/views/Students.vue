@@ -303,10 +303,11 @@ fetchUsers();
     <!-- Controls (Separate Row) -->
     <div class="flex justify-between items-center gap-3 px-1 mb-4">
       <!-- Page Info (Left) -->
-      <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-        Halaman <span class="text-primary font-black">{{ page }}/{{ totalPages }}</span>
-        (<span class="text-primary font-black">{{ Math.min(page * selectedLimit, total) }}</span>/<span
-          class="text-primary font-black">{{ total }}</span>)
+      <div class="text-xs font-medium text-muted-foreground tracking-wide">
+        Menampilkan <span class="font-bold text-foreground">{{ total === 0 ? 0 : (page - 1) * selectedLimit + 1
+          }}</span>
+        - <span class="font-bold text-foreground">{{ Math.min(page * selectedLimit, total) }}</span>
+        dari <span class="font-bold text-foreground">{{ total }}</span> data
       </div>
 
       <!-- View Toggle (Right) -->
@@ -362,7 +363,7 @@ fetchUsers();
               <div class="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-3">
                 <span class="text-[11px] font-black uppercase tracking-widest text-muted-foreground">{{ new
                   Date(student.joinDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
-                  }}</span>
+                }}</span>
                 <div class="hidden sm:block w-1.5 h-1.5 rounded-full bg-primary/20"></div>
                 <span class="text-[11px] font-black uppercase tracking-widest text-primary">{{ student.nis }}</span>
               </div>
@@ -501,7 +502,7 @@ fetchUsers();
               <div class="w-1.5 h-1.5 rounded-full"
                 :class="getKbmSummary(student).percent >= 100 ? 'bg-emerald-500' : 'bg-blue-500'"></div>
               <span class="text-slate-600">KBM {{ getKbmSummary(student).present }}/{{ getKbmSummary(student).total
-              }}</span>
+                }}</span>
             </div>
           </div>
 
@@ -620,10 +621,19 @@ fetchUsers();
     </div>
 
     <!-- Empty State -->
-    <div v-if="!loading && filteredUsers.length === 0" class="card bg-base-100 shadow-sm border border-base-200">
-      <div class="card-body text-center py-12">
-        <p class="text-base-content/60">Tidak ada data siswa ditemukan</p>
-      </div>
+    <div v-if="!loading && filteredUsers.length === 0"
+      class="text-center py-20 bg-primary/[0.01] border-2 border-dashed border-primary/10 rounded-[40px] animate-fade-in mt-6">
+      <MagnifyingGlassIcon class="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+      <h3 class="text-xl font-black text-foreground tracking-tight mb-1">Tidak ada data siswa ditemukan</h3>
+      <p class="text-muted-foreground text-sm font-medium mt-1 max-w-sm mx-auto">
+        Coba sesuaikan kata kunci pencarian atau ubah limit
+        untuk menemukan siswa yang Anda cari.
+      </p>
+      <button
+        class="mt-6 px-6 py-2.5 bg-background border-2 border-primary/10 hover:border-primary/30 hover:bg-primary/5 text-primary font-bold text-sm rounded-xl transition-all active:scale-95"
+        @click="searchQuery = ''; selectedClass = ''">
+        Reset Filter
+      </button>
     </div>
 
     <!-- Student Modal -->

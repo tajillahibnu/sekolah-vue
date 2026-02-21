@@ -229,7 +229,7 @@ fetchMataPelajaran();
             <template v-else>
                 <!-- Desktop Table View (Only shown if viewMode is table) -->
                 <div v-if="viewMode === 'table'"
-                    class="hidden md:block bg-card rounded-[32px] border border-primary/5 shadow-sm overflow-hidden animate-fade-in">
+                    class="hidden md:block bg-card rounded-[8px] border border-primary/5 shadow-sm overflow-hidden animate-fade-in">
                     <div class="overflow-x-auto text-sm">
                         <table class="w-full text-left border-collapse">
                             <thead>
@@ -322,7 +322,7 @@ fetchMataPelajaran();
                 <div v-if="viewMode === 'card'"
                     class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 animate-fade-in">
                     <div v-for="mp in mataPelajaranList" :key="mp.id"
-                        class="group bg-card border border-primary/5 rounded-[32px] p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between h-full">
+                        class="group bg-card border border-primary/5 rounded-[8px] p-6 hover:shadow-2xl hover:shadow-primary/10 transition-all hover:-translate-y-1 relative overflow-hidden flex flex-col justify-between h-full">
                         <div class="flex justify-between items-start mb-4">
                             <span
                                 class="inline-block px-3 py-1.5 bg-primary/10 text-primary rounded-xl font-black text-[10px]">
@@ -360,7 +360,7 @@ fetchMataPelajaran();
                 <!-- Fallback/Mobile List View (If in table mode but screen is mobile) -->
                 <div v-if="viewMode === 'table'" class="md:hidden space-y-4 animate-fade-in">
                     <div v-for="mp in mataPelajaranList" :key="mp.id"
-                        class="bg-card border border-primary/5 rounded-[24px] p-5 shadow-sm active:scale-[0.98] transition-all">
+                        class="bg-card border border-primary/5 rounded-[8px] p-5 shadow-sm active:scale-[0.98] transition-all">
                         <div class="flex items-center gap-4 mb-4">
                             <div
                                 class="w-14 h-14 bg-primary/5 rounded-2xl flex items-center justify-center text-primary font-black text-xs shrink-0">

@@ -330,10 +330,11 @@ const getStatusLabel = (status) => {
         <!-- Controls & Info -->
         <div class="flex justify-between items-center gap-3 px-1 mb-4" v-if="totalItems > 0">
             <!-- Page Info (Left) -->
-            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                Halaman <span class="text-primary font-black">{{ page }}/{{ totalPages }}</span>
-                (<span class="text-primary font-black">{{ (page - 1) * selectedLimit + 1 }}-{{ Math.min(page *
-                    selectedLimit, totalItems) }}</span>/<span class="text-primary font-black">{{ totalItems }}</span>)
+            <div class="text-xs font-medium text-muted-foreground tracking-wide">
+                Menampilkan <span class="font-bold text-foreground">{{ totalItems === 0 ? 0 : (page - 1) * selectedLimit
+                    + 1 }}</span>
+                - <span class="font-bold text-foreground">{{ Math.min(page * selectedLimit, totalItems) }}</span>
+                dari <span class="font-bold text-foreground">{{ totalItems }}</span> data
             </div>
         </div>
 

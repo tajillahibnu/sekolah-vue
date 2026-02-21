@@ -8,7 +8,8 @@ import {
     AcademicCapIcon,
     BookOpenIcon,
     BuildingOffice2Icon,
-    ArrowPathIcon
+    ArrowPathIcon,
+    WrenchScrewdriverIcon
 } from '@heroicons/vue/24/outline'
 
 const route = useRoute()
@@ -54,6 +55,14 @@ const menuItems = [
         description: 'Pengaturan sekolah',
         icon: BuildingOffice2Icon,
         path: '/settings/school',
+        permission: 'settings.manage'
+    },
+    {
+        id: 'app-settings',
+        label: 'Aplikasi & Meta Data',
+        description: 'Format data Non-Table',
+        icon: WrenchScrewdriverIcon,
+        path: '/settings/app',
         permission: 'settings.manage'
     },
     {

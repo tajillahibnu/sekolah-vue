@@ -276,12 +276,18 @@ const handleDelete = (id) => {
         </div>
 
         <!-- Empty State -->
-        <div v-if="filteredBooks.length === 0" class="text-center py-20">
-            <div
-                class="mx-auto w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center text-slate-300 mb-4">
-                <BookOpenIcon class="w-8 h-8" />
-            </div>
-            <p class="text-slate-500 font-bold">Tidak ada buku ditemukan</p>
+        <div v-if="filteredBooks.length === 0"
+            class="text-center py-20 bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-[40px] animate-in fade-in slide-in-from-bottom-4 duration-500 mt-6">
+            <BookOpenIcon class="w-16 h-16 text-slate-300 mx-auto mb-4" />
+            <h3 class="text-xl font-black text-slate-800 tracking-tight mb-1">Tidak ada buku ditemukan</h3>
+            <p class="text-slate-500 text-sm font-medium mt-1 max-w-sm mx-auto">
+                Coba sesuaikan kata kunci pencarian Anda untuk menemukan buku.
+            </p>
+            <button
+                class="mt-6 px-6 py-2.5 bg-white border-2 border-slate-100 hover:border-blue-200 hover:bg-blue-50 text-slate-500 hover:text-blue-600 font-bold text-sm rounded-xl transition-all active:scale-95"
+                @click="searchQuery = ''">
+                Reset Pencarian
+            </button>
         </div>
 
 

@@ -358,24 +358,19 @@ onMounted(() => {
 
                 <!-- Pagination Controls -->
                 <div v-if="!loading && users.length > 0" class="flex items-center justify-between mt-6 px-2">
-                    <p class="text-sm text-muted-foreground">
-                        Menampilkan <span class="font-medium text-foreground">{{ totalUsers === 0 ? 0 : ((currentPage -
-                            1) *
-                            itemsPerPage) + 1
+                    <div class="text-xs font-medium text-muted-foreground tracking-wide">
+                        Menampilkan <span class="font-bold text-foreground">{{ totalUsers === 0 ? 0 : ((currentPage - 1)
+                            * itemsPerPage)
+                            + 1 }}</span>
+                        - <span class="font-bold text-foreground">{{ Math.min(currentPage * itemsPerPage, totalUsers)
                             }}</span>
-                        hingga <span class="font-medium text-foreground">{{ Math.min(currentPage * itemsPerPage,
-                            totalUsers)
-                        }}</span>
-                        dari <span class="font-medium text-foreground">{{ totalUsers }}</span> hasil
-                    </p>
+                        dari <span class="font-bold text-foreground">{{ totalUsers }}</span> data
+                    </div>
                     <div class="flex items-center gap-2">
                         <Button variant="outline" size="sm" class="w-9 h-9 p-0 rounded-lg hover:bg-muted/50"
                             :disabled="currentPage <= 1" @click="changePage(currentPage - 1)">
                             <ChevronLeftIcon class="w-4 h-4" />
                         </Button>
-                        <div class="text-sm font-medium px-4">
-                            Halaman {{ currentPage }} dari {{ totalPages === 0 ? 1 : totalPages }}
-                        </div>
                         <Button variant="outline" size="sm" class="w-9 h-9 p-0 rounded-lg hover:bg-muted/50"
                             :disabled="currentPage >= totalPages || totalPages === 0"
                             @click="changePage(currentPage + 1)">
@@ -386,15 +381,15 @@ onMounted(() => {
 
                 <!-- Empty State -->
                 <div v-else-if="!loading && users.length === 0"
-                    class="flex flex-col items-center justify-center py-20 px-4 text-center bg-muted/10 rounded-xl border border-dashed border-border/60 mt-4">
-                    <div class="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mb-4">
-                        <MagnifyingGlassIcon class="w-8 h-8 text-primary/60" />
-                    </div>
-                    <h3 class="text-lg font-semibold text-foreground/90 mb-1">Tidak ada user ditemukan</h3>
-                    <p class="text-sm text-muted-foreground max-w-sm">Coba sesuaikan kata kunci pencarian atau ubah
-                        filter role/status
-                        untuk menemukan user yang Anda cari.</p>
-                    <Button variant="outline" class="mt-6 rounded-lg hover:bg-primary/5 transition-colors"
+                    class="text-center py-20 bg-primary/[0.01] border-2 border-dashed border-primary/10 rounded-[40px] animate-fade-in mt-6">
+                    <MagnifyingGlassIcon class="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+                    <h3 class="text-xl font-black text-foreground tracking-tight mb-1">Tidak ada user ditemukan</h3>
+                    <p class="text-muted-foreground text-sm font-medium mt-1 max-w-sm mx-auto">
+                        Coba sesuaikan kata kunci pencarian atau ubah filter role/status
+                        untuk menemukan user yang Anda cari.
+                    </p>
+                    <Button variant="outline"
+                        class="mt-6 rounded-xl border-2 border-primary/10 hover:border-primary/30 hover:bg-primary/5 text-primary tracking-wide font-bold transition-all active:scale-95"
                         @click="searchQuery = ''; filterRole = 'all'; filterStatus = 'all'">
                         Reset Filter
                     </Button>

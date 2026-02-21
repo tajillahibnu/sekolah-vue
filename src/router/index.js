@@ -242,6 +242,12 @@ const router = createRouter({
                             name: 'settings-backup',
                             component: () => import('../features/settings/components/backup/BackupList.vue'),
                             meta: { permission: 'settings.manage' }
+                        },
+                        {
+                            path: 'app',
+                            name: 'app-settings',
+                            component: () => import('../features/settings/views/AppSettings.vue'),
+                            meta: { permission: 'settings.manage' }
                         }
                     ]
                 },

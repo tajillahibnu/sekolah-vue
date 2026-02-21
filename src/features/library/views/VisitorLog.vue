@@ -256,7 +256,8 @@ watch([searchQuery, dateFilter], () => {
                                     <span class="font-bold text-slate-700">
                                         {{ new Date(visitor.date).toLocaleDateString('id-ID', {
                                             day: 'numeric', month:
-                                        'short', year: 'numeric' }) }}
+                                                'short', year: 'numeric'
+                                        }) }}
                                     </span>
                                     <div class="flex items-center gap-1.5 text-xs text-slate-400 mt-1">
                                         <ClockIcon class="w-3.5 h-3.5" />
@@ -281,19 +282,19 @@ watch([searchQuery, dateFilter], () => {
                             </td>
                         </tr>
                         <tr v-if="paginatedVisitors.length === 0">
-                            <td colspan="5" class="py-12 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <div
-                                        class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                                        <MagnifyingGlassIcon class="w-8 h-8 text-slate-300" />
-                                    </div>
-                                    <h3 class="text-lg font-bold text-slate-700">Tidak ada data ditemukan</h3>
-                                    <p class="text-slate-400 text-sm max-w-xs mx-auto mt-1">Coba sesuaikan kata kunci
-                                        pencarian atau filter tanggal Anda.</p>
-                                    <Button @click="searchQuery = ''; dateFilter.start = ''; dateFilter.end = ''"
-                                        variant="link" class="mt-2 text-blue-600">
+                            <td colspan="5" class="p-6 sm:p-8">
+                                <div
+                                    class="text-center py-16 bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-[40px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                    <MagnifyingGlassIcon class="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                                    <h3 class="text-xl font-black text-slate-800 tracking-tight mb-1">Tidak ada data
+                                        ditemukan</h3>
+                                    <p class="text-slate-500 text-sm font-medium mt-1 max-w-sm mx-auto">
+                                        Coba sesuaikan kata kunci pencarian atau filter tanggal Anda.
+                                    </p>
+                                    <button @click="searchQuery = ''; dateFilter.start = ''; dateFilter.end = ''"
+                                        class="mt-6 px-6 py-2.5 bg-white border-2 border-slate-100 hover:border-blue-200 hover:bg-blue-50 text-slate-500 hover:text-blue-600 font-bold text-sm rounded-xl transition-all active:scale-95 shadow-sm">
                                         Reset Filter
-                                    </Button>
+                                    </button>
                                 </div>
                             </td>
                         </tr>
@@ -308,7 +309,7 @@ watch([searchQuery, dateFilter], () => {
                     Menampilkan <span class="font-bold text-slate-800">{{ (currentPage - 1) * itemsPerPage + 1 }}</span>
                     - <span class="font-bold text-slate-800">{{ Math.min(currentPage * itemsPerPage,
                         filteredVisitors.length) }}</span> dari <span class="font-bold text-slate-800">{{
-                        filteredVisitors.length }}</span> data
+                            filteredVisitors.length }}</span> data
                 </span>
                 <div class="flex gap-2">
                     <button @click="currentPage--" :disabled="currentPage === 1"
@@ -413,7 +414,8 @@ watch([searchQuery, dateFilter], () => {
                                 <p class="text-xs text-slate-500 mt-1">
                                     {{ new Date(visit.date).toLocaleDateString('id-ID', {
                                         day: 'numeric', month: 'long',
-                                    year: 'numeric' }) }} •
+                                        year: 'numeric'
+                                    }) }} •
                                     {{ visit.timeIn }}
                                 </p>
                             </div>

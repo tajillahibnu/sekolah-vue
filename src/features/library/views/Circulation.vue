@@ -368,17 +368,17 @@ const getStatusLabel = (status) => {
                             </td>
                         </tr>
                         <tr v-if="paginatedTransactions.length === 0">
-                            <td colspan="5" class="py-12 text-center">
-                                <div class="flex flex-col items-center justify-center">
-                                    <div
-                                        class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mb-4">
-                                        <MagnifyingGlassIcon class="w-8 h-8 text-slate-300" />
-                                    </div>
-                                    <h3 class="text-lg font-bold text-slate-700">Tidak ada transaksi ditemukan</h3>
-                                    <p class="text-slate-400 text-sm max-w-xs mx-auto mt-1">Coba sesuaikan kata kunci
-                                        pencarian atau filter status Anda.</p>
+                            <td colspan="5" class="p-6 sm:p-8">
+                                <div
+                                    class="text-center py-16 bg-slate-50/50 border-2 border-dashed border-slate-200 rounded-[40px] animate-in fade-in slide-in-from-bottom-4 duration-500">
+                                    <MagnifyingGlassIcon class="w-16 h-16 text-slate-300 mx-auto mb-4" />
+                                    <h3 class="text-xl font-black text-slate-800 tracking-tight mb-1">Tidak ada
+                                        transaksi ditemukan</h3>
+                                    <p class="text-slate-500 text-sm font-medium mt-1 max-w-sm mx-auto">
+                                        Coba sesuaikan kata kunci pencarian atau filter status Anda.
+                                    </p>
                                     <button @click="statusFilter = 'active'; searchQuery = ''"
-                                        class="mt-4 text-sm font-bold text-blue-600 hover:underline">
+                                        class="mt-6 px-6 py-2.5 bg-white border-2 border-slate-100 hover:border-blue-200 hover:bg-blue-50 text-slate-500 hover:text-blue-600 font-bold text-sm rounded-xl transition-all active:scale-95 shadow-sm">
                                         Reset Filter
                                     </button>
                                 </div>
@@ -502,7 +502,7 @@ const getStatusLabel = (status) => {
                                 </span>
                                 <div class="flex justify-between items-center text-xs">
                                     <span class="text-slate-400 font-medium font-mono tracking-wide">ISBN: {{ book.isbn
-                                    }}</span>
+                                        }}</span>
                                     <Badge size="sm" :variant="book.stock > 0 ? 'outline' : 'destructive'"
                                         class="text-[10px] px-1.5 h-5">
                                         Stok: {{ book.stock }}

@@ -49,8 +49,6 @@ const newQuestion = ref({ ...initialQuestionState });
 const isEditing = computed(() => !!props.question);
 const modalTitle = computed(() => isEditing.value ? 'Edit Soal' : 'Tambah Soal Baru');
 
-const subjectOptions = ref([]);
-
 // Fetch Mata Pelajaran
 onMounted(async () => {
     try {

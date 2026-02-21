@@ -139,12 +139,18 @@ const navigateToDetail = (id) => {
         </div>
 
         <!-- Empty State -->
-        <div v-if="filteredClasses.length === 0" class="text-center py-12">
-            <div class="w-16 h-16 bg-slate-50 rounded-full flex items-center justify-center mx-auto mb-4">
-                <BuildingLibraryIcon class="w-8 h-8 text-slate-300" />
-            </div>
-            <h3 class="text-lg font-bold text-foreground">Tidak ada kelas ditemukan</h3>
-            <p class="text-muted-foreground">Coba ubah kata kunci pencarian anda.</p>
+        <div v-if="filteredClasses.length === 0"
+            class="text-center py-20 bg-primary/[0.01] border-2 border-dashed border-primary/10 rounded-[40px] animate-fade-in mt-6">
+            <BuildingLibraryIcon class="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+            <h3 class="text-xl font-black text-foreground tracking-tight mb-1">Tidak ada kelas ditemukan</h3>
+            <p class="text-muted-foreground text-sm font-medium mt-1 max-w-sm mx-auto">
+                Coba sesuaikan kata kunci pencarian Anda untuk menemukan kelas.
+            </p>
+            <button
+                class="mt-6 px-6 py-2.5 bg-background border-2 border-primary/10 hover:border-primary/30 hover:bg-primary/5 text-primary font-bold text-sm rounded-xl transition-all active:scale-95"
+                @click="searchQuery = ''">
+                Reset Pencarian
+            </button>
         </div>
     </div>
 </template>

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, onMounted } from 'vue';
 import { useAuthStore } from '../../stores/auth';
 import { useLayoutStore } from '../../stores/layout'; // Import layout store
 import { useRouter } from 'vue-router'; // Import useRouter
@@ -40,6 +40,11 @@ const { theme, setTheme } = themeProps;
 
 const showLogoutConfirm = ref(false);
 const showSessionModal = ref(false);
+
+onMounted(() => {
+    // Sinkronasi pertama Sesi Sesuai Backend
+    sessionStore.fetchActiveSessionFallback();
+});
 
 const confirmLogout = () => {
     authStore.logout();
@@ -203,7 +208,7 @@ const closeDetail = () => {
                             class="hidden sm:block text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Tahun
                             Pelajaran</span>
                         <span class="text-[10px] sm:text-[11px] font-bold text-foreground">{{ sessionStore.academicYear
-                        }}</span>
+                            }}</span>
                     </div>
                 </div>
                 <div class="w-px h-4 sm:h-6 bg-primary/10"></div>
@@ -215,7 +220,7 @@ const closeDetail = () => {
                         <span
                             class="hidden sm:block text-[8px] font-bold text-muted-foreground uppercase tracking-wider">Semester</span>
                         <span class="text-[10px] sm:text-[11px] font-bold text-foreground">{{ sessionStore.semester
-                        }}</span>
+                            }}</span>
                     </div>
                 </div>
             </button>
@@ -388,7 +393,7 @@ const closeDetail = () => {
                         <div class="flex flex-col gap-0.5 p-0">
                             <span class="font-bold text-sm text-foreground truncate w-full">{{ user?.name }}</span>
                             <span class="text-xs font-medium text-muted-foreground truncate w-full">{{ user?.email
-                                }}</span>
+                            }}</span>
                         </div>
                     </li>
                     <li class="mt-1">

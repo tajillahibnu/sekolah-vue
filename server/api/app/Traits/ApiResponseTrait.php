@@ -166,6 +166,22 @@ trait ApiResponseTrait
     }
 
     /**
+     * Helper response sukses dengan data pagination (Paginator instance).
+     * @param mixed $paginatedData
+     * @param string|null $message
+     * @param int $code
+     * @return JsonResponse
+     */
+    public function successWithPagination($paginatedData, string $message = null, int $code = 200): JsonResponse
+    {
+        return $this->apiResponse($paginatedData->items())
+            ->addPaginationMeta($paginatedData)
+            ->setMessage($message ?? $this->defaultSuccessMessage)
+            ->setStatusCode($code)
+            ->send();
+    }
+
+    /**
      * Helper response error cepat.
      * @param string|null $message
      * @param int $code

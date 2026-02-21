@@ -273,10 +273,11 @@ onMounted(() => {
         <!-- Controls (Separate Row) -->
         <div class="flex justify-between items-center gap-3 px-1 mb-4">
             <!-- Page Info (Left) -->
-            <div class="text-[10px] font-black uppercase tracking-widest text-muted-foreground">
-                Halaman <span class="text-primary font-black">{{ page }}/{{ totalPages }}</span>
-                (<span class="text-primary font-black">{{ Math.min(page * selectedLimit, total) }}</span>/<span
-                    class="text-primary font-black">{{ total }}</span>)
+            <div class="text-xs font-medium text-muted-foreground tracking-wide">
+                Menampilkan <span class="font-bold text-foreground">{{ total === 0 ? 0 : (page - 1) * selectedLimit + 1
+                    }}</span>
+                - <span class="font-bold text-foreground">{{ Math.min(page * selectedLimit, total) }}</span>
+                dari <span class="font-bold text-foreground">{{ total }}</span> data
             </div>
 
             <!-- View Toggle (Right) -->
@@ -576,10 +577,16 @@ onMounted(() => {
         </div>
 
         <!-- Empty State -->
-        <div v-if="!loading && filteredEmployees.length === 0" class="card bg-card shadow-sm border border-border">
-            <div class="card-body text-center py-12">
-                <p class="text-base-content/60">Tidak ada data pegawai ditemukan</p>
-            </div>
+        <div v-if="!loading && filteredEmployees.length === 0"
+            class="text-center py-20 bg-primary/[0.01] border-2 border-dashed border-primary/10 rounded-[40px] animate-fade-in mt-6">
+            <UserIcon class="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
+            <h3 class="text-xl font-black text-foreground tracking-tight">Tidak ada data pegawai</h3>
+            <p class="text-muted-foreground text-sm font-medium mt-1">Belum ada pegawai atau data yang Anda cari tidak
+                ditemukan.</p>
+            <button @click="openAddModal"
+                class="mt-6 inline-flex items-center gap-2 text-primary font-black text-sm hover:underline px-4 py-2 bg-primary/5 rounded-xl transition-all">
+                <PlusIcon class="w-4 h-4" /> Tambah Pegawai
+            </button>
         </div>
 
         <!-- Forms Modal -->
