@@ -35,7 +35,8 @@ class MenuSeeder extends Seeder
                 'order' => 3,
                 'children' => [
                     ['name' => 'Data Siswa', 'to' => '/admin/students', 'order' => 1, 'permission_name' => 'students.view'],
-                    ['name' => 'Data Pegawai', 'to' => '/admin/employees', 'order' => 2, 'permission_name' => 'employees.view'],
+                    ['name' => 'Siswa Baru', 'to' => '/admin/students/unclassed', 'order' => 2, 'permission_name' => 'student.manage'],
+                    ['name' => 'Data Pegawai', 'to' => '/admin/employees', 'order' => 3, 'permission_name' => 'employees.view'],
                 ]
             ],
             [

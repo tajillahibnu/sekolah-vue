@@ -54,7 +54,7 @@ const loading = ref(true);
 const fetchStudents = async () => {
     loading.value = true;
     try {
-        const response = await api.get('/students', {
+        const response = await api.get('/siswas', {
             params: {
                 limit: 100 // Fetch all for client-side filtering logic for now
             }

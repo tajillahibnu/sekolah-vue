@@ -10,7 +10,11 @@
       {
         "label": "Data Siswa",
         "to": "/admin/students",
-        "icon": "UserGroupIcon"
+        "icon": "UserGroupIcon",
+        "children": [
+          { "label": "Semua Siswa", "to": "/admin/students" },
+          { "label": "Belum Berkelas", "to": "/admin/students/unclassed" }
+        ]
       },
       {
         "label": "Data Pegawai",

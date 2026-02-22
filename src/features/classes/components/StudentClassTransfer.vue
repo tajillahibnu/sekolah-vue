@@ -36,7 +36,7 @@ onMounted(async () => {
 const fetchStudents = async () => {
     try {
         // In real app, fetch students who ARE assigned to a class
-        const response = await api.get('/students');
+        const response = await api.get('/siswas');
         students.value = response.data.data || [];
     } catch (error) {
         console.error('Error fetching students:', error);

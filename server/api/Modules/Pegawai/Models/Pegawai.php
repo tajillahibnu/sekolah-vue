@@ -29,6 +29,11 @@ class Pegawai extends Model
         'join_date',
     ];
 
+    protected static function newFactory()
+    {
+        return \Database\Factories\PegawaiFactory::new();
+    }
+
     protected $casts = [
         'birth_date' => 'date',
         'join_date' => 'date',
@@ -37,5 +42,10 @@ class Pegawai extends Model
     public function user()
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function classrooms()
+    {
+        return $this->hasMany(\Modules\Rombel\Models\Rombel::class, 'homeroom_teacher_id');
     }
 }

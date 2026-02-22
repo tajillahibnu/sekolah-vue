@@ -6,8 +6,8 @@ const STORAGE_KEY = 'students_data';
 export const studentsHandler = (config) => {
     const { url, method, data } = config;
 
-    // GET /students
-    if (url.startsWith('/students') && method === 'get') {
+    // GET /siswas
+    if (url.startsWith('/siswas') && method === 'get') {
         let students = getStorageData(STORAGE_KEY, studentsData);
 
         // Parse query params
@@ -46,8 +46,8 @@ export const studentsHandler = (config) => {
         }, 200, 'OK', {}, config);
     }
 
-    // POST /students
-    if (url === '/students' && method === 'post') {
+    // POST /siswas
+    if (url === '/siswas' && method === 'post') {
         const students = getStorageData(STORAGE_KEY, studentsData);
         const newStudent = {
             ...JSON.parse(data),
@@ -58,8 +58,8 @@ export const studentsHandler = (config) => {
         return createResponse(newStudent, 201, 'Created', {}, config);
     }
 
-    // PUT /students/:id
-    if (url.startsWith('/students/') && method === 'put') {
+    // PUT /siswas/:id
+    if (url.startsWith('/siswas/') && method === 'put') {
         const id = parseInt(url.split('/')[2]);
         const students = getStorageData(STORAGE_KEY, studentsData);
         const index = students.findIndex(s => s.id === id);
@@ -76,8 +76,8 @@ export const studentsHandler = (config) => {
         return createResponse(updatedStudent, 200, 'OK', {}, config);
     }
 
-    // DELETE /students/:id
-    if (url.startsWith('/students/') && method === 'delete') {
+    // DELETE /siswas/:id
+    if (url.startsWith('/siswas/') && method === 'delete') {
         const id = parseInt(url.split('/')[2]);
         const students = getStorageData(STORAGE_KEY, studentsData);
         const index = students.findIndex(s => s.id === id);

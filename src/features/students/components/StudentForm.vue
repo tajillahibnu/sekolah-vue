@@ -29,6 +29,7 @@ import FormSelect from '@/components/ui/form/FormSelect.vue';
 import FormCombobox from '@/components/ui/form/FormCombobox.vue';
 import FormTextarea from '@/components/ui/form/FormTextarea.vue';
 import FormDatePicker from '@/components/ui/form/FormDatePicker.vue';
+import FormSelectSetting from '@/components/ui/form/FormSelectSetting.vue';
 
 const props = defineProps({
     modelValue: {
@@ -73,6 +74,12 @@ const formData = ref({
             name: '',
             phone: '',
             occupation: ''
+        },
+        wali: {
+            name: '',
+            phone: '',
+            occupation: '',
+            relationship: ''
         }
     },
     academic: {
@@ -99,40 +106,22 @@ watch(() => props.modelValue, (newValue) => {
 const validateForm = () => {
     errors.value = {};
 
-    // Personal data validation
-    if (!formData.value.nis) errors.value.nis = 'NIS wajib diisi';
-    if (!formData.value.nisn) errors.value.nisn = 'NISN wajib diisi';
+    // Personal data validation (Only Name and Email are mandatory)
     if (!formData.value.name) errors.value.name = 'Nama wajib diisi';
     if (!formData.value.email) {
         errors.value.email = 'Email wajib diisi';
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.value.email)) {
         errors.value.email = 'Format email tidak valid';
     }
-    if (!formData.value.birthPlace) errors.value.birthPlace = 'Tempat lahir wajib diisi';
-    if (!formData.value.birthDate) errors.value.birthDate = 'Tanggal lahir wajib diisi';
-    if (!formData.value.address) errors.value.address = 'Alamat wajib diisi';
-    if (!formData.value.phone) {
-        errors.value.phone = 'Telepon wajib diisi';
-    } else if (!/^08\d{8,11}$/.test(formData.value.phone)) {
+
+    // Optional fields validation (validate only if filled)
+    if (formData.value.phone && !/^08\d{8,11}$/.test(formData.value.phone)) {
         errors.value.phone = 'Format telepon tidak valid (contoh: 081234567890)';
     }
 
-    // Academic validation
-    if (!formData.value.academic.previousSchool) {
-        errors.value.previousSchool = 'Sekolah asal wajib diisi';
-    }
-    if (!formData.value.academic.entryScore) {
-        errors.value.entryScore = 'Nilai masuk wajib diisi';
-    } else if (formData.value.academic.entryScore < 0 || formData.value.academic.entryScore > 100) {
+    // Academic validation (validate only if filled)
+    if (formData.value.academic.entryScore && (formData.value.academic.entryScore < 0 || formData.value.academic.entryScore > 100)) {
         errors.value.entryScore = 'Nilai harus antara 0-100';
-    }
-
-    // Parent validation
-    if (!formData.value.parent.father.name) {
-        errors.value.fatherName = 'Nama ayah wajib diisi';
-    }
-    if (!formData.value.parent.mother.name) {
-        errors.value.motherName = 'Nama ibu wajib diisi';
     }
 
     return Object.keys(errors.value).length === 0;
@@ -164,13 +153,10 @@ const handleSubmit = () => {
         emit('submit', submitData);
     } else {
         // Switch to tab with error
-        if (errors.value.nis || errors.value.nisn || errors.value.name || errors.value.email ||
-            errors.value.birthPlace || errors.value.birthDate || errors.value.address || errors.value.phone) {
+        if (errors.value.name || errors.value.email) {
             activeTab.value = 'personal';
-        } else if (errors.value.previousSchool || errors.value.entryScore) {
+        } else if (errors.value.entryScore) {
             activeTab.value = 'academic';
-        } else if (errors.value.fatherName || errors.value.motherName) {
-            activeTab.value = 'parent';
         }
     }
 };
@@ -217,8 +203,8 @@ const genderOptions = [
     { value: 'P', label: 'Perempuan' }
 ];
 
+// fetchClassrooms(); // Removed as per request to remove class form
 
-const classOptions = ['10A', '10B', '11A', '11B', '12A', '12B'];
 
 const statusOptions = [
     { value: 'active', label: 'Aktif' },
@@ -230,9 +216,9 @@ const statusOptions = [
 // Check if tab is completed
 const isTabCompleted = computed(() => {
     return {
-        personal: formData.value.nis && formData.value.nisn && formData.value.name && formData.value.email,
-        academic: formData.value.academic.previousSchool && formData.value.academic.entryScore,
-        parent: formData.value.parent.father.name && formData.value.parent.mother.name,
+        personal: formData.value.name && formData.value.email,
+        academic: true,
+        parent: true,
         achievements: true
     };
 });
@@ -312,9 +298,9 @@ const isTabCompleted = computed(() => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
                             <div class="grid grid-cols-2 gap-6 md:col-span-2">
                                 <FormInput v-model="formData.nis" label="Nomor Induk Siswa (NIS)" placeholder="2023001"
-                                    :required="true" :error="errors.nis" />
+                                    :required="false" :error="errors.nis" />
                                 <FormInput v-model="formData.nisn" label="NISN (Nasional)" placeholder="0012345678"
-                                    :required="true" :error="errors.nisn" />
+                                    :required="false" :error="errors.nisn" />
                             </div>
                             <div class="md:col-span-2">
                                 <FormInput v-model="formData.name" label="Nama Lengkap"
@@ -337,9 +323,9 @@ const isTabCompleted = computed(() => {
                                 <FormInput v-model="formData.email" label="Alamat Email" type="email"
                                     placeholder="student@school.id" :required="true" :error="errors.email" />
                                 <FormInput v-model="formData.phone" label="Nomor WhatsApp" type="tel"
-                                    placeholder="08xxxxxxxxxx" :required="true" :error="errors.phone" />
+                                    placeholder="08xxxxxxxxxx" :required="false" :error="errors.phone" />
                                 <FormSelect v-model="formData.gender" label="Jenis Kelamin" :options="genderOptions"
-                                    :required="true" />
+                                    :required="false" />
                             </div>
                         </div>
 
@@ -352,11 +338,12 @@ const isTabCompleted = computed(() => {
                                 <div class="flex-1 h-px bg-gradient-to-r from-emerald-100 to-transparent"></div>
                             </div>
                             <div class="space-y-6">
-                                <FormCombobox v-model="formData.religion" label="Agama" api-url="/references/religions"
-                                    :required="true" placeholder="Pilih Agama" />
-                                <FormInput v-model="formData.birthPlace" label="Tempat Lahir"
-                                    placeholder="Contoh: Jakarta" :required="true" :error="errors.birthPlace" />
-                                <FormDatePicker v-model="formData.birthDate" label="Tanggal Lahir" :required="true"
+                                <FormSelectSetting v-model="formData.religion" label="Agama" settingKey="agama"
+                                    :required="false" placeholder="Pilih Agama" />
+                                <FormSelectSetting v-model="formData.birthPlace" label="Tempat Lahir"
+                                    settingKey="tempat_lahir" placeholder="Pilih atau tambah Kota" :required="false"
+                                    :error="errors.birthPlace" />
+                                <FormDatePicker v-model="formData.birthDate" label="Tanggal Lahir" :required="false"
                                     :error="errors.birthDate" />
                             </div>
                         </div>
@@ -372,7 +359,7 @@ const isTabCompleted = computed(() => {
                             <div class="flex-1 h-px bg-gradient-to-r from-rose-100 to-transparent"></div>
                         </div>
                         <FormTextarea v-model="formData.address" label="Alamat Sesuai KTP/KK"
-                            placeholder="Tuliskan alamat lengkap secara detail..." :required="true" :rows="3"
+                            placeholder="Tuliskan alamat lengkap secara detail..." :required="false" :rows="3"
                             :error="errors.address" />
                     </div>
                 </div>
@@ -416,9 +403,8 @@ const isTabCompleted = computed(() => {
                                 <div class="flex-1 h-px bg-gradient-to-r from-emerald-100 to-transparent"></div>
                             </div>
                             <div class="space-y-6">
-                                <FormCombobox v-model="formData.class" label="Pilih Kelas"
-                                    :options="classOptions.map(c => ({ value: c, label: `Kelas ${c}` }))"
-                                    :required="true" />
+                                <!-- Form Kelas dihapus sesuai permintaan -->
+
                                 <FormSelect v-model="formData.status" label="Status Siswa" :options="statusOptions"
                                     :required="true" />
                             </div>
@@ -434,9 +420,9 @@ const isTabCompleted = computed(() => {
                             </div>
                             <div class="space-y-6">
                                 <FormInput v-model="formData.academicYear" label="Tahun Ajaran" placeholder="2024/2025"
-                                    :required="true" />
+                                    :required="false" />
                                 <FormDatePicker v-model="formData.joinDate" label="Tanggal Bergabung"
-                                    :required="true" />
+                                    :required="false" />
                             </div>
                         </div>
                     </div>
@@ -450,11 +436,11 @@ const isTabCompleted = computed(() => {
                             <div class="flex-1 h-px bg-gradient-to-r from-amber-100 to-transparent"></div>
                         </div>
                         <div class="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-8">
-                            <FormInput v-model="formData.academic.previousSchool" label="Sekolah Asal (SMP/MTS/Lainnya)"
-                                placeholder="Tuliskan nama sekolah sebelumnya" :required="true"
+                            <FormSelectSetting v-model="formData.academic.previousSchool" label="Sekolah Asal"
+                                settingKey="sekolah_asal" placeholder="Pilih atau tambah Sekolah Asal" :required="false"
                                 :error="errors.previousSchool" />
                             <FormInput v-model.number="formData.academic.entryScore" label="Skor Seleksi" type="number"
-                                placeholder="0-100" :required="true" :error="errors.entryScore" />
+                                placeholder="0-100" :required="false" :error="errors.entryScore" />
                         </div>
                     </div>
                 </div>
@@ -505,7 +491,7 @@ const isTabCompleted = computed(() => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12">
                             <div class="md:col-span-2">
                                 <FormInput v-model="formData.parent.father.name" label="Nama Lengkap Ayah"
-                                    placeholder="Masukkan nama sesuai KTP" :required="true"
+                                    placeholder="Masukkan nama sesuai KTP" :required="false"
                                     :error="errors.fatherName" />
                             </div>
                             <div class="space-y-6">
@@ -513,8 +499,8 @@ const isTabCompleted = computed(() => {
                                     placeholder="08xxxxxxxxxx" />
                             </div>
                             <div class="space-y-6">
-                                <FormInput v-model="formData.parent.father.occupation" label="Pekerjaan"
-                                    placeholder="Contoh: Karyawan Swasta, PNS" />
+                                <FormSelectSetting v-model="formData.parent.father.occupation" label="Pekerjaan"
+                                    settingKey="pekerjaan" placeholder="Pilih atau tambah Pekerjaan" />
                             </div>
                         </div>
                     </div>
@@ -532,7 +518,7 @@ const isTabCompleted = computed(() => {
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12">
                             <div class="md:col-span-2">
                                 <FormInput v-model="formData.parent.mother.name" label="Nama Lengkap Ibu"
-                                    placeholder="Masukkan nama sesuai KTP" :required="true"
+                                    placeholder="Masukkan nama sesuai KTP" :required="false"
                                     :error="errors.motherName" />
                             </div>
                             <div class="space-y-6">
@@ -540,8 +526,39 @@ const isTabCompleted = computed(() => {
                                     placeholder="08xxxxxxxxxx" />
                             </div>
                             <div class="space-y-6">
-                                <FormInput v-model="formData.parent.mother.occupation" label="Pekerjaan"
-                                    placeholder="Contoh: Ibu Rumah Tangga, Guru" />
+                                <FormSelectSetting v-model="formData.parent.mother.occupation" label="Pekerjaan"
+                                    settingKey="pekerjaan" placeholder="Pilih atau tambah Pekerjaan" />
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Wali -->
+                    <div class="space-y-8 pt-4 border-t border-primary/5">
+                        <div class="flex items-center gap-3">
+                            <div
+                                class="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-xl flex items-center justify-center font-black text-xs">
+                                W</div>
+                            <span class="text-[11px] font-black uppercase tracking-tight text-muted-foreground/60">Data
+                                Wali Siswa</span>
+                            <div class="flex-1 h-px bg-gradient-to-r from-emerald-100 to-transparent"></div>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-y-10 gap-x-12">
+                            <div class="md:col-span-2">
+                                <FormInput v-model="formData.parent.wali.name" label="Nama Lengkap Wali"
+                                    placeholder="Masukkan nama wali" :required="false" :error="errors.waliName" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormSelectSetting v-model="formData.parent.wali.relationship"
+                                    label="Status Kekeluargaan" settingKey="hubungan_keluarga"
+                                    placeholder="Pilih Hubungan" :required="false" :error="errors.waliRelationship" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormInput v-model="formData.parent.wali.phone" label="Nomor Telepon/WA" type="tel"
+                                    placeholder="08xxxxxxxxxx" />
+                            </div>
+                            <div class="space-y-6">
+                                <FormSelectSetting v-model="formData.parent.wali.occupation" label="Pekerjaan"
+                                    settingKey="pekerjaan" placeholder="Pilih atau tambah Pekerjaan" />
                             </div>
                         </div>
                     </div>
@@ -588,9 +605,8 @@ const isTabCompleted = computed(() => {
                         </div>
                         <div class="flex gap-4">
                             <div class="flex-1">
-                                <FormInput v-model="newAchievement"
-                                    placeholder="Contoh: Juara 1 Olimpiade Matematika Nasional"
-                                    @keyup.enter="addAchievement" class="!space-y-0" />
+                                <FormSelectSetting v-model="newAchievement" settingKey="prestasi"
+                                    placeholder="Pilih atau tambah Prestasi" class="!space-y-0" />
                             </div>
                             <button type="button" @click="addAchievement"
                                 class="h-12 px-6 bg-amber-600 text-white font-black text-xs rounded-2xl shadow-lg shadow-amber-200 hover:bg-amber-700 active:scale-95 transition-all">

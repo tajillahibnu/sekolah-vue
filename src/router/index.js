@@ -131,6 +131,11 @@ const router = createRouter({
                     component: () => import('@/features/students/views/StudentDetail.vue')
                 },
                 {
+                    path: 'students/unclassed',
+                    name: 'students-unclassed',
+                    component: () => import('@/features/students/views/UnclassedStudents.vue')
+                },
+                {
                     path: 'employees',
                     name: 'employees',
                     component: () => import('../features/employees/views/Employees.vue')

@@ -72,7 +72,7 @@ async function loadData() {
         // We need student names. `studentClassService` returns raw assignments. We typically need to join with student list.
         // For this demo, let's fetch all students to map names (inefficient strictly but fine for demo).
 
-        const allStudentsResp = await api.get('/students');
+        const allStudentsResp = await api.get('/siswas');
         const allStudents = allStudentsResp.data.data;
 
         currentStudents.value = studentsResp.data.map(assign => {
@@ -328,7 +328,7 @@ watch(availableYears, (years) => {
                                                 {{ student.studentName.charAt(0) }}
                                             </div>
                                             <span class="text-sm font-bold text-foreground">{{ student.studentName
-                                            }}</span>
+                                                }}</span>
                                         </div>
                                     </td>
                                     <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-muted-foreground">
@@ -409,22 +409,22 @@ watch(availableYears, (years) => {
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-green-700">Hadir</span>
                                     <span class="text-sm font-black text-green-900">{{ yearStats.attendance.present
-                                        }}</span>
+                                    }}</span>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-yellow-700">Sakit</span>
                                     <span class="text-sm font-black text-yellow-900">{{ yearStats.attendance.sick
-                                        }}</span>
+                                    }}</span>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-blue-700">Izin</span>
                                     <span class="text-sm font-black text-blue-900">{{ yearStats.attendance.permission
-                                        }}</span>
+                                    }}</span>
                                 </div>
                                 <div class="flex items-center justify-between">
                                     <span class="text-xs font-bold text-red-700">Alpha</span>
                                     <span class="text-sm font-black text-red-900">{{ yearStats.attendance.alpha
-                                        }}</span>
+                                    }}</span>
                                 </div>
                             </div>
                         </div>
@@ -501,16 +501,16 @@ watch(availableYears, (years) => {
                                                     {{ student.name.charAt(0) }}
                                                 </div>
                                                 <span class="text-sm font-bold text-foreground">{{ student.name
-                                                    }}</span>
+                                                }}</span>
                                             </div>
                                         </td>
                                         <td class="text-center py-3 px-4">
                                             <span class="text-sm font-bold text-green-600">{{ student.attendance.present
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td class="text-center py-3 px-4">
                                             <span class="text-sm font-bold text-yellow-600">{{ student.attendance.sick
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td class="text-center py-3 px-4">
                                             <span class="text-sm font-bold text-blue-600">{{
@@ -518,7 +518,7 @@ watch(availableYears, (years) => {
                                         </td>
                                         <td class="text-center py-3 px-4">
                                             <span class="text-sm font-bold text-red-600">{{ student.attendance.alpha
-                                                }}</span>
+                                            }}</span>
                                         </td>
                                         <td class="text-center py-3 px-4">
                                             <span class="px-2 py-1 rounded-lg text-xs font-black" :class="student.attendance.percentage >= 90 ? 'bg-green-100 text-green-700' :

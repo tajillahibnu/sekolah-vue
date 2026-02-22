@@ -63,7 +63,7 @@ onMounted(async () => {
 // Fetch students (mock)
 const fetchStudents = async () => {
     try {
-        const response = await api.get('/students');
+        const response = await api.get('/siswas');
         students.value = response.data.data || [];
     } catch (error) {
         console.error('Error fetching students:', error);
@@ -330,7 +330,7 @@ const handleSubmit = async () => {
                                         </span>
                                         <span class="w-1 h-1 rounded-full bg-slate-300"></span>
                                         <span class="capitalize">{{ student.gender === 'L' ? 'Laki-laki' : 'Perempuan'
-                                            }}</span>
+                                        }}</span>
                                     </div>
                                 </div>
                             </div>
@@ -401,7 +401,7 @@ const handleSubmit = async () => {
                         </DialogTitle>
                         <DialogDescription class="text-blue-100 relative z-10">
                             Tentukan kelas target untuk {{ mode === 'bulk' ? `${selectedStudents.length} siswa terpilih`
-                            : selectedStudent?.name }}.
+                                : selectedStudent?.name }}.
                         </DialogDescription>
                     </DialogHeader>
                 </div>

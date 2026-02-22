@@ -10,6 +10,7 @@ import {
   PencilIcon,
   TrashIcon,
   EyeIcon,
+  KeyIcon,
   ChevronDownIcon,
   CheckIcon,
   FunnelIcon,
@@ -20,7 +21,9 @@ import api from '@/services/api';
 import Modal from '@/components/common/Modal.vue'
 import ConfirmDialog from '@/components/common/ConfirmDialog.vue'
 import StudentForm from '../components/StudentForm.vue'
+import AssignStudentForm from '../components/AssignStudentForm.vue'
 import Skeleton from '@/components/ui/skeleton/Skeleton.vue';
+import ServerSelect from '@/components/ui/form/ServerSelect.vue';
 
 import { useAttendanceStore } from '@/features/attendance/stores/attendanceStore'; // Import Store
 
@@ -34,6 +37,7 @@ const loadingMore = ref(false);
 const searchQuery = ref('');
 const debouncedSearchQuery = refDebounced(searchQuery, 500);
 const selectedClass = ref('');
+const selectedLevel = ref('');
 const viewMode = ref('table'); // 'table' or 'card'
 
 // ... existing code ...
@@ -82,25 +86,54 @@ const page = ref(1);
 const total = ref(0);
 const totalPages = computed(() => Math.ceil(total.value / selectedLimit.value));
 
-const classOptions = [
-  { value: '', label: 'Semua Kelas' },
-  { value: '10A', label: '10A' },
-  { value: '10B', label: '10B' },
-  { value: '11A', label: '11A' },
-  { value: '11B', label: '11B' },
-  { value: '12A', label: '12A' },
-  { value: '12B', label: '12B' }
-];
+const jumpToPage = ref(1);
+const handleJumpToPage = () => {
+  const p = parseInt(jumpToPage.value);
+  if (!isNaN(p) && p >= 1 && p <= totalPages.value) {
+    changePage(p);
+  } else {
+    jumpToPage.value = page.value;
+  }
+};
+
+watch(page, (val) => {
+  jumpToPage.value = val;
+});
+
+const visiblePages = computed(() => {
+  const current = page.value;
+  const last = totalPages.value;
+  const delta = 2;
+  const left = current - delta;
+  const right = current + delta + 1;
+  const pages = [];
+  const pagesWithDot = [];
+  let l;
+
+  for (let i = 1; i <= last; i++) {
+    if (i === 1 || i === last || (i >= left && i < right)) {
+      pages.push(i);
+    }
+  }
+
+  for (const i of pages) {
+    if (l) {
+      if (i - l === 2) {
+        pagesWithDot.push(l + 1);
+      } else if (i - l !== 1) {
+        pagesWithDot.push('...');
+      }
+    }
+    pagesWithDot.push(i);
+    l = i;
+  }
+
+  return pagesWithDot;
+});
 
 const limitOptions = [10, 20, 50, 100];
 const selectedLimit = ref(10);
-const showClassDropdown = ref(false);
 const showLimitDropdown = ref(false);
-
-const selectedClassLabel = computed(() => {
-  const option = classOptions.find(opt => opt.value === selectedClass.value);
-  return option ? option.label : 'Pilih Kelas';
-});
 
 // Modal states
 const showModal = ref(false);
@@ -110,6 +143,10 @@ const selectedStudent = ref(null);
 // Delete confirmation
 const showDeleteConfirm = ref(false);
 const studentToDelete = ref(null);
+
+// Reset password state
+const showPasswordConfirm = ref(false);
+const studentToReset = ref(null);
 
 // Fetch students
 const fetchUsers = async (reset = false) => {
@@ -123,14 +160,16 @@ const fetchUsers = async (reset = false) => {
     const params = {
       page: page.value,
       limit: selectedLimit.value,
-      q: debouncedSearchQuery.value, // Use debounced value for API call
-      class: selectedClass.value
+      q: debouncedSearchQuery.value,
+      class: selectedClass.value,
+      tingkat_id: selectedLevel.value,
+      classed: 'true'
     };
 
     // Add artificial delay for skeleton demo
     await new Promise(resolve => setTimeout(resolve, 800));
 
-    const response = await api.get('/students', { params });
+    const response = await api.get('/siswas', { params });
     const { data, meta } = response.data;
 
     users.value = data; // Replace data
@@ -204,7 +243,7 @@ const confirmDelete = async () => {
   if (!studentToDelete.value) return;
 
   try {
-    await api.delete(`/students/${studentToDelete.value.id}`);
+    await api.delete(`/siswas/${studentToDelete.value.id}`);
     await fetchUsers();
     studentToDelete.value = null;
   } catch (error) {
@@ -212,13 +251,38 @@ const confirmDelete = async () => {
   }
 };
 
+// Handle reset password
+const handleResetPassword = (student) => {
+  studentToReset.value = student;
+  showPasswordConfirm.value = true;
+};
+
+const confirmResetPassword = async () => {
+  if (!studentToReset.value || !studentToReset.value.userId) return;
+  try {
+    await api.put(`/users/${studentToReset.value.userId}`, {
+      password: 'password123', // Default password logic
+      name: studentToReset.value.name,
+      email: studentToReset.value.email
+    });
+    showPasswordConfirm.value = false;
+  } catch (error) {
+    console.error('Password reset failed', error);
+  }
+};
+
 // Handle form submit
 const handleFormSubmit = async (formData) => {
   try {
     if (modalMode.value === 'create') {
-      await api.post('/students', formData);
+      // In create mode we now use AssignStudentForm which handles its own API call
+      // or if it passed formData we would handle it here, but current impl in AssignStudentForm
+      // emits submit after its own API call.
+      if (formData) {
+        await api.post('/siswas', formData);
+      }
     } else {
-      await api.put(`/students/${selectedStudent.value.id}`, formData);
+      await api.put(`/siswas/${selectedStudent.value.id}`, formData);
     }
 
     showModal.value = false;
@@ -233,6 +297,14 @@ const handleFormSubmit = async (formData) => {
 const handleModalClose = () => {
   showModal.value = false;
   selectedStudent.value = null;
+};
+
+// Helper to get initials (max 2 chars)
+const getInitials = (name) => {
+  if (!name) return '';
+  const parts = name.trim().split(' ');
+  if (parts.length === 1) return parts[0].charAt(0).toUpperCase();
+  return (parts[0].charAt(0) + parts[parts.length - 1].charAt(0)).toUpperCase();
 };
 
 // Initialize
@@ -252,13 +324,13 @@ fetchUsers();
         <div class="bg-white/20 p-1 rounded-lg">
           <PlusIcon class="w-5 h-5 text-white" />
         </div>
-        Tambah Siswa
+        Penempatan Siswa
       </button>
     </div>
 
     <!-- Filters & View Toggle (Premium Glassmorphism Style) -->
     <div
-      class="relative z-40 bg-background/60 backdrop-blur-md border border-primary/10 rounded-3xl p-2 shadow-xl shadow-primary/5">
+      class="relative z-50 bg-background/60 backdrop-blur-md border border-primary/10 rounded-3xl p-2 shadow-xl shadow-primary/5">
       <div class="flex flex-col lg:flex-row items-stretch lg:items-center gap-2">
         <!-- Search -->
         <div class="relative flex-1 group">
@@ -271,30 +343,16 @@ fetchUsers();
         </div>
 
         <div class="flex flex-col sm:flex-row gap-2">
-          <!-- Custom Class Dropdown -->
-          <div class="relative w-full sm:w-56">
-            <button @click="showClassDropdown = !showClassDropdown"
-              class="w-full h-full flex items-center justify-between px-5 py-4 bg-primary/5 border-transparent rounded-2xl text-sm font-bold text-foreground hover:bg-primary/10 transition-all text-left">
-              <div class="flex items-center gap-2.5">
-                <FunnelIcon class="w-4 h-4 text-primary" />
-                <span>{{ selectedClassLabel }}</span>
-              </div>
-              <ChevronDownIcon class="w-4 h-4 text-muted-foreground transition-transform duration-300"
-                :class="{ 'rotate-180': showClassDropdown }" />
-            </button>
+          <!-- Tingkat Filter -->
+          <div class="w-full sm:w-56">
+            <ServerSelect v-model="selectedLevel" api-url="/levels" placeholder="Semua Tingkat" label=""
+              :icon="FunnelIcon" :all-option="{ value: '', label: 'Semua Tingkat' }" @change="fetchUsers(true)" />
+          </div>
 
-            <div v-if="showClassDropdown"
-              class="absolute top-full left-0 right-0 mt-2 z-[60] bg-card border-0 rounded-2xl shadow-2xl p-2 animate-in fade-in zoom-in-95 duration-200">
-              <div class="space-y-1">
-                <button v-for="opt in classOptions" :key="opt.value"
-                  @click="selectedClass = opt.value; showClassDropdown = false"
-                  class="w-full flex items-center justify-between px-4 py-3 rounded-xl text-sm font-medium transition-all"
-                  :class="selectedClass === opt.value ? 'bg-primary/10 text-primary' : 'hover:bg-primary/5 text-muted-foreground hover:text-foreground'">
-                  <span>{{ opt.label }}</span>
-                  <CheckIcon v-if="selectedClass === opt.value" class="w-4 h-4" />
-                </button>
-              </div>
-            </div>
+          <!-- Class Filter -->
+          <div class="w-full sm:w-56">
+            <ServerSelect v-model="selectedClass" api-url="/rombels" placeholder="Semua Kelas" label=""
+              :icon="FunnelIcon" :all-option="{ value: '', label: 'Semua Kelas' }" @change="fetchUsers(true)" />
           </div>
         </div>
       </div>
@@ -396,8 +454,15 @@ fetchUsers();
           <div class="flex flex-col md:flex-row md:items-center gap-6">
             <div class="flex items-center gap-5 flex-1">
               <div class="relative">
-                <img :src="student.avatar || `https://ui-avatars.com/api/?name=${student.name}`"
-                  class="w-16 h-16 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform" />
+                <div class="avatar" :class="{ 'placeholder': !student.avatar }">
+                  <div
+                    class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden"
+                    :class="student.avatar ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                    <img v-if="student.avatar" :src="student.avatar" :alt="student.name"
+                      class="w-full h-full object-cover" />
+                    <span v-else class="text-xl font-black">{{ getInitials(student.name) }}</span>
+                  </div>
+                </div>
                 <div v-if="student.status === 'active'"
                   class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-background">
                 </div>
@@ -411,28 +476,35 @@ fetchUsers();
             </div>
 
             <div class="flex items-center justify-between md:justify-end gap-6 md:min-w-[200px]">
-              <div class="flex flex-col items-start md:items-end">
+              <div
+                class="flex flex-row items-center justify-between w-full md:w-auto md:flex-col md:items-end gap-2 md:gap-0">
+                <span class="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Kelas</span>
                 <span
-                  class="text-[10px] font-black text-muted-foreground uppercase tracking-widest leading-none mb-1">Kelas
-                  Aktif</span>
-                <span
-                  class="inline-flex items-center px-4 py-2 bg-indigo-50 text-indigo-700 rounded-2xl text-sm font-black ring-1 ring-indigo-200/50 shadow-sm shadow-indigo-100">
-                  Kelas {{ student.class }}
+                  class="inline-flex items-center px-4 py-2 bg-primary/5 text-primary rounded-2xl text-sm font-black border border-primary/10">
+                  {{ student.class || 'Unknown' }}
                 </span>
               </div>
 
               <!-- Action Buttons (Responsive) -->
               <div class="hidden min-[1100px]:flex items-center gap-2 pl-6 border-l border-primary/5">
                 <button @click="router.push(`/admin/students/${student.id}`)"
-                  class="px-4 py-2.5 bg-background border-2 border-primary/5 hover:border-primary/20 hover:bg-primary/5 text-primary font-bold text-sm rounded-xl transition-all active:scale-95">
-                  Detail
+                  class="p-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground rounded-xl transition-all"
+                  title="Lihat Detail">
+                  <EyeIcon class="w-5 h-5" />
                 </button>
                 <button @click="handleEdit(student)"
-                  class="px-4 py-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white font-bold text-sm rounded-xl transition-all active:scale-95">
-                  Edit
+                  class="p-2.5 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-xl transition-all"
+                  title="Edit Data">
+                  <PencilIcon class="w-5 h-5" />
+                </button>
+                <button @click="handleResetPassword(student)"
+                  class="p-2.5 bg-amber-50 hover:bg-amber-500 text-amber-600 hover:text-white rounded-xl transition-all"
+                  title="Ganti Password">
+                  <KeyIcon class="w-5 h-5" />
                 </button>
                 <button @click="handleDelete(student)"
-                  class="p-2.5 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white rounded-xl transition-all active:scale-95">
+                  class="p-2.5 bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl transition-all"
+                  title="Hapus Data">
                   <TrashIcon class="w-5 h-5" />
                 </button>
               </div>
@@ -441,20 +513,34 @@ fetchUsers();
 
           <!-- Mobile/Compact Actions -->
           <div class="mt-6 pt-5 border-t border-primary/5 flex min-[1100px]:hidden items-center justify-end gap-3">
-            <button @click="router.push(`/students/${student.id}`)"
-              class="flex-1 sm:flex-none text-primary font-black text-sm hover:underline py-2">
-              Lihat Detail Transaksi
-            </button>
             <div class="flex gap-2">
+              <button @click="router.push(`/admin/students/${student.id}`)"
+                class="p-2.5 bg-background border-2 border-primary/5 hover:border-primary/20 text-primary rounded-xl transition-all"
+                title="Lihat Detail Transaksi">
+                <EyeIcon class="w-5 h-5" />
+              </button>
               <button @click="handleEdit(student)"
-                class="px-6 py-2.5 bg-primary text-primary-foreground font-black text-sm rounded-xl shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
-                Ubah Data
+                class="p-2.5 bg-emerald-50 text-emerald-600 hover:bg-emerald-600 hover:text-white rounded-xl transition-all active:scale-95"
+                title="Edit Data">
+                <PencilIcon class="w-5 h-5" />
+              </button>
+              <button @click="handleResetPassword(student)"
+                class="p-2.5 bg-amber-50 text-amber-600 hover:bg-amber-600 hover:text-white rounded-xl transition-all active:scale-95"
+                title="Ganti Password">
+                <KeyIcon class="w-5 h-5" />
               </button>
               <button @click="handleDelete(student)"
-                class="p-2.5 bg-card border-0 rounded-xl hover:bg-rose-50 hover:text-rose-600 transition-colors">
+                class="p-2.5 bg-rose-50 text-rose-600 hover:bg-rose-600 hover:text-white rounded-xl transition-all active:scale-95"
+                title="Hapus Data">
                 <TrashIcon class="w-5 h-5" />
               </button>
             </div>
+          </div>
+
+          <!-- Watermark Background -->
+          <div
+            class="absolute -bottom-0 right-3 text-7xl font-black text-primary/[0.03] select-none pointer-events-none uppercase italic group-hover:text-primary/[0.07] transition-colors leading-none tracking-tighter">
+            Kelas {{ student.class }}
           </div>
         </div>
       </template>
@@ -502,7 +588,7 @@ fetchUsers();
               <div class="w-1.5 h-1.5 rounded-full"
                 :class="getKbmSummary(student).percent >= 100 ? 'bg-emerald-500' : 'bg-blue-500'"></div>
               <span class="text-slate-600">KBM {{ getKbmSummary(student).present }}/{{ getKbmSummary(student).total
-                }}</span>
+              }}</span>
             </div>
           </div>
 
@@ -514,8 +600,14 @@ fetchUsers();
           <!-- Avatar & Status -->
           <div class="flex items-start justify-between mb-5 relative">
             <div class="relative">
-              <img :src="student.avatar || `https://ui-avatars.com/api/?name=${student.name}`"
-                class="w-16 h-16 rounded-2xl object-cover shadow-md group-hover:scale-105 transition-transform" />
+              <div class="avatar" :class="{ 'placeholder': !student.avatar }">
+                <div class="rounded-2xl w-16 h-16 shadow-md group-hover:scale-105 transition-transform overflow-hidden"
+                  :class="student.avatar ? '' : 'bg-primary/10 text-primary flex items-center justify-center'">
+                  <img v-if="student.avatar" :src="student.avatar" :alt="student.name"
+                    class="w-full h-full object-cover" />
+                  <span v-else class="text-xl font-black">{{ getInitials(student.name) }}</span>
+                </div>
+              </div>
               <div v-if="student.status === 'active'"
                 class="absolute -bottom-1 -right-1 w-5 h-5 bg-emerald-500 rounded-full border-4 border-background">
               </div>
@@ -553,23 +645,34 @@ fetchUsers();
 
             <!-- Actions -->
             <div
-              class="pt-4 flex items-center gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
+              class="pt-4 flex items-center justify-end gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all z-10">
               <button @click="router.push(`/admin/students/${student.id}`)"
-                class="flex-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
+                class="p-2.5 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground rounded-xl transition-all"
+                title="Lihat Detail">
                 <EyeIcon class="w-4 h-4" />
-                Detail
               </button>
-              <div class="flex gap-2">
-                <button @click="handleEdit(student)"
-                  class="p-2.5 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-xl transition-all">
-                  <PencilIcon class="w-4 h-4" />
-                </button>
-                <button @click="handleDelete(student)"
-                  class="p-2.5 bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl transition-all">
-                  <TrashIcon class="w-4 h-4" />
-                </button>
-              </div>
+              <button @click="handleEdit(student)"
+                class="p-2.5 bg-emerald-50 hover:bg-emerald-500 text-emerald-600 hover:text-white rounded-xl transition-all"
+                title="Edit Data">
+                <PencilIcon class="w-4 h-4" />
+              </button>
+              <button @click="handleResetPassword(student)"
+                class="p-2.5 bg-amber-50 hover:bg-amber-500 text-amber-600 hover:text-white rounded-xl transition-all"
+                title="Ganti Password">
+                <KeyIcon class="w-4 h-4" />
+              </button>
+              <button @click="handleDelete(student)"
+                class="p-2.5 bg-rose-50 hover:bg-rose-500 text-rose-600 hover:text-white rounded-xl transition-all"
+                title="Hapus Data">
+                <TrashIcon class="w-4 h-4" />
+              </button>
             </div>
+          </div>
+
+          <!-- Watermark Background -->
+          <div
+            class="absolute -bottom-4 -right-2 text-7xl font-black text-primary/[0.03] select-none pointer-events-none uppercase italic group-hover:text-primary/[0.07] transition-colors leading-none tracking-tighter">
+            {{ student.class }}
           </div>
         </div>
       </template>
@@ -589,34 +692,47 @@ fetchUsers();
       </div>
 
       <!-- Page Navigation (Right) -->
-      <div class="flex items-center gap-2 order-1 sm:order-2">
-        <button @click="changePage(page - 1)" :disabled="page <= 1"
-          class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
-          <span class="sr-only">Previous</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
-              clip-rule="evenodd" />
-          </svg>
-        </button>
+      <div class="flex items-center gap-3 order-1 sm:order-2">
+        <div
+          class="flex items-center gap-1.5 bg-background/50 backdrop-blur-sm border border-primary/10 p-1 rounded-2xl shadow-sm">
+          <button @click="changePage(page - 1)" :disabled="page <= 1"
+            class="p-2 rounded-xl text-muted-foreground hover:bg-primary/5 hover:text-primary disabled:opacity-30 disabled:hover:bg-transparent transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z"
+                clip-rule="evenodd" />
+            </svg>
+          </button>
 
-        <div class="flex items-center gap-1">
-          <button v-for="p in totalPages" :key="p" @click="changePage(p)"
-            class="w-8 h-8 flex items-center justify-center rounded-xl text-xs font-black transition-all"
-            :class="page === p ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
-            {{ p }}
+          <div class="flex items-center gap-1">
+            <template v-for="(p, idx) in visiblePages" :key="idx">
+              <span v-if="p === '...'"
+                class="px-2 text-muted-foreground/50 font-black tracking-widest text-[10px]">...</span>
+              <button v-else @click="changePage(p)"
+                class="w-9 h-9 flex items-center justify-center rounded-xl text-xs font-black transition-all"
+                :class="page === p ? 'bg-primary text-primary-foreground shadow-lg shadow-primary/20' : 'text-muted-foreground hover:bg-primary/5 hover:text-primary'">
+                {{ p }}
+              </button>
+            </template>
+          </div>
+
+          <button @click="changePage(page + 1)" :disabled="page >= totalPages"
+            class="p-2 rounded-xl text-muted-foreground hover:bg-primary/5 hover:text-primary disabled:opacity-30 disabled:hover:bg-transparent transition-all">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
+              <path fill-rule="evenodd"
+                d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
+                clip-rule="evenodd" />
+            </svg>
           </button>
         </div>
 
-        <button @click="changePage(page + 1)" :disabled="page >= totalPages"
-          class="p-2 rounded-xl text-muted-foreground hover:bg-primary/10 hover:text-primary disabled:opacity-50 disabled:hover:bg-transparent transition-all">
-          <span class="sr-only">Next</span>
-          <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
-            <path fill-rule="evenodd"
-              d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z"
-              clip-rule="evenodd" />
-          </svg>
-        </button>
+        <!-- Jump to Page Input -->
+        <div class="hidden lg:flex items-center gap-2 pl-4 border-l border-primary/5">
+          <span class="text-[10px] font-black text-muted-foreground uppercase tracking-widest">Ke Hal.</span>
+          <input v-model="jumpToPage" type="number" min="1" :max="totalPages" @keyup.enter="handleJumpToPage"
+            @blur="handleJumpToPage"
+            class="w-14 h-9 bg-primary/5 border-transparent rounded-xl text-xs font-black text-center focus:bg-background focus:ring-2 focus:ring-primary/10 transition-all [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none" />
+        </div>
       </div>
     </div>
 
@@ -637,15 +753,24 @@ fetchUsers();
     </div>
 
     <!-- Student Modal -->
-    <Modal :show="showModal" :title="modalMode === 'create' ? 'Tambah Siswa Baru' : 'Edit Data Siswa'" size="lg"
+    <Modal :show="showModal" :title="modalMode === 'create' ? 'Penempatan Siswa Baru' : 'Edit Data Siswa'" size="lg"
       @close="showModal = false">
-      <StudentForm :mode="modalMode" :model-value="selectedStudent" @submit="handleFormSubmit"
-        @cancel="showModal = false" />
+      <template v-if="modalMode === 'create'">
+        <AssignStudentForm @submit="handleFormSubmit" @cancel="handleModalClose" />
+      </template>
+      <template v-else>
+        <StudentForm :mode="modalMode" :model-value="selectedStudent" @submit="handleFormSubmit"
+          @cancel="handleModalClose" />
+      </template>
     </Modal>
 
-    <!-- Delete Confirmation -->
     <ConfirmDialog v-model:show="showDeleteConfirm" title="Hapus Siswa"
       :message="`Apakah Anda yakin ingin menghapus siswa ${studentToDelete?.name}? Tindakan ini tidak dapat dibatalkan.`"
       confirm-text="Hapus" cancel-text="Batal" type="error" @confirm="confirmDelete" />
+
+    <!-- Password Reset Confirmation -->
+    <ConfirmDialog v-model:show="showPasswordConfirm" title="Reset Password Siswa"
+      :message="`Apakah Anda yakin ingin mereset password untuk ${studentToReset?.name}? Password akan dikembalikan ke default: password123`"
+      type="warning" @confirm="confirmResetPassword" />
   </div>
 </template>
