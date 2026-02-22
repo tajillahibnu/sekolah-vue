@@ -1,4 +1,6 @@
 <template>
+  <div>
+
     <div class="p-8">
         <div v-if="loading" class="flex justify-center p-12">
             <span class="loading loading-spinner loading-lg text-indigo-600"></span>
@@ -252,6 +254,8 @@
             </div>
         </div>
     </Modal>
+
+  </div>
 </template>
 
 <script setup>

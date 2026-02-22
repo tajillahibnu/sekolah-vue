@@ -1,13 +1,32 @@
 import { defineStore } from 'pinia';
-import api from '@/config/api';
+import api from '@/services/api';
 
 export const useSettingStore = defineStore('setting', {
     state: () => ({
-        settings: [],
+        settings: JSON.parse(sessionStorage.getItem('masterData')) || [],
         loading: false,
         error: null,
-        meta: null
     }),
+
+    getters: {
+        getValue: (state) => (key, defaultValue = null) => {
+            const setting = state.settings.find(s => s.key === key);
+            return setting ? setting.value : defaultValue;
+        },
+        getArray: (state) => (key, defaultValue = []) => {
+            const setting = state.settings.find(s => s.key === key);
+            if (!setting || !setting.value) return defaultValue;
+            try {
+                // Return as parsed JSON if it's an array string, or split by comma if flat string
+                if (setting.value.startsWith('[')) {
+                    return JSON.parse(setting.value);
+                }
+                return setting.value.split(',').map(s => s.trim()).filter(Boolean);
+            } catch (e) {
+                return defaultValue;
+            }
+        }
+    },
 
     actions: {
         async fetchSettings(params = {}) {
@@ -16,6 +35,7 @@ export const useSettingStore = defineStore('setting', {
             try {
                 const response = await api.get('/settings', { params });
                 this.settings = response.data.data;
+                sessionStorage.setItem('masterData', JSON.stringify(this.settings));
                 this.meta = response.data.meta;
                 return response.data;
             } catch (error) {

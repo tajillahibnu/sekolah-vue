@@ -6,6 +6,7 @@ import {
   CheckCircleIcon,
   XMarkIcon
 } from '@heroicons/vue/24/outline';
+import { Dialog, DialogContent } from '@/components/ui/dialog';
 
 const props = defineProps({
   show: {
@@ -80,15 +81,19 @@ const handleCancel = () => {
 const handleBackdropClick = () => {
   emit('close');
 };
+
+const handleOpenChange = (value) => {
+  if (!value) {
+    emit('close');
+  }
+};
 </script>
 
 <template>
-  <Teleport to="body">
-    <div v-if="show"
-      class="fixed inset-0 bg-slate-950/20 backdrop-blur-md z-[120] flex items-center justify-center p-4 animate-in fade-in duration-200"
-      @click="handleBackdropClick">
+  <Dialog :open="show" @update:open="handleOpenChange">
+    <DialogContent class="max-w-md p-0 border-0 bg-transparent shadow-none [&>button]:hidden">
       <div
-        class="bg-background rounded-3xl shadow-2xl shadow-primary/10 max-w-md w-full border border-primary/10 animate-in zoom-in-95 duration-200"
+        class="bg-background rounded-3xl shadow-2xl shadow-primary/10 w-full border border-primary/10 animate-in zoom-in-95 duration-200"
         @click.stop>
         <!-- Close Button -->
         <button @click="handleBackdropClick"
@@ -124,6 +129,6 @@ const handleBackdropClick = () => {
           </div>
         </div>
       </div>
-    </div>
-  </Teleport>
+    </DialogContent>
+  </Dialog>
 </template>

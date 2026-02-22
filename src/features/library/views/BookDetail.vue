@@ -50,6 +50,8 @@ const categories = ['Novel', 'Sastra', 'Komputer', 'Sejarah', 'Pengembangan Diri
 </script>
 
 <template>
+  <div>
+
     <div v-if="book" class="space-y-8 pb-12 max-w-6xl mx-auto">
         <!-- Navigation & Header -->
         <div class="flex items-center gap-4">
@@ -261,4 +263,6 @@ const categories = ['Novel', 'Sastra', 'Komputer', 'Sejarah', 'Pengembangan Diri
         <p class="text-slate-400 font-bold">Buku tidak ditemukan...</p>
         <button @click="goBack" class="mt-4 text-blue-600 hover:underline">Kembali ke Daftar</button>
     </div>
+
+  </div>
 </template>

@@ -8,8 +8,12 @@ import {
 } from '@heroicons/vue/24/outline';
 import FormInput from '@/components/ui/form/FormInput.vue';
 import FormCombobox from '@/components/ui/form/FormCombobox.vue';
+import FormSelectSetting from '@/components/ui/form/FormSelectSetting.vue';
 import FormDatePicker from '@/components/ui/form/FormDatePicker.vue';
 import Button from '@/components/ui/button/Button.vue';
+import { useSettingStore } from '@/stores/setting';
+
+const settingStore = useSettingStore();
 
 const props = defineProps({
     modelValue: {
@@ -30,7 +34,8 @@ const props = defineProps({
             phone: '',
             email: '',
             status: 'Aktif',
-            joinDate: ''
+            joinDate: '',
+            create_user: true
         })
     },
     isEdit: {
@@ -108,8 +113,6 @@ const genderOptions = [
     { value: 'Perempuan', label: 'Perempuan' }
 ];
 
-
-
 const handleSubmit = () => {
     emit('submit', form.value);
 };
@@ -142,9 +145,9 @@ const handleCancel = () => {
         <div class="min-h-[300px]">
             <!-- Personal Information -->
             <div v-show="currentTab === 'personal'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
+                <div class="bg-card border border-border rounded p-6 space-y-6">
                     <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-blue-100 dark:bg-blue-900/20 rounded-lg">
+                        <div class="p-2 bg-blue-100 dark:bg-blue-900/20 rounded">
                             <UserIcon class="w-5 h-5 text-blue-600 dark:text-blue-400" />
                         </div>
                         <div>
@@ -160,16 +163,17 @@ const handleCancel = () => {
 
                         <FormCombobox v-model="form.gender" label="Jenis Kelamin" :options="genderOptions"
                             placeholder="Pilih Gender" />
-                        <FormCombobox v-model="form.religion" label="Agama" api-url="/references/religions"
-                            placeholder="Pilih Agama (Server)" />
+                        <FormSelectSetting v-model="form.religion" label="Agama" settingKey="agama"
+                            placeholder="Pilih Agama" />
 
                         <FormInput v-model="form.birthPlace" label="Tempat Lahir" />
                         <FormDatePicker v-model="form.birthDate" label="Tanggal Lahir" placeholder="Pilih tanggal lahir"
                             :required="true" />
 
                         <div class="md:col-span-2">
-                            <FormInput v-model="form.education" label="Pendidikan Terakhir"
-                                placeholder="Contoh: S1 Pendidikan Matematika" />
+                            <FormSelectSetting v-model="form.education" label="Pendidikan Terakhir"
+                                settingKey="pendidikan"
+                                placeholder="Pilih atau tambah Pendidikan (Contoh: S1 Keguruan)" />
                         </div>
                     </div>
                 </div>
@@ -177,9 +181,9 @@ const handleCancel = () => {
 
             <!-- Employment Information -->
             <div v-show="currentTab === 'employment'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
+                <div class="bg-card border border-border rounded p-6 space-y-6">
                     <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-purple-100 dark:bg-purple-900/20 rounded-lg">
+                        <div class="p-2 bg-purple-100 dark:bg-purple-900/20 rounded">
                             <BriefcaseIcon class="w-5 h-5 text-purple-600 dark:text-purple-400" />
                         </div>
                         <div>
@@ -202,15 +206,27 @@ const handleCancel = () => {
                         <FormCombobox v-if="form.position === 'Walikelas'" v-model="form.classAssigned"
                             label="Wali Kelas Untuk" :options="classOptions" placeholder="Pilih Kelas"
                             :required="true" />
+
+                        <div class="md:col-span-2 mt-4 p-4 border rounded-md bg-primary/5 flex items-start gap-3">
+                            <input type="checkbox" id="createUserCheck" v-model="form.create_user"
+                                class="mt-1 w-5 h-5 text-primary rounded ring-primary focus:ring-primary" />
+                            <div>
+                                <label for="createUserCheck"
+                                    class="font-bold text-sm text-foreground cursor-pointer">Buat Akun Login
+                                    Otomatis</label>
+                                <p class="text-xs text-muted-foreground mt-1">Jika dicentang, sistem akan membuatkan
+                                    akun User untuk login aplikasi dengan password default menggunakan NIK.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
             <!-- Contact Information -->
             <div v-show="currentTab === 'contact'" class="space-y-6 animate-in fade-in duration-300">
-                <div class="bg-card border border-border rounded-lg p-6 space-y-6">
+                <div class="bg-card border border-border rounded p-6 space-y-6">
                     <div class="flex items-center gap-3 pb-4 border-b border-border">
-                        <div class="p-2 bg-green-100 dark:bg-green-900/20 rounded-lg">
+                        <div class="p-2 bg-green-100 dark:bg-green-900/20 rounded">
                             <PhoneIcon class="w-5 h-5 text-green-600 dark:text-green-400" />
                         </div>
                         <div>

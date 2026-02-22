@@ -280,6 +280,8 @@ const getStatusClass = (status) => {
 </script>
 
 <template>
+  <div>
+
     <div class="space-y-6 pb-12 p-6 max-w-7xl mx-auto">
         <!-- Back Button -->
         <button @click="router.back()"
@@ -861,4 +863,6 @@ const getStatusClass = (status) => {
             </div>
         </div>
     </Modal>
+
+  </div>
 </template>

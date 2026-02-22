@@ -20,9 +20,9 @@ const layoutStore = useLayoutStore();
       <!-- Main Content -->
       <div class="flex-1 flex flex-col w-full transition-all duration-300 min-w-0">
         <main class="flex-1 p-6 overflow-y-auto">
-          <router-view v-slot="{ Component }">
+          <router-view v-slot="{ Component, route }">
             <transition name="fade" mode="out-in">
-              <component :is="Component" />
+              <component :is="Component" :key="route.fullPath" />
             </transition>
           </router-view>
         </main>

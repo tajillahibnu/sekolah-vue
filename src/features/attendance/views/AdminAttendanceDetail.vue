@@ -192,6 +192,8 @@ const formatDate = (dateStr) => {
 </script>
 
 <template>
+  <div>
+
     <div class="min-h-screen bg-background pb-20 font-sans">
         <!-- Header Section -->
         <header class="bg-card border-0 sticky top-0 z-40 shadow-sm">
@@ -490,6 +492,8 @@ const formatDate = (dateStr) => {
             </div>
         </div>
     </div>
+
+  </div>
 </template>
 <style scoped>
 /* Scoped styles if needed */

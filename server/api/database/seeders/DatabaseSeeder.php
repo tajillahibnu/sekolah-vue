@@ -19,6 +19,7 @@ class DatabaseSeeder extends Seeder
             MataPelajaranSeeder::class,
             AcademicYearSeeder::class,
             SettingReligionSeeder::class,
+            PegawaiSeeder::class,
         ]);
     }
 }

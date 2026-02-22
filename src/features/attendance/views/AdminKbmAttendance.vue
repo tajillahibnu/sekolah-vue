@@ -85,6 +85,8 @@ const getStatusColor = (status) => {
 </script>
 
 <template>
+  <div>
+
     <div class="space-y-8 pb-32">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
@@ -361,6 +363,8 @@ const getStatusColor = (status) => {
             </div>
         </div>
     </div>
+
+  </div>
 </template>
 
 <style scoped>

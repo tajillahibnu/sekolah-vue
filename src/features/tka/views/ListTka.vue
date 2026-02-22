@@ -265,6 +265,8 @@ const getStatusLabel = (status) => {
 </script>
 
 <template>
+  <div>
+
     <div class="space-y-8 pb-12 p-6 max-w-7xl mx-auto">
         <!-- Header -->
         <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-6">
@@ -610,4 +612,6 @@ const getStatusLabel = (status) => {
             </div>
         </div>
     </Modal>
+
+  </div>
 </template>

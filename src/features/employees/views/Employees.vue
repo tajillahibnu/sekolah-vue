@@ -21,8 +21,10 @@ import Modal from '@/components/common/Modal.vue';
 import ConfirmModal from '@/components/ui/ConfirmModal.vue';
 import EmployeeForm from '../components/EmployeeForm.vue';
 import { useToast } from '@/composables/useToast';
+import { useSettingStore } from '@/stores/setting';
 
 const router = useRouter();
+const settingStore = useSettingStore();
 
 // State
 const employees = ref([]);
@@ -103,7 +105,7 @@ const fetchEmployees = async (reset = false) => {
         // Artificial delay for skeleton demonstration
         await new Promise(resolve => setTimeout(resolve, 800));
 
-        const response = await api.get('/employees', { params });
+        const response = await api.get('/pegawai', { params });
         const { data, meta } = response.data;
 
         employees.value = data; // Replace data
@@ -150,17 +152,37 @@ const openDeleteModal = (employee) => {
 };
 
 const handleSubmit = async () => {
-    if (!formData.value.name || !formData.value.nip) {
+    if (!formData.value.name || !formData.value.nik) {
         const toast = useToast();
         if (!formData.value.name) return toast.error('Nama wajib diisi');
         // Let API handle other validations
     }
 
+    // Mapping to Backend format (snake_case)
+    const payload = {
+        nip: formData.value.nip,
+        nik: formData.value.nik,
+        name: formData.value.name,
+        email: formData.value.email,
+        phone: formData.value.phone,
+        gender: formData.value.gender,
+        birth_place: formData.value.birthPlace,
+        birth_date: formData.value.birthDate,
+        religion: formData.value.religion,
+        address: formData.value.address,
+        education: formData.value.education,
+        type: formData.value.type,
+        position: formData.value.position,
+        status: formData.value.status,
+        join_date: formData.value.joinDate,
+        create_user: formData.value.create_user
+    };
+
     try {
         if (isEdit.value) {
-            await api.put(`/employees/${selectedEmployee.value.id}`, formData.value);
+            await api.put(`/pegawai/${selectedEmployee.value.id}`, payload);
         } else {
-            await api.post('/employees', formData.value);
+            await api.post('/pegawai', payload);
         }
         showModal.value = false;
         fetchEmployees(true);
@@ -171,7 +193,7 @@ const handleSubmit = async () => {
 
 const handleDelete = async () => {
     try {
-        await api.delete(`/employees/${selectedEmployee.value.id}`);
+        await api.delete(`/pegawai/${selectedEmployee.value.id}`);
         showDeleteModal.value = false;
         fetchEmployees(true);
     } catch (error) {
@@ -409,7 +431,7 @@ onMounted(() => {
                     <!-- Mobile/Compact Actions -->
                     <div
                         class="mt-6 pt-5 border-t border-primary/5 flex min-[1100px]:hidden items-center justify-end gap-3">
-                        <button @click="router.push(`/employees/${emp.id}`)"
+                        <button @click="router.push(`/admin/employees/${emp.id}`)"
                             class="flex-1 sm:flex-none text-primary font-black text-sm hover:underline py-2">
                             Lihat Detail
                         </button>
@@ -510,7 +532,7 @@ onMounted(() => {
                         <!-- Actions -->
                         <div
                             class="pt-4 flex items-center gap-2 translate-y-2 opacity-0 group-hover:translate-y-0 group-hover:opacity-100 transition-all">
-                            <button @click="router.push(`/employees/${emp.id}`)"
+                            <button @click="router.push(`/admin/employees/${emp.id}`)"
                                 class="flex-1 bg-primary/10 hover:bg-primary text-primary hover:text-primary-foreground py-2.5 rounded-xl font-bold text-xs transition-all flex items-center justify-center gap-2">
                                 <EyeIcon class="w-4 h-4" />
                                 Detail
@@ -580,11 +602,12 @@ onMounted(() => {
         <div v-if="!loading && filteredEmployees.length === 0"
             class="text-center py-20 bg-primary/[0.01] border-2 border-dashed border-primary/10 rounded-[40px] animate-fade-in mt-6">
             <UserIcon class="w-16 h-16 text-muted-foreground/30 mx-auto mb-4" />
-            <h3 class="text-xl font-black text-foreground tracking-tight">Tidak ada data pegawai</h3>
-            <p class="text-muted-foreground text-sm font-medium mt-1">Belum ada pegawai atau data yang Anda cari tidak
-                ditemukan.</p>
+            <h3 class="text-xl font-black text-foreground tracking-tight mb-1">Tidak ada data pegawai</h3>
+            <p class="text-muted-foreground text-sm font-medium mt-1 max-w-sm mx-auto">
+                Belum ada pegawai atau data yang Anda cari tidak ditemukan.
+            </p>
             <button @click="openAddModal"
-                class="mt-6 inline-flex items-center gap-2 text-primary font-black text-sm hover:underline px-4 py-2 bg-primary/5 rounded-xl transition-all">
+                class="mt-6 px-6 py-2.5 rounded-xl border-2 border-primary/10 hover:border-primary/30 hover:bg-primary/5 text-primary font-bold transition-all active:scale-95 inline-flex items-center gap-2">
                 <PlusIcon class="w-4 h-4" /> Tambah Pegawai
             </button>
         </div>

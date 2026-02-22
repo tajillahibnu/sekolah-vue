@@ -140,6 +140,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <div>
+
     <div v-if="loading" class="space-y-6 max-w-4xl mx-auto">
         <div v-for="i in 3" :key="i" class="card bg-base-100 shadow-sm border border-base-200">
             <CardHeader>
@@ -310,4 +312,6 @@ onMounted(() => {
 
         </form>
     </div>
+
+  </div>
 </template>

@@ -4,12 +4,20 @@ import { RouterView } from 'vue-router';
 import Toast from './components/ui/Toast.vue';
 import SplashScreen from './components/ui/SplashScreen.vue';
 import { useLoadingStore } from './stores/loading';
+import { useSettingStore } from './stores/setting';
 
 const loadingStore = useLoadingStore();
+const settingStore = useSettingStore();
 
 onMounted(() => {
   // Initial App Load
   loadingStore.show('Memuat Aplikasi...');
+
+  // Fetch Global Master Data & Settings to Session Storage
+  settingStore.fetchSettings({ limit: 'all' }).catch(err => {
+    console.warn('Failed to pre-fetch master data settings:', err);
+  });
+
   setTimeout(() => {
     loadingStore.hide();
   }, 2000);

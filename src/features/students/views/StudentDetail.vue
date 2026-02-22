@@ -295,6 +295,8 @@ onMounted(() => {
 </script>
 
 <template>
+  <div>
+
     <div class="space-y-8 pb-32">
         <!-- Main Header -->
         <div class="flex items-center gap-4">
@@ -925,4 +927,6 @@ onMounted(() => {
         <StudentForm mode="edit" :model-value="editStudentData" @submit="handleEditSubmit"
             @cancel="showEditModal = false" />
     </Modal>
+
+  </div>
 </template>
